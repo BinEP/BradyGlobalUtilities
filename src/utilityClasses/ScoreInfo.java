@@ -356,35 +356,23 @@ public void drawScores(Graphics g) {
 
 		File gameScores = getScoreFile(gameName, folderPath);
 		File gamePeople = getPeopleFile(gameName, folderPath);
-		
 		try {
 			Scanner scoreContents = new Scanner(gameScores);
 
-			ArrayList<Integer> scores = new ArrayList<Integer>();
-
-			while (scoreContents.hasNext()) {
-				scores.add(Integer.parseInt(scoreContents.next()));
-			}
-
-			Scanner peopleContents = new Scanner(gamePeople);
-
+			ArrayList<String> scores = new ArrayList<String>();
 			ArrayList<String> people = new ArrayList<String>();
-
-			while (peopleContents.hasNext()) {
-
-				people.add(peopleContents.next());
-			}
-
+			
+			scores = FileList.getFileList(gameScores.getPath());
+			people = FileList.getFileList(gamePeople.getPath());
+			
 			ArrayList<String[]> results = new ArrayList<String[]>();
 
-			for (int i = 0; i < people.size() - 1; i++) {
+			for (int i = 0; i < people.size(); i++) {
 				String[] hs = { scores.get(i).toString(), people.get(i) };
 				results.add(hs);
 			}
 
-			scoreContents.close();
-			peopleContents.close();
-
+			
 			return results;
 		} catch (FileNotFoundException e) {
 			ArrayList<String[]> n = new ArrayList<String[]>();
@@ -492,6 +480,18 @@ public static File getPeopleFile(String gameName, String folderPath) {
 		
 //		return new File("Library/Application Support/Stoffel/Games/Infofiles/" + gameName.concat("People.txt"));
 		return new File(folderPath + gameName.concat("People.txt"));
+		
+	}
+
+	public static String fileScoreName(String gameName, String folderPath) {
+	
+		return folderPath + gameName.concat("Scores.txt");
+	
+}
+	
+	public static String filePeopleName(String gameName, String folderPath) {
+		return folderPath + gameName.concat("People.txt");
+		
 		
 	}
 }
