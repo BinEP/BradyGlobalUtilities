@@ -49,13 +49,13 @@ public class ScoreInfo {
 //			Scanner scoreContents = new Scanner(new File(getClass().getResource(gameScores)));
 			
 
-			ArrayList<Integer> scores = new ArrayList<Integer>();
+			ArrayList<String> scores = new ArrayList<String>();
 
 			while (scoreContents.hasNext()) {
-				scores.add(Integer.parseInt(scoreContents.next()));
+				scores.add(scoreContents.next());
 
 			}
-			scores.add(score);
+			scores.add("" + score);
 
 			// ///////////////////////////////////////////////////////////
 			Scanner peopleContents = new Scanner(gamePeople);
@@ -291,73 +291,43 @@ public void drawScores(Graphics g) {
 		File gameScores = getScoreFile(gameName, folderPath);
 		File gamePeople = getPeopleFile(gameName, folderPath);
 		
-		try {
-			if (!gameScores.exists()) {
-				gameScores.getParentFile().mkdirs();
-				gameScores.createNewFile();
-			}
-			if (!gamePeople.exists()) {
-				gamePeople.getParentFile().mkdirs();
-				gamePeople.createNewFile();
-			}
-			Scanner scoreContents = new Scanner(gameScores);
-//			Scanner scoreContents = new Scanner(new File(getClass().getResource(gameScores)));
 			
-
-			ArrayList<Integer> scores = new ArrayList<Integer>();
-
-			while (scoreContents.hasNext()) {
-				scores.add(Integer.parseInt(scoreContents.next()));
-
-			}
-			scores.add(score);
-
-			// ///////////////////////////////////////////////////////////
-			Scanner peopleContents = new Scanner(gamePeople);
-
+			FileList.verifyFile(gameName, folderPath);
+			
+			ArrayList<String> scores = new ArrayList<String>();
 			ArrayList<String> people = new ArrayList<String>();
-
-			while (peopleContents.hasNext()) {
-
-				people.add(peopleContents.next());
-			}
-			people.add(person);
-
-			ArrayList<String[]> results = scoreOrder(scores, people);
-			PrintWriter scoreWriter = new PrintWriter(
-					new FileWriter(gameScores));
-			PrintWriter peopleWriter = new PrintWriter(new FileWriter(
-					gamePeople));
-
-			for (String[] sp : results) {
-
-				scoreWriter.println(sp[0]);
-				peopleWriter.println(sp[1]);
-
-			}
-
-			peopleWriter.flush();
-			scoreWriter.flush();
-			peopleWriter.close();
-			scoreWriter.close();
-			scoreContents.close();
-			peopleContents.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-			}
-		
 			
-		
-
+			scores = FileList.getFileList(gameScores.getPath());
+			people = FileList.getFileList(gamePeople.getPath());
+			
+			people.add(person);
+			scores.add("" + score);
+			
+			ArrayList<String[]> results = scoreOrder(scores, people);
+			
+			String[] s = {"" + score, person};
+//			int index = results.indexOf(s);
+			int index = results.size() - 1;
+			
+			int i = 0;
+			for (String[] r : results) {
+				
+				if (r[0].equals(s[0]) && r[1].equals(s[1])) {
+					index = i;
+					break;
+				}
+				i++;
+			}
+			
+			FileList.insertLine(gameScores.getPath(), "" + score, index);
+			FileList.insertLine(gamePeople.getPath(), person, index);
 	}
 
 	public static ArrayList<String[]> getScores(String gameName, String folderPath) {
 
 		File gameScores = getScoreFile(gameName, folderPath);
 		File gamePeople = getPeopleFile(gameName, folderPath);
-		try {
-			Scanner scoreContents = new Scanner(gameScores);
+		
 
 			ArrayList<String> scores = new ArrayList<String>();
 			ArrayList<String> people = new ArrayList<String>();
@@ -374,22 +344,17 @@ public void drawScores(Graphics g) {
 
 			
 			return results;
-		} catch (FileNotFoundException e) {
-			ArrayList<String[]> n = new ArrayList<String[]>();
-			String[] m = { "45", "Brady" };
-			n.add(m);
-			return n;
-		}
+		
 
 	}
 
-	public static ArrayList<String[]> scoreOrder(ArrayList<Integer> scores,
+	public static ArrayList<String[]> scoreOrder(ArrayList<String> scores,
 			ArrayList<String> people) {
 
 		ArrayList<String[]> results = new ArrayList<String[]>();
-		for (int i = 0; i < people.size() - 1; i++) {
+		for (int i = 0; i < people.size(); i++) {
 
-			String[] sp = { scores.get(i).toString(), people.get(i) };
+			String[] sp = { scores.get(i), people.get(i) };
 			results.add(sp);
 
 		}
@@ -480,18 +445,6 @@ public static File getPeopleFile(String gameName, String folderPath) {
 		
 //		return new File("Library/Application Support/Stoffel/Games/Infofiles/" + gameName.concat("People.txt"));
 		return new File(folderPath + gameName.concat("People.txt"));
-		
-	}
-
-	public static String fileScoreName(String gameName, String folderPath) {
-	
-		return folderPath + gameName.concat("Scores.txt");
-	
-}
-	
-	public static String filePeopleName(String gameName, String folderPath) {
-		return folderPath + gameName.concat("People.txt");
-		
 		
 	}
 }
