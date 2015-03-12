@@ -200,6 +200,7 @@ public class Control extends JPanel implements Screen {
 
 	public Timer timer;
 	public Timer actionTimer;
+	protected GameTime gameTimer = new GameTime();
 	public int origSpeed = 60;
 	public double speed = origSpeed;
 	/**
@@ -236,8 +237,9 @@ public class Control extends JPanel implements Screen {
 		
 		setup();
 
+		
 		timer = new Timer((int) (1000 / speed), this);
-		actionTimer = new Timer((int) (1000 / speed), this);
+		actionTimer = new Timer((int) (1000 / speed), gameTimer);
 		
 		timer.start();
 	}
@@ -433,7 +435,8 @@ public class Control extends JPanel implements Screen {
 	 */
 	public void startTime() {
 
-		startTime = System.currentTimeMillis();
+//		startTime = System.currentTimeMillis();
+		actionTimer.start();
 	}
 
 	/**
@@ -441,8 +444,9 @@ public class Control extends JPanel implements Screen {
 	 */
 	public void stopTime() {
 
-		totalTime += System.currentTimeMillis() - startTime;
-		startTime = System.currentTimeMillis();
+//		totalTime += System.currentTimeMillis() - startTime;
+//		startTime = System.currentTimeMillis();
+		actionTimer.stop();
 	}
 
 	/**
@@ -452,16 +456,19 @@ public class Control extends JPanel implements Screen {
 	 */
 	public int getTime() {
 		
-		if (!paused) stopTime();
-		return (int) (totalTime / 1000);
+		return gameTimer.getTime();
+//		if (!paused) stopTime();
+//		return (int) (totalTime / 1000);
 	}
 
 	/**
 	 * resets the time passed and sets the start time to the current time
 	 */
 	public void resetTime() {
-		totalTime = 0;
-		startTime = System.currentTimeMillis();
+		gameTimer.resetTime();
+		actionTimer.restart();
+//		totalTime = 0;
+//		startTime = System.currentTimeMillis();
 	}
 
 	@Override
@@ -860,7 +867,7 @@ public void customReleased(KeyEvent e) {
 		}
 	}
 	
-	private class GameTime implements ActionListener {
+	protected class GameTime implements ActionListener {
 
 		private int timeSplit = 0;
 		private int timeSeconds = 0;
@@ -874,11 +881,11 @@ public void customReleased(KeyEvent e) {
 			}
 		}
 		
-		private int getTime() {
+		public int getTime() {
 			return timeSeconds;
 		}
 		
-		private void resetTime() {
+		public void resetTime() {
 			timeSplit = 0;
 			timeSeconds = 0;
 		}
