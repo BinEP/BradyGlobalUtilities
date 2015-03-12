@@ -23,6 +23,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import effects.Fade;
 import utilityClasses.*;
 
 /**
@@ -198,6 +199,7 @@ public class Control extends JPanel implements Screen {
 	public int playerY;
 
 	public Timer timer;
+	public Timer actionTimer;
 	public int origSpeed = 60;
 	public double speed = origSpeed;
 	/**
@@ -207,6 +209,8 @@ public class Control extends JPanel implements Screen {
 
 	public int score;
 	public Character letter;
+	
+	public static boolean fullscreen = false;
 
 	public double startTime;
 	public double totalTime = 0;
@@ -216,6 +220,7 @@ public class Control extends JPanel implements Screen {
 	
 	public ArrayList<Direction> nextDirection = new ArrayList<Direction>();
 
+	public static Graphics2D graphics;
 //	public UserGame sub = (UserGame) this;
 
 	public Control() {
@@ -232,6 +237,8 @@ public class Control extends JPanel implements Screen {
 		setup();
 
 		timer = new Timer((int) (1000 / speed), this);
+		actionTimer = new Timer((int) (1000 / speed), this);
+		
 		timer.start();
 	}
 	
@@ -268,6 +275,7 @@ public class Control extends JPanel implements Screen {
 		super.paintComponent(g);
 		
 		Graphics2D g2 = (Graphics2D) g;
+		graphics = g2;
 		g2.scale((double) getWidth() / (double) Windows.WIDTH, (double) (getHeight()) / (double) Windows.HEIGHT);
 		g.setColor(Color.WHITE);
 		draw(g2);
@@ -507,7 +515,8 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !(paused || playing)) {
 
 			if (startGame) {
-
+				
+//				new Fade();
 				playing = true;
 				startGame = false;
 				
@@ -835,5 +844,43 @@ public void customReleased(KeyEvent e) {
 	
 	public int getScore() {
 		return score;
+	}
+	
+//	public static Control getGame() {
+//		return this;
+//	}
+	
+	public static class DrawSpace {
+		
+		public static Graphics2D getGraphics2D() {
+			return graphics;
+		}
+		public static Graphics getGraphics() {
+			return graphics;
+		}
+	}
+	
+	private class GameTime implements ActionListener {
+
+		private int timeSplit = 0;
+		private int timeSeconds = 0;
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// TODO Auto-generated method stub
+			timeSplit++;
+			if (timeSplit % 60 == 0) {
+				timeSplit = 0;
+				timeSeconds++;
+			}
+		}
+		
+		private int getTime() {
+			return timeSeconds;
+		}
+		
+		private void resetTime() {
+			timeSplit = 0;
+			timeSeconds = 0;
+		}
 	}
 }
