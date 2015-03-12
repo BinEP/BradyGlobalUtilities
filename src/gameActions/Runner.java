@@ -13,10 +13,12 @@ import utilityClasses.Windows;
  */
 public class Runner extends JFrame {
 	
+	private static boolean fullscreen = false;
+	
 	public static void main(String[] args) {
 		
 		Runner r = new Runner(new UserGame());
-//		Runner.enterFullScreen(r);
+		if (fullscreen) Runner.enterFullScreen(r);
 		
 	}
 	
@@ -95,6 +97,8 @@ public class Runner extends JFrame {
 	public Runner(Control game) {
 		super(game.NAME + "!");
 
+		fullscreen = game.fullscreen;
+			
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
