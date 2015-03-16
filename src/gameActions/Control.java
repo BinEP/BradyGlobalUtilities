@@ -17,6 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
@@ -215,7 +216,8 @@ public class Control extends JPanel implements Screen {
 
 	public static boolean fullscreen = false;
 	public static boolean scaleRatio = false;
-
+	public AffineTransform trans = new AffineTransform();
+	
 	public double startTime;
 	public double totalTime = 0;
 
@@ -316,13 +318,41 @@ public class Control extends JPanel implements Screen {
 
 	public void scale(Graphics2D g) {
 
+		scaleRatio = true;
 		if (!scaleRatio) {
 			g.scale((double) getWidth() / (double) Windows.WIDTH,
 					(double) (getHeight()) / (double) Windows.HEIGHT);
 		} else {
 			
-			double scale = (Windows.WIDTH >= Windows.HEIGHT) ? (double) getWidth() / (double) Windows.WIDTH : (double) getHeight() / (double) Windows.HEIGHT;
+			boolean widthLarger = Windows.WIDTH >= Windows.HEIGHT;
+//			boolean widthLarger = getWidth() >= getHeight();
+			double scale = (widthLarger) ? (double) getWidth() / (double) Windows.WIDTH : (double) getHeight() / (double) Windows.HEIGHT;
+//			g.scale(scale, scale);
+			
+//			System.out.println("Windows Width: " + Windows.WIDTH);
+//			System.out.println("Windows Height: " + Windows.HEIGHT);
+//			if (getWidth() != Windows.WIDTH) {
+//			System.out.println("Actual Width: " + getWidth());
+//			System.out.println("Actual Height: " + getHeight());
+//			System.out.println(trans);
+//			}
+//			double currentTransY = trans.getTranslateY();
+//			trans.setToScale(scale, scale);
+			
+//			int diffHeight = (int) ((getHeight() - Windows.HEIGHT * scale) / 2);
+//			if (getWidth() != Windows.WIDTH) {
+//
+//			System.out.println("Scale: " + scale);
+//			System.out.println("Diff Height: " + diffHeight);
+//			System.out.println("Current Trans Y: " + currentTransY);
+//			System.out.println();
+//			}
+//			trans.translate(0, diffHeight - currentTransY);
+//			
+//			g.transform(trans);
 			g.scale(scale, scale);
+			
+			
 		}
 
 	}
