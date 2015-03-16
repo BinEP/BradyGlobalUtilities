@@ -86,8 +86,8 @@ public class Control extends JPanel implements Screen {
 	public boolean leftPressed = false;
 	public boolean rightPressed = false;
 
-	public int width = Windows.getWIDTH();
-	public int height = Windows.getHEIGHT();
+	public int width = Windows.getWidth();
+	public int height = Windows.getHeight();
 	
 	public static int WIDTH = 800;
 	public static int HEIGHT = 480;
@@ -123,13 +123,13 @@ public class Control extends JPanel implements Screen {
 	 */
 	public enum ScoreCoords {
 
-		top_left(10, 10), top_middle(Windows.getWIDTH() / 2, 10), top_right(
-				Windows.getWIDTH() - 10, 10), middle_left(10, Windows.getHEIGHT() / 2), middle_middle(
-				Windows.getWIDTH() / 2, Windows.getHEIGHT() / 2), middle_right(
-				Windows.getWIDTH() - 10, Windows.getHEIGHT() / 2), bottom_left(10,
-				Windows.getHEIGHT() - 15), bottom_middle(Windows.getWIDTH() / 2,
-				Windows.getHEIGHT() - Windows.TOP_BUFFER), bottom_right(
-				Windows.getWIDTH() - 10, Windows.getHEIGHT() - Windows.TOP_BUFFER);
+		top_left(10, 10), top_middle(Windows.getWidth() / 2, 10), top_right(
+				Windows.getWidth() - 10, 10), middle_left(10, Windows.getHeight() / 2), middle_middle(
+				Windows.getWidth() / 2, Windows.getHeight() / 2), middle_right(
+				Windows.getWidth() - 10, Windows.getHeight() / 2), bottom_left(10,
+				Windows.getHeight() - 15), bottom_middle(Windows.getWidth() / 2,
+				Windows.getHeight() - Windows.getTopBuffer()), bottom_right(
+				Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
 
 		public int x;
 		public int y;
@@ -158,13 +158,13 @@ public class Control extends JPanel implements Screen {
 			int textWidth = fontInfo.stringWidth(text);
 			int textHeight = fontInfo.getHeight();
 
-			if (x == Windows.getWIDTH() / 2) {
+			if (x == Windows.getWidth() / 2) {
 
 				CenteredText.draw(text, y, g);
 			} else if (x == 10) {
 
 				g.drawString(text, x, y + textHeight / 2);
-			} else if (x == Windows.getWIDTH() - 10) {
+			} else if (x == Windows.getWidth() - 10) {
 
 				g.drawString(text, x - textWidth, y + textHeight / 2);
 			}
@@ -325,13 +325,13 @@ public class Control extends JPanel implements Screen {
 
 		scaleRatio = true;
 		if (!scaleRatio) {
-			g.scale((double) getWidth() / (double) Windows.getWIDTH(),
-					(double) (getHeight()) / (double) Windows.getHEIGHT());
+			g.scale((double) getWidth() / (double) Windows.getWidth(),
+					(double) (getHeight()) / (double) Windows.getHeight());
 		} else {
 			
-			boolean widthLarger = Windows.getWIDTH() >= Windows.getHEIGHT();
+			boolean widthLarger = Windows.getWidth() >= Windows.getHeight();
 //			boolean widthLarger = getWidth() >= getHeight();
-			double scale = (widthLarger) ? (double) getWidth() / (double) Windows.getWIDTH() : (double) getHeight() / (double) Windows.getHEIGHT();
+			double scale = (widthLarger) ? (double) getWidth() / (double) Windows.getWidth() : (double) getHeight() / (double) Windows.getHeight();
 //			g.scale(scale, scale);
 			
 //			System.out.println("Windows Width: " + Windows.WIDTH);

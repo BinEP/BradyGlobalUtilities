@@ -9,7 +9,7 @@ package utilityClasses;
  */
 public class Windows {
 
-	public static final int TOP_BUFFER = 22;
+	private static final int TOP_BUFFER = 22;
 	/**
 	 * Windows width size
 	 */
@@ -18,7 +18,7 @@ public class Windows {
 	 * Windows height size
 	 */
 	private static int HEIGHT = 480;
-	public static int REAL_HEIGHT = getHEIGHT() + TOP_BUFFER;
+	private static int REAL_HEIGHT = HEIGHT + getTopBuffer();
 	private static boolean ALWAYS_ON_TOP = false;
 	private static boolean RESIZEABLE = true;
 	
@@ -64,30 +64,30 @@ public class Windows {
 	/**
 	 * @return the wIDTH
 	 */
-	public static int getWIDTH() {
+	public static int getWidth() {
 		return WIDTH;
 	}
 
 	/**
 	 * @param wIDTH the wIDTH to set
 	 */
-	public static void setWIDTH(int wIDTH) {
+	public static void setWidth(int wIDTH) {
 		WIDTH = wIDTH;
 	}
 
 	/**
 	 * @return the hEIGHT
 	 */
-	public static int getHEIGHT() {
+	public static int getHeight() {
 		return HEIGHT;
 	}
 
 	/**
 	 * @param hEIGHT the hEIGHT to set
 	 */
-	public static void setHEIGHT(int hEIGHT) {
+	public static void setHeight(int hEIGHT) {
 		HEIGHT = hEIGHT;
-		REAL_HEIGHT = HEIGHT + TOP_BUFFER;
+		setREAL_HEIGHT(HEIGHT + getTopBuffer());
 	}
 
 	/**
@@ -354,5 +354,26 @@ public class Windows {
 	 */
 	public static void setRESTART_Y(int rESTART_Y) {
 		RESTART_Y = rESTART_Y;
+	}
+
+	/**
+	 * @return the rEAL_HEIGHT
+	 */
+	public static int getREAL_HEIGHT() {
+		return REAL_HEIGHT;
+	}
+
+	/**
+	 * @param rEAL_HEIGHT the rEAL_HEIGHT to set
+	 */
+	public static void setREAL_HEIGHT(int rEAL_HEIGHT) {
+		REAL_HEIGHT = rEAL_HEIGHT;
+	}
+
+	/**
+	 * @return the topBuffer
+	 */
+	public static int getTopBuffer() {
+		return TOP_BUFFER;
 	}
 }

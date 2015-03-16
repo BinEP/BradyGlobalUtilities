@@ -107,7 +107,7 @@ public class Runner extends JFrame {
 		
 		add(game, BorderLayout.CENTER);
 
-		setSize(Windows.getWIDTH(), Windows.REAL_HEIGHT);
+		setSize(Windows.getWidth(), Windows.getREAL_HEIGHT());
 		
 		enableFullScreenMode(this);
 		
