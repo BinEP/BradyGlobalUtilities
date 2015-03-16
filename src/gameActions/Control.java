@@ -86,8 +86,11 @@ public class Control extends JPanel implements Screen {
 	public boolean leftPressed = false;
 	public boolean rightPressed = false;
 
-	public int width = Windows.WIDTH;
-	public int height = Windows.HEIGHT;
+	public int width = Windows.getWIDTH();
+	public int height = Windows.getHEIGHT();
+	
+	public static int WIDTH = 800;
+	public static int HEIGHT = 480;
 
 	/**
 	 * Outside box of window
@@ -120,13 +123,13 @@ public class Control extends JPanel implements Screen {
 	 */
 	public enum ScoreCoords {
 
-		top_left(10, 10), top_middle(Windows.WIDTH / 2, 10), top_right(
-				Windows.WIDTH - 10, 10), middle_left(10, Windows.HEIGHT / 2), middle_middle(
-				Windows.WIDTH / 2, Windows.HEIGHT / 2), middle_right(
-				Windows.WIDTH - 10, Windows.HEIGHT / 2), bottom_left(10,
-				Windows.HEIGHT - 15), bottom_middle(Windows.WIDTH / 2,
-				Windows.HEIGHT - Windows.TOP_BUFFER), bottom_right(
-				Windows.WIDTH - 10, Windows.HEIGHT - Windows.TOP_BUFFER);
+		top_left(10, 10), top_middle(Windows.getWIDTH() / 2, 10), top_right(
+				Windows.getWIDTH() - 10, 10), middle_left(10, Windows.getHEIGHT() / 2), middle_middle(
+				Windows.getWIDTH() / 2, Windows.getHEIGHT() / 2), middle_right(
+				Windows.getWIDTH() - 10, Windows.getHEIGHT() / 2), bottom_left(10,
+				Windows.getHEIGHT() - 15), bottom_middle(Windows.getWIDTH() / 2,
+				Windows.getHEIGHT() - Windows.TOP_BUFFER), bottom_right(
+				Windows.getWIDTH() - 10, Windows.getHEIGHT() - Windows.TOP_BUFFER);
 
 		public int x;
 		public int y;
@@ -149,19 +152,19 @@ public class Control extends JPanel implements Screen {
 		 */
 		public void draw(String text, Graphics2D g) {
 
-			g.setFont(CustomFont.makeCustomFont(FONT_FILE, Windows.SCORE_SIZE));
+			g.setFont(CustomFont.makeCustomFont(FONT_FILE, Windows.getSCORE_SIZE()));
 
 			FontMetrics fontInfo = g.getFontMetrics();
 			int textWidth = fontInfo.stringWidth(text);
 			int textHeight = fontInfo.getHeight();
 
-			if (x == Windows.WIDTH / 2) {
+			if (x == Windows.getWIDTH() / 2) {
 
 				CenteredText.draw(text, y, g);
 			} else if (x == 10) {
 
 				g.drawString(text, x, y + textHeight / 2);
-			} else if (x == Windows.WIDTH - 10) {
+			} else if (x == Windows.getWIDTH() - 10) {
 
 				g.drawString(text, x - textWidth, y + textHeight / 2);
 			}
@@ -217,6 +220,8 @@ public class Control extends JPanel implements Screen {
 	public static boolean fullscreen = false;
 	public static boolean scaleRatio = false;
 	public AffineTransform trans = new AffineTransform();
+	
+	public static Windows window = new Windows();
 	
 	public double startTime;
 	public double totalTime = 0;
@@ -320,13 +325,13 @@ public class Control extends JPanel implements Screen {
 
 		scaleRatio = true;
 		if (!scaleRatio) {
-			g.scale((double) getWidth() / (double) Windows.WIDTH,
-					(double) (getHeight()) / (double) Windows.HEIGHT);
+			g.scale((double) getWidth() / (double) Windows.getWIDTH(),
+					(double) (getHeight()) / (double) Windows.getHEIGHT());
 		} else {
 			
-			boolean widthLarger = Windows.WIDTH >= Windows.HEIGHT;
+			boolean widthLarger = Windows.getWIDTH() >= Windows.getHEIGHT();
 //			boolean widthLarger = getWidth() >= getHeight();
-			double scale = (widthLarger) ? (double) getWidth() / (double) Windows.WIDTH : (double) getHeight() / (double) Windows.HEIGHT;
+			double scale = (widthLarger) ? (double) getWidth() / (double) Windows.getWIDTH() : (double) getHeight() / (double) Windows.getHEIGHT();
 //			g.scale(scale, scale);
 			
 //			System.out.println("Windows Width: " + Windows.WIDTH);
@@ -369,15 +374,15 @@ public class Control extends JPanel implements Screen {
 	public void drawStart(Graphics2D g) {
 
 		// g.setColor(Color.WHITE);
-		g.setFont(new Font(Windows.FONT_NAME, Font.BOLD, Windows.TITLE_SIZE));
-		CenteredText.draw(NAME, Windows.TITLE_Y, g);
-		g.setFont(new Font(Windows.FONT_NAME, Font.BOLD,
-				Windows.ENTER_TO_START_SIZE));
+		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getTITLE_SIZE()));
+		CenteredText.draw(NAME, Windows.getTITLE_Y(), g);
+		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD,
+				Windows.getENTER_TO_START_SIZE()));
 
-		CenteredText.draw("Press Enter to", Windows.ENTER_Y, g);
-		CenteredText.draw("Start", Windows.START_Y, g);
+		CenteredText.draw("Press Enter to", Windows.getENTER_Y(), g);
+		CenteredText.draw("Start", Windows.getSTART_Y(), g);
 
-		g.setFont(new Font(Windows.FONT_NAME, Font.BOLD, 12));
+		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, 12));
 
 		CenteredText.draw("Press keys Up, Right, Down, Left to map new keys",
 				30, g);
@@ -402,9 +407,9 @@ public class Control extends JPanel implements Screen {
 	 */
 	public void drawPaused(Graphics2D g) {
 
-		g.setFont(new Font(Windows.FONT_NAME, Font.BOLD, Windows.PAUSE_SIZE));
+		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getPAUSE_SIZE()));
 		g.setColor(Color.WHITE);
-		CenteredText.draw("Paused", Windows.PAUSE_Y, g);
+		CenteredText.draw("Paused", Windows.getPAUSE_Y(), g);
 	}
 
 	/**
@@ -414,17 +419,17 @@ public class Control extends JPanel implements Screen {
 	 */
 	public void drawEnd(Graphics2D g) {
 
-		g.setFont(new Font(Windows.FONT_NAME, Font.BOLD, Windows.END_SCORE_SIZE));
+		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getEND_SCORE_SIZE()));
 		g.setColor(Color.WHITE);
-		CenteredText.draw(String.valueOf(getScore()), Windows.END_SCORE_Y, g);
+		CenteredText.draw(String.valueOf(getScore()), Windows.getEND_SCORE_Y(), g);
 
-		g.setFont(new Font(Windows.FONT_NAME, Font.BOLD, Windows.YOU_LOSE_SIZE));
+		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getYOU_LOSE_SIZE()));
 
-		CenteredText.draw("You Lose!", Windows.YOU_LOSE_Y, g);
+		CenteredText.draw("You Lose!", Windows.getYOU_LOSE_Y(), g);
 
-		g.setFont(new Font(Windows.FONT_NAME, Font.BOLD, Windows.RESTART_SIZE));
+		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getRESTART_SIZE()));
 
-		CenteredText.draw("Enter to Restart", Windows.RESTART_Y, g);
+		CenteredText.draw("Enter to Restart", Windows.getRESTART_Y(), g);
 	}
 
 	public void drawBorder(Graphics2D g) {
@@ -896,6 +901,16 @@ public class Control extends JPanel implements Screen {
 
 	public int getScore() {
 		return score;
+	}
+	/**
+	 * Sets a custom size of the Window and scaling behavior. Default 800x480
+	 * @param
+	 * w
+	 * h
+	 */
+	public void setWindowSize(int w, int h) {
+		WIDTH = w;
+		HEIGHT = h;
 	}
 
 	protected class GameTime implements ActionListener {

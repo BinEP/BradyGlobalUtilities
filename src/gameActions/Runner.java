@@ -102,12 +102,12 @@ public class Runner extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		
-		setResizable(Windows.RESIZEABLE);
-		setAlwaysOnTop(Windows.ALWAYS_ON_TOP);
+		setResizable(Windows.isRESIZEABLE());
+		setAlwaysOnTop(Windows.isALWAYS_ON_TOP());
 		
 		add(game, BorderLayout.CENTER);
 
-		setSize(Windows.WIDTH, Windows.REAL_HEIGHT);
+		setSize(Windows.getWIDTH(), Windows.REAL_HEIGHT);
 		
 		enableFullScreenMode(this);
 		
