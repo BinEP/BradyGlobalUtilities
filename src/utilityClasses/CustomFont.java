@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URISyntaxException;
 
 public class CustomFont {
 
@@ -26,12 +27,28 @@ public class CustomFont {
 		makeCustomFont(fontPath);
 		setFont(fontThickness, size);
 	}
+	
+	public static String getFontPath(String fontName) {
+		
+		try {
+			String path = CustomFont.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
+			path = path.substring(0, path.length() - 4);
+			path = path.concat("/InfoFiles/Fonts/" + fontName + ".ttf");
+			System.out.println(path);
+//			return path;
+		} catch (URISyntaxException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		fontPath = "InfoFiles/Fonts/" + fontPath + ".ttf";
+		return "InfoFiles/Fonts/" + fontName + ".ttf";
+	}
 
 	public void makeCustomFont(String fontPath) {
 
 		try {
 
-			fontPath = "InfoFiles/Fonts/" + fontPath + ".ttf";
+			fontPath = getFontPath(fontPath);
 			this.path = fontPath;
 
 			InputStream fontStream = new BufferedInputStream(
@@ -44,6 +61,7 @@ public class CustomFont {
 		} catch (Exception e) {
 			// Handle exception
 			customFont = new Font("Arial", Font.BOLD, 18);
+			System.out.println("Special Font");
 			e.printStackTrace();
 		}
 
@@ -57,7 +75,7 @@ public class CustomFont {
 		
 		try {
 
-			fontPath = "InfoFiles/Fonts/" + fontPath + ".ttf";
+			fontPath = getFontPath(fontPath);
 			Font customFont;
 			InputStream fontStream = new BufferedInputStream(
 					new FileInputStream(fontPath));
@@ -100,7 +118,7 @@ public class CustomFont {
 	 */
 	public Font getFont(int size) {
 
-		return customFont.deriveFont(size);
+		return customFont.deriveFont((float) size);
 
 	}
 

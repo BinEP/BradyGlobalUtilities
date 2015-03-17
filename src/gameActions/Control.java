@@ -95,7 +95,7 @@ public class Control extends JPanel implements Screen {
 	public static String NAME = "Game Name";
 	public static String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
 	public static String FOLDER_PATH = "InfoFiles/";
-	public static String FONT_FILE = "joystix";
+	public static String FONT_FILE = Windows.getFONT_NAME();
 
 	public static CustomFont customFont = new CustomFont(FONT_FILE, Font.BOLD,
 			18);
@@ -232,7 +232,7 @@ public class Control extends JPanel implements Screen {
 		NAME = getGameName();
 		TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
 		FOLDER_PATH = getFolderPath();
-		FONT_FILE = getFontFile();
+		FONT_FILE = Windows.getFONT_NAME();
 
 		setup();
 
@@ -367,15 +367,16 @@ public class Control extends JPanel implements Screen {
 	public void drawStart(Graphics2D g) {
 
 		// g.setColor(Color.WHITE);
-		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getTITLE_SIZE()));
+//	 	g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getTITLE_SIZE()));
+		g.setFont(customFont.getFont(Windows.getTITLE_SIZE()));
+
 		CenteredText.draw(NAME, Windows.getTITLE_Y(), g);
-		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD,
-				Windows.getENTER_TO_START_SIZE()));
+		g.setFont(customFont.getFont(Windows.getENTER_TO_START_SIZE()));
 
 		CenteredText.draw("Press Enter to", Windows.getENTER_Y(), g);
 		CenteredText.draw("Start", Windows.getSTART_Y(), g);
 
-		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, 12));
+		g.setFont(customFont.getFont(12));
 
 		CenteredText.draw("Press keys Up, Right, Down, Left to map new keys",
 				30, g);
@@ -400,7 +401,7 @@ public class Control extends JPanel implements Screen {
 	 */
 	public void drawPaused(Graphics2D g) {
 
-		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getPAUSE_SIZE()));
+		g.setFont(customFont.getFont(Windows.getPAUSE_SIZE()));
 		g.setColor(Color.WHITE);
 		CenteredText.draw("Paused", Windows.getPAUSE_Y(), g);
 	}
@@ -412,15 +413,15 @@ public class Control extends JPanel implements Screen {
 	 */
 	public void drawEnd(Graphics2D g) {
 
-		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getEND_SCORE_SIZE()));
+		g.setFont(customFont.getFont(Windows.getEND_SCORE_SIZE()));
 		g.setColor(Color.WHITE);
 		CenteredText.draw(String.valueOf(getScore()), Windows.getEND_SCORE_Y(), g);
 
-		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getYOU_LOSE_SIZE()));
+		g.setFont(customFont.getFont(Windows.getYOU_LOSE_SIZE()));
 
 		CenteredText.draw("You Lose!", Windows.getYOU_LOSE_Y(), g);
 
-		g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getRESTART_SIZE()));
+		g.setFont(customFont.getFont(Windows.getRESTART_SIZE()));
 
 		CenteredText.draw("Enter to Restart", Windows.getRESTART_Y(), g);
 	}
@@ -881,11 +882,7 @@ public class Control extends JPanel implements Screen {
 	public String getFolderPath() {
 		return "InfoFiles/";
 	}
-
-	public String getFontFile() {
-		return "joystix";
-	}
-
+	
 	public int getScore() {
 		return score;
 	}

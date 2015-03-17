@@ -23,7 +23,8 @@ public class Windows {
 	private static boolean RESIZEABLE = true;
 	
 	
-	private static String FONT_NAME = "Joystix";
+//	private static String FONT_NAME = "Joystix";
+	private static String FONT_NAME = "tele";
 	private static int TITLE_SIZE = 80;
 	private static int ENTER_TO_START_SIZE = 26;
 	
