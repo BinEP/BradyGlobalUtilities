@@ -199,9 +199,9 @@ public class Control extends JPanel implements Screen {
 	 */
 	public int playerY;
 
-	public Timer timer;
-	public Timer actionTimer;
-	protected GameTime gameTimer = new GameTime();
+	public final Timer timer;
+	public final Timer actionTimer;
+	protected final GameTime gameTimer = new GameTime();
 	public int origSpeed = 60;
 	public double speed = origSpeed;
 	/**
@@ -256,7 +256,7 @@ public class Control extends JPanel implements Screen {
 	 * can be called to set the direction keys if they have been modified and
 	 * sets the keyMap when the game starts
 	 */
-	public void setKeys() {
+	public final void setKeys() {
 
 		upKey = keyMap[0];
 		rightKey = keyMap[1];
@@ -270,7 +270,7 @@ public class Control extends JPanel implements Screen {
 	 * in the UserGame class, which override methods in this class so that is
 	 * the user has not defined a custom method, a default one is drawn
 	 */
-	public void paintComponent(Graphics g) {
+	public final void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
 
@@ -474,7 +474,7 @@ public class Control extends JPanel implements Screen {
 	 * starts the timer that can be displayed on screen. Use getTime() to get
 	 * the number seconds that have passed
 	 */
-	public void startTime() {
+	public final void startTime() {
 
 		// startTime = System.currentTimeMillis();
 		actionTimer.start();
@@ -483,7 +483,7 @@ public class Control extends JPanel implements Screen {
 	/**
 	 * Pauses the timer
 	 */
-	public void stopTime() {
+	public final void stopTime() {
 
 		// totalTime += System.currentTimeMillis() - startTime;
 		// startTime = System.currentTimeMillis();
@@ -495,7 +495,7 @@ public class Control extends JPanel implements Screen {
 	 * 
 	 * @return int
 	 */
-	public int getTime() {
+	public final int getTime() {
 
 		return gameTimer.getTime();
 		// if (!paused) stopTime();
@@ -505,7 +505,7 @@ public class Control extends JPanel implements Screen {
 	/**
 	 * resets the time passed and sets the start time to the current time
 	 */
-	public void resetTime() {
+	public final void resetTime() {
 		gameTimer.resetTime();
 		actionTimer.restart();
 		// totalTime = 0;
@@ -653,7 +653,7 @@ public class Control extends JPanel implements Screen {
 	 * variable is true
 	 */
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public final void actionPerformed(ActionEvent e) {
 
 		// width = getWidth();
 		// height = getHeight();
