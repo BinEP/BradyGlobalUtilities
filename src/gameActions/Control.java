@@ -1,15 +1,11 @@
 package gameActions;
 
 import java.awt.BasicStroke;
-import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Graphics2D;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -20,7 +16,6 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -29,6 +24,7 @@ import utilityClasses.*;
 /**
  * @author Brady Stoffel
  */
+@SuppressWarnings("static-access")
 public class Control extends JPanel implements Screen {
 
 	/**
@@ -524,7 +520,6 @@ public class Control extends JPanel implements Screen {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
 
 		if (startGame && e.getKeyCode() != KeyEvent.VK_ENTER) {
 
@@ -689,12 +684,10 @@ public class Control extends JPanel implements Screen {
 	}
 
 	public boolean checkIfDead() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public void moves() {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -885,17 +878,14 @@ public class Control extends JPanel implements Screen {
 	}
 
 	public String getGameName() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getFolderPath() {
-		// TODO Auto-generated method stub
 		return "InfoFiles/";
 	}
 
 	public String getFontFile() {
-		// TODO Auto-generated method stub
 		return "joystix";
 	}
 
@@ -920,7 +910,6 @@ public class Control extends JPanel implements Screen {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			// TODO Auto-generated method stub
 			timeSplit++;
 			if (timeSplit % 60 == 0) {
 				timeSplit = 0;
