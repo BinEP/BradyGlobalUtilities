@@ -283,6 +283,10 @@ public void drawScores(Graphics g) {
 	
 	public static void setScores(int score, String person, String gameName, String folderPath) {
 		
+		DatabaseManagement database = new DatabaseManagement();
+		database.insertInfo(person, score);
+		database.sortData();
+		
 		File gameScores = getScoreFile(gameName, folderPath);
 		File gamePeople = getPeopleFile(gameName, folderPath);
 		
@@ -320,6 +324,9 @@ public void drawScores(Graphics g) {
 
 	public static ArrayList<String[]> getScores(String gameName, String folderPath) {
 
+		DatabaseManagement database = new DatabaseManagement();
+		ArrayList<String[]> results = database.selectData();
+		
 		File gameScores = getScoreFile(gameName, folderPath);
 		File gamePeople = getPeopleFile(gameName, folderPath);
 		
@@ -330,7 +337,7 @@ public void drawScores(Graphics g) {
 			scores = FileList.getFileList(gameScores.getPath());
 			people = FileList.getFileList(gamePeople.getPath());
 			
-			ArrayList<String[]> results = new ArrayList<String[]>();
+//			ArrayList<String[]> results = new ArrayList<String[]>();
 
 			for (int i = 0; i < people.size(); i++) {
 				String[] hs = { scores.get(i).toString(), people.get(i) };
@@ -372,7 +379,11 @@ public void drawScores(Graphics g) {
 
 	public static void drawScores(Graphics2D g, String gameName, String folderPath) {
 
-		ArrayList<String[]> results = getScores(gameName, folderPath);
+		DatabaseManagement database = new DatabaseManagement();
+		ArrayList<String[]> results = database.selectData();
+		
+		
+//		ArrayList<String[]> results = getScores(gameName, folderPath);
 		g.setFont(new Font("Joystix", Font.BOLD, 17));
 		int i = 0;
 		int yStart = 40;

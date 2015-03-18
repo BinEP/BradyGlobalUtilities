@@ -229,12 +229,12 @@ public class Control extends JPanel implements Screen {
 		setFocusable(true);
 		addKeyListener(this);
 
+		setup();
+		
 		NAME = getGameName();
-		TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
+		TXT_FILE = (NAME != null) ? NAME.toLowerCase().replaceAll("\\s", "") : "";
 		FOLDER_PATH = getFolderPath();
 		FONT_FILE = Windows.getFONT_NAME();
-
-		setup();
 
 		timer = new Timer((int) (1000 / speed), this);
 		actionTimer = new Timer((int) (1000 / speed), gameTimer);
@@ -814,6 +814,11 @@ public class Control extends JPanel implements Screen {
 	 */
 	public Font getFont(int size) {
 		return customFont.getFont(size);
+	}
+	
+	public void setNewFont(String name) {
+		customFont = new CustomFont(name, Font.BOLD,
+				18);
 	}
 
 	/**
