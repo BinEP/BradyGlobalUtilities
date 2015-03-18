@@ -9,48 +9,48 @@ import java.util.ArrayList;
 
 public class DatabaseManagement {
 
-	Connection database;
-	Statement newTableCommand;
-	Statement insertDataCommand;
-	Statement selectData;
-	Statement sortData;
-	ResultSet resultData;
-	String[] fields;
-	String tableName;
+	private Connection database;
+	private Statement newTableCommand;
+	private Statement insertDataCommand;
+	private Statement selectData;
+	private Statement sortData;
+	private ResultSet resultData;
+	private String[] fields;
+	private String tableName = "SCORES";
+	private static int uniqueID = 1;
+	
 
 	public DatabaseManagement() {
 		// TODO Auto-generated constructor stub
-		database = connect();
-		newTable("SCORES");
+		connect();
+//		newTable("SCORES");
+		
 
 	}
 
-	public Connection connect() {
+	public void connect() {
 
 		try {
-
-			return connectCommand();
-
+			if (database == null || database.isClosed()) {
+			connectCommand();
+			}
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return null;
 		}
 
 	}
 
-	private Connection connectCommand() throws ClassNotFoundException,
+	private void connectCommand() throws ClassNotFoundException,
 			SQLException {
 
-		Connection c = null;
 		Class.forName("org.sqlite.JDBC");
-		c = DriverManager.getConnection("jdbc:sqlite:InfoFiles/scores.db");
-		c.setAutoCommit(false);
+		database = DriverManager.getConnection("jdbc:sqlite:InfoFiles/scores.db");
+		database.setAutoCommit(false);
 		// System.err.println(e.getClass().getName() + ": " + e.getMessage());
 		// System.exit(0);
 
 		System.out.println("Opened database successfully");
-		return c;
 
 	}
 
@@ -67,15 +67,22 @@ public class DatabaseManagement {
 
 	private void newTableCommand(String tableName) throws SQLException {
 
+		connect();
+		Statement checkTable = database.createStatement();
+		String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='SCORES';";
+		ResultSet r = checkTable.executeQuery(sql);
+		System.out.println(r);
+		
 		this.tableName = tableName;
 		newTableCommand = database.createStatement();
 
-		String sql = "CREATE TABLE " + tableName + " "
+		sql = "CREATE TABLE " + tableName + " "
 				+ "(ID INT PRIMARY KEY     NOT NULL,"
 				+ " NAME           TEXT    NOT NULL, "
 				+ " SCORE            INT     NOT NULL)";
 		newTableCommand.executeUpdate(sql);
-		
+		newTableCommand.close();
+		closeConnections();
 
 	}
 
@@ -91,12 +98,17 @@ public class DatabaseManagement {
 	private void insertInfoCommand(String name, int score)
 			throws SQLException {
 
+		uniqueID = selectData().size() + 1;
+		connect();
+		
 		insertDataCommand = database.createStatement();
 		String sql = "INSERT INTO " + tableName + " (ID,NAME,SCORE) "
-				+ "VALUES (1, " + name + ", " + score + ");";
+				+ "VALUES (" + uniqueID + ", '" + name + "', " + score + ");";
+		uniqueID++;
 		insertDataCommand.executeUpdate(sql);
 		insertDataCommand.close();
 		database.commit();
+		closeConnections();
 		System.out.println("Records created successfully");
 	}
 
@@ -114,6 +126,7 @@ public class DatabaseManagement {
 	
 	private ArrayList<String[]> selectDataCommand() throws SQLException {
 
+		connect();
 		ArrayList<String[]> results = new ArrayList<String[]>();
 		selectData = database.createStatement();
 		resultData = selectData
@@ -123,15 +136,18 @@ public class DatabaseManagement {
 			int id = resultData.getInt("id");
 			String name = resultData.getString("name");
 			int score = resultData.getInt("score");
-			System.out.println("ID = " + id);
-			System.out.println("NAME = " + name);
-			System.out.println("SCORE = " + score);
+//			System.out.println("ID = " + id);
+//			System.out.println("NAME = " + name);
+//			System.out.println("SCORE = " + score);
 			
 			results.add(new String[]{"" + score, name});
 			
 			System.out.println();
 		}
 		
+		resultData.close();
+		selectData.close();
+		closeConnections();
 		return results;
 	}
 	
@@ -146,21 +162,20 @@ public class DatabaseManagement {
 	
 	private void sortDataCommand() throws SQLException {
 		
+		connect();
 		sortData = database.createStatement();
 		sortData.executeQuery("SELECT * FROM " + tableName + " ORDER BY SCORE, NAME ASC");
 		
-		
+		sortData.close();
 		database.commit();
+		closeConnections();
 		
 	}
 	
 	public void closeConnections() {
 		
 		try {
-			sortData.close();
-			resultData.close();
-			selectData.close();
-			newTableCommand.close();
+			
 			database.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -168,8 +183,14 @@ public class DatabaseManagement {
 		}
 		
 	}
+	
+	
 
 	public static void main(String[] args) {
-		new DatabaseManagement();
+		DatabaseManagement d = new DatabaseManagement();
+		System.out.println(d.selectData());
+		d.insertInfo("Brady", 6);
+		System.out.println(d.selectData());
+
 	}
 }

@@ -284,43 +284,8 @@ public void drawScores(Graphics g) {
 	
 	public static void setScores(int score, String person, String gameName, String folderPath) {
 		
-//		DatabaseManagement database = new DatabaseManagement();
 		database.insertInfo(person, score);
 		database.sortData();
-		
-		File gameScores = getScoreFile(gameName, folderPath);
-		File gamePeople = getPeopleFile(gameName, folderPath);
-		
-			
-			FileList.verifyFile(gameName, folderPath);
-			
-			ArrayList<String> scores = new ArrayList<String>();
-			ArrayList<String> people = new ArrayList<String>();
-			
-			scores = FileList.getFileList(gameScores.getPath());
-			people = FileList.getFileList(gamePeople.getPath());
-			
-			people.add(person);
-			scores.add("" + score);
-			
-			ArrayList<String[]> results = scoreOrder(scores, people);
-			
-			String[] s = {"" + score, person};
-//			int index = results.indexOf(s);
-			int index = results.size() - 1;
-			
-			int i = 0;
-			for (String[] r : results) {
-				
-				if (r[0].equals(s[0]) && r[1].equals(s[1])) {
-					index = i;
-					break;
-				}
-				i++;
-			}
-			
-			FileList.insertLine(gameScores.getPath(), "" + score, index);
-			FileList.insertLine(gamePeople.getPath(), person, index);
 	}
 
 	public static ArrayList<String[]> getScores(String gameName, String folderPath) {
@@ -328,23 +293,7 @@ public void drawScores(Graphics g) {
 //		DatabaseManagement database = new DatabaseManagement();
 		ArrayList<String[]> results = database.selectData();
 		
-		File gameScores = getScoreFile(gameName, folderPath);
-		File gamePeople = getPeopleFile(gameName, folderPath);
 		
-
-			ArrayList<String> scores = new ArrayList<String>();
-			ArrayList<String> people = new ArrayList<String>();
-			
-			scores = FileList.getFileList(gameScores.getPath());
-			people = FileList.getFileList(gamePeople.getPath());
-			
-//			ArrayList<String[]> results = new ArrayList<String[]>();
-
-			for (int i = 0; i < people.size(); i++) {
-				String[] hs = { scores.get(i).toString(), people.get(i) };
-				results.add(hs);
-			}
-
 			
 			return results;
 		
@@ -380,11 +329,8 @@ public void drawScores(Graphics g) {
 
 	public static void drawScores(Graphics2D g, String gameName, String folderPath) {
 
-//		DatabaseManagement database = new DatabaseManagement();
 		ArrayList<String[]> results = database.selectData();
 		
-		
-//		ArrayList<String[]> results = getScores(gameName, folderPath);
 		g.setFont(new Font("Joystix", Font.BOLD, 17));
 		int i = 0;
 		int yStart = 40;
