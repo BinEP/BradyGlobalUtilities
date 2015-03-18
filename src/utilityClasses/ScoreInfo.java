@@ -23,6 +23,7 @@ public class ScoreInfo {
 	private String gameName;
 	private File gameScores;
 	private File gamePeople;
+	private static DatabaseManagement database = new DatabaseManagement();
 
 	public ScoreInfo(String gN) {
 		gameName = gN;
@@ -283,7 +284,7 @@ public void drawScores(Graphics g) {
 	
 	public static void setScores(int score, String person, String gameName, String folderPath) {
 		
-		DatabaseManagement database = new DatabaseManagement();
+//		DatabaseManagement database = new DatabaseManagement();
 		database.insertInfo(person, score);
 		database.sortData();
 		
@@ -324,7 +325,7 @@ public void drawScores(Graphics g) {
 
 	public static ArrayList<String[]> getScores(String gameName, String folderPath) {
 
-		DatabaseManagement database = new DatabaseManagement();
+//		DatabaseManagement database = new DatabaseManagement();
 		ArrayList<String[]> results = database.selectData();
 		
 		File gameScores = getScoreFile(gameName, folderPath);
@@ -379,7 +380,7 @@ public void drawScores(Graphics g) {
 
 	public static void drawScores(Graphics2D g, String gameName, String folderPath) {
 
-		DatabaseManagement database = new DatabaseManagement();
+//		DatabaseManagement database = new DatabaseManagement();
 		ArrayList<String[]> results = database.selectData();
 		
 		

@@ -75,8 +75,7 @@ public class DatabaseManagement {
 				+ " NAME           TEXT    NOT NULL, "
 				+ " SCORE            INT     NOT NULL)";
 		newTableCommand.executeUpdate(sql);
-		newTableCommand.close();
-		database.close();
+		
 
 	}
 
@@ -98,7 +97,6 @@ public class DatabaseManagement {
 		insertDataCommand.executeUpdate(sql);
 		insertDataCommand.close();
 		database.commit();
-		database.close();
 		System.out.println("Records created successfully");
 	}
 
@@ -133,9 +131,7 @@ public class DatabaseManagement {
 			
 			System.out.println();
 		}
-		resultData.close();
-		selectData.close();
-		database.close();
+		
 		return results;
 	}
 	
@@ -153,9 +149,24 @@ public class DatabaseManagement {
 		sortData = database.createStatement();
 		sortData.executeQuery("SELECT * FROM " + tableName + " ORDER BY SCORE, NAME ASC");
 		
-		sortData.close();
+		
 		database.commit();
-		database.close();
+		
+	}
+	
+	public void closeConnections() {
+		
+		try {
+			sortData.close();
+			resultData.close();
+			selectData.close();
+			newTableCommand.close();
+			database.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public static void main(String[] args) {
