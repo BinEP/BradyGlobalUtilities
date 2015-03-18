@@ -103,7 +103,7 @@ public class UserGame extends Game {
 	public boolean checkIfDead() {
 		
 		
-		return false;
+		return playerX > 500;
 	}
 	
 	/**
@@ -137,7 +137,7 @@ public String getGameName() {
 @Override
 public int getScore() {
 	// TODO Auto-generated method stub
-	return 0;
+	return getTime();
 }
 
 }

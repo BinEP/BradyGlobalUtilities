@@ -31,6 +31,7 @@ public class CustomFont {
 	public static String getFontPath(String fontName) {
 		
 		try {
+			
 			String path = CustomFont.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
 			path = path.substring(0, path.length() - 4);
 			path = path.concat("/InfoFiles/Fonts/" + fontName + ".ttf");
@@ -41,6 +42,7 @@ public class CustomFont {
 			e.printStackTrace();
 		}
 //		fontPath = "InfoFiles/Fonts/" + fontPath + ".ttf";
+//		return CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontName + ".ttf");
 		return "InfoFiles/Fonts/" + fontName + ".ttf";
 	}
 
@@ -51,8 +53,7 @@ public class CustomFont {
 			fontPath = getFontPath(fontPath);
 			this.path = fontPath;
 
-			InputStream fontStream = new BufferedInputStream(
-					new FileInputStream(fontPath));
+			InputStream fontStream = CustomFont.class.getClassLoader().getResourceAsStream(fontPath);
 
 			GraphicsEnvironment ge = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
@@ -77,8 +78,8 @@ public class CustomFont {
 
 			fontPath = getFontPath(fontPath);
 			Font customFont;
-			InputStream fontStream = new BufferedInputStream(
-					new FileInputStream(fontPath));
+			InputStream fontStream = CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontPath + ".ttf");
+
 
 			GraphicsEnvironment ge = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
