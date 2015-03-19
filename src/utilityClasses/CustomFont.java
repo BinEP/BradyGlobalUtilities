@@ -30,7 +30,7 @@ public class CustomFont {
 	
 	public static String getFontPath(String fontName) {
 		
-		return "InfoFiles/Fonts/" + fontName + ".ttf";
+		return "/Fonts/" + fontName + ".ttf";
 	}
 
 	public void makeCustomFont(String fontPath) {
@@ -40,8 +40,10 @@ public class CustomFont {
 			fontPath = getFontPath(fontPath);
 			this.path = fontPath;
 
-			InputStream fontStream = CustomFont.class.getClassLoader().getResourceAsStream(fontPath);
-
+			InputStream fontStream = CustomFont.class.getClass().getResourceAsStream(fontPath);
+			System.out.println(CustomFont.class.getClassLoader());
+			System.out.println(fontStream.toString());
+			
 			GraphicsEnvironment ge = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
 			customFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
