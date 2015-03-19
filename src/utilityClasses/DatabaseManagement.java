@@ -1,10 +1,6 @@
 package utilityClasses;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 public class DatabaseManagement {
@@ -33,6 +29,7 @@ public class DatabaseManagement {
 		try {
 			if (database == null || database.isClosed()) {
 			connectCommand();
+			newTable("SCORES");
 			}
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
@@ -106,6 +103,7 @@ public class DatabaseManagement {
 				+ "VALUES (" + uniqueID + ", '" + name + "', " + score + ");";
 		uniqueID++;
 		insertDataCommand.executeUpdate(sql);
+		
 		insertDataCommand.close();
 		database.commit();
 		closeConnections();
@@ -142,7 +140,7 @@ public class DatabaseManagement {
 			
 			results.add(new String[]{"" + score, name});
 			
-			System.out.println();
+//			System.out.println();
 		}
 		
 		resultData.close();
@@ -174,13 +172,13 @@ public class DatabaseManagement {
 	
 	public void closeConnections() {
 		
-		try {
-			
-			database.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			
+//			database.close();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 	}
 	

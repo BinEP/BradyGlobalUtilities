@@ -98,7 +98,7 @@ public class Runner extends JFrame {
 		super(game.NAME + "!");
 
 		fullscreen = game.fullscreen;
-			
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
 		

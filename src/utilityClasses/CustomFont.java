@@ -30,19 +30,6 @@ public class CustomFont {
 	
 	public static String getFontPath(String fontName) {
 		
-		try {
-			
-			String path = CustomFont.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath();
-			path = path.substring(0, path.length() - 4);
-			path = path.concat("/InfoFiles/Fonts/" + fontName + ".ttf");
-			System.out.println(path);
-//			return path;
-		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-//		fontPath = "InfoFiles/Fonts/" + fontPath + ".ttf";
-//		return CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontName + ".ttf");
 		return "InfoFiles/Fonts/" + fontName + ".ttf";
 	}
 

@@ -96,9 +96,8 @@ public class Control extends JPanel implements Screen {
 	public static String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
 	public static String FOLDER_PATH = "InfoFiles/";
 	public static String FONT_FILE = Windows.getFONT_NAME();
-
-	public static CustomFont customFont = new CustomFont(FONT_FILE, Font.BOLD,
-			18);
+	
+	public static CustomFont customFont;
 	/**
 	 * Set to true if only one direction per frame
 	 * 
@@ -225,6 +224,7 @@ public class Control extends JPanel implements Screen {
 
 	public Control() {
 
+		FileDependencies.checkFolder("InfoFiles");
 		setBackground(Color.BLACK);
 		setFocusable(true);
 		addKeyListener(this);
@@ -235,6 +235,9 @@ public class Control extends JPanel implements Screen {
 		TXT_FILE = (NAME != null) ? NAME.toLowerCase().replaceAll("\\s", "") : "";
 		FOLDER_PATH = getFolderPath();
 		FONT_FILE = Windows.getFONT_NAME();
+		
+		customFont = new CustomFont(FONT_FILE, Font.BOLD,
+				18);
 
 		timer = new Timer((int) (1000 / speed), this);
 		actionTimer = new Timer((int) (1000 / speed), gameTimer);
