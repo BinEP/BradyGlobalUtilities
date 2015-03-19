@@ -58,6 +58,7 @@ public class DatabaseManagement {
 			newTableCommand(tableName);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("Table created already");
 			e.printStackTrace();
 		}
 
@@ -67,9 +68,9 @@ public class DatabaseManagement {
 
 		connect();
 		Statement checkTable = database.createStatement();
-		String sql = "SELECT name FROM sqlite_master WHERE type='table' AND name='SCORES';";
+		String sql = "SELECT * FROM sqlite_master WHERE type='table' AND name='SCORES';";
 		ResultSet r = checkTable.executeQuery(sql);
-		System.out.println(r);
+//		System.out.println(r);
 		
 		this.tableName = tableName;
 		newTableCommand = database.createStatement();
@@ -187,6 +188,7 @@ public class DatabaseManagement {
 
 	public static void main(String[] args) {
 		DatabaseManagement d = new DatabaseManagement();
+		d.newTable("SCORES");
 		System.out.println(d.selectData());
 		d.insertInfo("Brady", 6);
 		System.out.println(d.selectData());

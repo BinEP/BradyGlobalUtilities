@@ -577,7 +577,7 @@ public class Control extends JPanel implements Screen {
 
 				speed = origSpeed;
 				reset();
-				stopTime();
+				resetTime();
 				startGame = false;
 				playing = true;
 				nameEnter = false;
@@ -679,6 +679,7 @@ public class Control extends JPanel implements Screen {
 				playing = false;
 				paused = false;
 				nameEnter = true;
+				stopTime();
 			}
 		}
 		repaint();
