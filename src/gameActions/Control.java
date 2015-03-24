@@ -120,21 +120,20 @@ public class Control extends JPanel implements Screen {
 	 */
 	protected enum ScoreCoords {
 
-		top_left			(10, 10), 
-		top_middle			(Windows.getWidth() / 2, 10), 
-		top_right			(Windows.getWidth() - 10, 10), 
-		middle_left			(10, Windows.getHeight() / 2), 
-		middle_middle		(Windows.getWidth() / 2, Windows.getHeight() / 2), 
-		middle_right		(Windows.getWidth() - 10, Windows.getHeight() / 2), 
-		bottom_left			(10,Windows.getHeight() - 15), 
-		bottom_middle		(Windows.getWidth() / 2, Windows.getHeight() - Windows.getTopBuffer()), 
-		bottom_right		(Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
+		top_left				(10, 10), 
+		top_middle				(Windows.getWidth() / 2, 10), 
+		top_right				(Windows.getWidth() - 10, 10), 
+		middle_left				(10, Windows.getHeight() / 2), 
+		middle_middle			(Windows.getWidth() / 2, Windows.getHeight() / 2), 
+		middle_right			(Windows.getWidth() - 10, Windows.getHeight() / 2), 
+		bottom_left				(10,Windows.getHeight() - 15), 
+		bottom_middle			(Windows.getWidth() / 2, Windows.getHeight() - Windows.getTopBuffer()), 
+		bottom_right			(Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
 
 		protected int x;
 		protected int y;
 
 		private ScoreCoords(int x, int y) {
-
 			this.x = x;
 			this.y = y;
 		}
@@ -158,13 +157,12 @@ public class Control extends JPanel implements Screen {
 			int textHeight = fontInfo.getHeight();
 
 			if (x == Windows.getWidth() / 2) {
-
 				CenteredText.draw(text, y, g);
+				
 			} else if (x == 10) {
-
 				g.drawString(text, x, y + textHeight / 2);
+				
 			} else if (x == Windows.getWidth() - 10) {
-
 				g.drawString(text, x - textWidth, y + textHeight / 2);
 			}
 		}
@@ -223,8 +221,6 @@ public class Control extends JPanel implements Screen {
 
 	protected ArrayList<Direction> nextDirection = new ArrayList<Direction>();
 
-	// protected static Graphics2D graphics;
-
 	protected Control() {
 
 		FileDependencies.checkFolder("InfoFiles");
@@ -239,8 +235,7 @@ public class Control extends JPanel implements Screen {
 		FOLDER_PATH = getFolderPath();
 		FONT_FILE = Windows.getFONT_NAME();
 		
-		customFont = new CustomFont(FONT_FILE, Font.BOLD,
-				18);
+		customFont = new CustomFont(FONT_FILE, Font.BOLD, 18);
 
 		timer = new Timer((int) (1000 / speed), this);
 		actionTimer = new Timer((int) (1000 / speed), gameTimer);
@@ -254,7 +249,6 @@ public class Control extends JPanel implements Screen {
 	}
 
 	protected void setBackgroundColor(Color c) {
-
 		this.setBackground(c);
 	}
 
@@ -263,7 +257,6 @@ public class Control extends JPanel implements Screen {
 	 * sets the keyMap when the game starts
 	 */
 	protected final void setKeys() {
-
 		upKey = keyMap[0];
 		rightKey = keyMap[1];
 		downKey = keyMap[2];
@@ -279,91 +272,58 @@ public class Control extends JPanel implements Screen {
 	protected final void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
-
 		Graphics2D g2 = (Graphics2D) g;
 
 		scale(g2);
-
 		g.setColor(Color.WHITE);
 		draw(g2);
 
 		if (startGame) {
-
 			drawStart(g2);
 
 		} else if (playing || paused) {
 
 			drawPlaying(g2);
 
-			if (showMouseCoords) {
-				Point mouse = MouseInfo.getPointerInfo().getLocation();
-				Point screen = this.getLocationOnScreen();
-
-				g.drawString("" + (mouse.x - screen.x) + "  "
-						+ (mouse.y - screen.y), 20, 80);
-			}
+			showMouseCoords(g);
 			if (paused) {
-
 				drawPaused(g2);
 			}
 		} else if (endGame) {
-
 			drawEnd(g2);
-
+			
 		} else if (nameEnter) {
-
 			ScoreInfo.enterName(g2, getScore(), pName);
 
 		} else if (highScores) {
-
 			ScoreInfo.drawScores(g2, TXT_FILE, FOLDER_PATH);
+		}
+	}
+
+	protected void showMouseCoords(Graphics g) {
+		if (showMouseCoords) {
+			Point mouse = MouseInfo.getPointerInfo().getLocation();
+			Point screen = this.getLocationOnScreen();
+
+			g.drawString("" + (mouse.x - screen.x) + "  "
+					+ (mouse.y - screen.y), 20, 80);
 		}
 	}
 
 	protected void scale(Graphics2D g) {
 
-		scaleRatio = true;
 		if (!scaleRatio) {
 			g.scale((double) getWidth() / (double) Windows.getWidth(),
 					(double) (getHeight()) / (double) Windows.getHeight());
 		} else {
-			
 			boolean widthLarger = Windows.getWidth() >= Windows.getHeight();
-//			boolean widthLarger = getWidth() >= getHeight();
 			double scale = (widthLarger) ? (double) getWidth() / (double) Windows.getWidth() : (double) getHeight() / (double) Windows.getHeight();
-//			g.scale(scale, scale);
-			
-//			System.out.println("Windows Width: " + Windows.WIDTH);
-//			System.out.println("Windows Height: " + Windows.HEIGHT);
-//			if (getWidth() != Windows.WIDTH) {
-//			System.out.println("Actual Width: " + getWidth());
-//			System.out.println("Actual Height: " + getHeight());
-//			System.out.println(trans);
-//			}
-//			double currentTransY = trans.getTranslateY();
-//			trans.setToScale(scale, scale);
-			
-//			int diffHeight = (int) ((getHeight() - Windows.HEIGHT * scale) / 2);
-//			if (getWidth() != Windows.WIDTH) {
-//
-//			System.out.println("Scale: " + scale);
-//			System.out.println("Diff Height: " + diffHeight);
-//			System.out.println("Current Trans Y: " + currentTransY);
-//			System.out.println();
-//			}
-//			trans.translate(0, diffHeight - currentTransY);
-//			
-//			g.transform(trans);
+
 			g.scale(scale, scale);
-			
-			
 		}
-
 	}
 
-	protected void draw(Graphics2D g) {
-
-	}
+	protected void draw(Graphics2D g) {}
 
 	/**
 	 * Draws the start screen. gets game name from Windows class
@@ -372,8 +332,6 @@ public class Control extends JPanel implements Screen {
 	 */
 	protected void drawStart(Graphics2D g) {
 
-		// g.setColor(Color.WHITE);
-//	 	g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getTITLE_SIZE()));
 		g.setFont(customFont.getFont(Windows.getTITLE_SIZE()));
 
 		CenteredText.draw(NAME, Windows.getTITLE_Y(), g);
@@ -390,23 +348,18 @@ public class Control extends JPanel implements Screen {
 
 	/**
 	 * Draws the screen when playing
-	 * 
 	 * @param g
 	 */
-
 	protected void drawPlaying(Graphics2D g) {
-
 		g.setColor(Color.CYAN);
 		g.fillRect(20, 30, playerX, playerY);
 	}
 
 	/**
-	 * draws the word "Paused" in the middle of the screen
-	 * 
+	 * Draws the word "Paused" in the middle of the screen
 	 * @param g
 	 */
 	protected void drawPaused(Graphics2D g) {
-
 		g.setFont(customFont.getFont(Windows.getPAUSE_SIZE()));
 		g.setColor(Color.WHITE);
 		CenteredText.draw("Paused", Windows.getPAUSE_Y(), g);
@@ -414,41 +367,35 @@ public class Control extends JPanel implements Screen {
 
 	/**
 	 * Draws the end game screen
-	 * 
 	 * @param g
 	 */
 	protected void drawEnd(Graphics2D g) {
 
-		g.setFont(customFont.getFont(Windows.getEND_SCORE_SIZE()));
 		g.setColor(Color.WHITE);
+		
+		g.setFont(customFont.getFont(Windows.getEND_SCORE_SIZE()));
 		CenteredText.draw(String.valueOf(getScore()), Windows.getEND_SCORE_Y(), g);
 
 		g.setFont(customFont.getFont(Windows.getYOU_LOSE_SIZE()));
-
 		CenteredText.draw("You Lose!", Windows.getYOU_LOSE_Y(), g);
 
 		g.setFont(customFont.getFont(Windows.getRESTART_SIZE()));
-
 		CenteredText.draw("Enter to Restart", Windows.getRESTART_Y(), g);
 	}
 
 	protected void drawBorder(Graphics2D g) {
-
 		drawBorder(g, Color.WHITE, 15);
 	}
 
 	protected void drawBorder(Graphics2D g, Color c) {
-
 		drawBorder(g, c, 15);
 	}
 
 	protected void drawBorder(Graphics2D g, int width) {
-
 		drawBorder(g, Color.WHITE, width);
 	}
 
 	protected void drawBorder(Graphics2D g, Color c, int width) {
-
 		g.setColor(c);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.setStroke(new BasicStroke(width));
@@ -456,21 +403,15 @@ public class Control extends JPanel implements Screen {
 		g2.setStroke(new BasicStroke(2));
 	}
 
-	protected void setup() {
+	protected void setup() {}
 
-	}
-
-	protected void reset() {
-
-	}
+	protected void reset() {}
 
 	/**
-	 * starts the timer that can be displayed on screen. Use getTime() to get
+	 * Starts the timer that can be displayed on screen. Use getTime() to get
 	 * the number seconds that have passed
 	 */
 	protected final void startTime() {
-
-		// startTime = System.currentTimeMillis();
 		actionTimer.start();
 	}
 
@@ -478,22 +419,15 @@ public class Control extends JPanel implements Screen {
 	 * Pauses the timer
 	 */
 	protected final void stopTime() {
-
-		// totalTime += System.currentTimeMillis() - startTime;
-		// startTime = System.currentTimeMillis();
 		actionTimer.stop();
 	}
 
 	/**
-	 * gets the number of seconds that have passed since the timer was started
-	 * 
+	 * Gets the number of seconds that have passed since the timer was started
 	 * @return int
 	 */
 	protected final int getTime() {
-
 		return gameTimer.getTime();
-		// if (!paused) stopTime();
-		// return (int) (totalTime / 1000);
 	}
 
 	/**
@@ -502,13 +436,21 @@ public class Control extends JPanel implements Screen {
 	protected final void resetTime() {
 		gameTimer.resetTime();
 		actionTimer.restart();
-		// totalTime = 0;
-		// startTime = System.currentTimeMillis();
+	}
+	
+	protected void pauseTime() {
+		if (playing) {
+			stopTime();
+		} else {
+			startTime();
+		}
+		
+		playing = !playing;
+		paused = !paused;
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -555,86 +497,93 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !(paused || playing)) {
 
 			if (startGame) {
-
-				// new Fade();
-				playing = true;
-				startGame = false;
+				toPlayingBooleans();
 
 				setKeys();
 				resetTime();
 				setup();
 
 			} else if (endGame) {
-
+				
 				speed = origSpeed;
 				reset();
 				resetTime();
-				startGame = false;
-				playing = true;
-				nameEnter = false;
-				highScores = false;
-				endGame = false;
+				resetBooleans();
 				pName = "";
 				speed = 10;
 				score = 0;
 
 			} else if (nameEnter) {
-				nameEnter = false;
-				highScores = true;
+				toHighscoreBooleans();
 				ScoreInfo.setScores(getScore(), pName, TXT_FILE, FOLDER_PATH);
 			} else if (highScores) {
-
-				highScores = false;
-				endGame = true;
+				toEndGameBooleans();
 			} else {
-				startGame = false;
-				playing = true;
+				toPlayingBooleans();
 			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && (playing || paused)) {
-
-			if (playing) {
-				stopTime();
-			} else {
-				startTime();
-			}
-
-			playing = !playing;
-			paused = !paused;
-
+			pauseTime();
+			
 			repaint();
 
 		} else if (e.getKeyLocation() == KeyEvent.KEY_LOCATION_STANDARD
 
 		&& nameEnter) {
 
-			if (pName.length() < 10) {
-				letter = e.getKeyChar();
-
-				letter = Character.toUpperCase(letter);
-				pName = pName.concat(letter.toString());
-			}
+			if (pName.length() < 10) addLetterToName(e);
+			
 		}
 		customPressed(e);
+	}
+
+	protected void addLetterToName(KeyEvent e) {
+		letter = e.getKeyChar();
+		letter = Character.toUpperCase(letter);
+		pName = pName.concat(letter.toString());
+	}
+
+	protected void toPlayingBooleans() {
+		startGame = false;
+		playing = true;
+	}
+
+	protected void toEndGameBooleans() {
+		highScores = false;
+		endGame = true;
+	}
+
+	protected void toHighscoreBooleans() {
+		nameEnter = false;
+		highScores = true;
+	}
+	
+	protected void toNameEnter() {
+		playing = false;
+		paused = false;
+		nameEnter = true;
+	}
+
+	protected void resetBooleans() {
+		toPlayingBooleans();
+		nameEnter = false;
+		highScores = false;
+		endGame = false;
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
 
 		if (e.getKeyCode() == upKey) {
-
 			upReleased();
 
 		} else if (e.getKeyCode() == downKey) {
-
 			downReleased();
 
 		} else if (e.getKeyCode() == leftKey) {
-
 			leftReleased();
 
 		} else if (e.getKeyCode() == rightKey) {
-
 			rightReleased();
 		}
 
@@ -649,16 +598,11 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public final void actionPerformed(ActionEvent e) {
 
-		// width = getWidth();
-		// height = getHeight();
-		// System.out.println("width: " + width + "\t height: " + height);
-
 		alwaysExecute();
 
 		if (playing) {
 
-			if (nextDirection.size() > 0 && singleDirection)
-				executeDirection();
+			if (nextDirection.size() > 0 && singleDirection) executeDirection();
 
 			moves();
 
@@ -666,10 +610,7 @@ public class Control extends JPanel implements Screen {
 				timer.setDelay(1000 / (int) (speed + getScore() / 2));
 
 			if (checkIfDead()) {
-
-				playing = false;
-				paused = false;
-				nameEnter = true;
+				toNameEnter();
 				stopTime();
 			}
 		}
@@ -680,9 +621,7 @@ public class Control extends JPanel implements Screen {
 		return false;
 	}
 
-	protected void moves() {
-
-	}
+	protected void moves() {}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -714,20 +653,15 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 
-	protected void clicked() {
-	}
+	protected void clicked() {}
 
-	protected void pressed() {
-	}
+	protected void pressed() {}
 
-	protected void released() {
-	}
+	protected void released() {}
 
-	protected void enters() {
-	}
+	protected void enters() {}
 
-	protected void exits() {
-	}
+	protected void exits() {}
 
 	/**
 	 * What to set variables to when upKey is pressed. Called by keyPressed
@@ -793,17 +727,12 @@ public class Control extends JPanel implements Screen {
 		rightPressed = false;
 	}
 
-	protected void customPressed(KeyEvent e) {
+	protected void customPressed(KeyEvent e) {}
 
-	}
-
-	protected void customReleased(KeyEvent e) {
-
-	}
+	protected void customReleased(KeyEvent e) {}
 
 	/**
 	 * Sets the graphics font at the given size
-	 * 
 	 * @param g
 	 * @param size
 	 */
@@ -812,13 +741,11 @@ public class Control extends JPanel implements Screen {
 	}
 	
 	protected void setNewFont(String name) {
-		customFont = new CustomFont(name, Font.BOLD,
-				18);
+		customFont = new CustomFont(name, Font.BOLD, 18);
 	}
 
 	/**
 	 * Adds the direction to a list of directions to be executed.
-	 * 
 	 * @param d
 	 */
 	protected void addDirection(Direction d) {
@@ -842,7 +769,7 @@ public class Control extends JPanel implements Screen {
 		case up:
 			up();
 			break;
-
+			
 		case down:
 			down();
 			break;
@@ -872,8 +799,7 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
-	protected void alwaysExecute() {
-	}
+	protected void alwaysExecute() {}
 
 	protected String getGameName() {
 		return null;
