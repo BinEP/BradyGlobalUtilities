@@ -26,6 +26,14 @@ import utilityClasses.*;
  */
 public class Control extends JPanel implements Screen {
 
+	protected static String NAME = "Game Name";
+	protected static String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
+	protected static String FOLDER_PATH = "InfoFiles/";
+	protected static String FONT_FILE = Windows.getFONT_NAME();
+	
+	protected static boolean fullscreen = false;
+	protected static boolean scaleRatio = false;
+	
 	/**
 	 * When start screen is showing Paint checks this variable for whether or
 	 * not draw the start screen
@@ -91,11 +99,6 @@ public class Control extends JPanel implements Screen {
 	 * Outside box of Windows
 	 */
 	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
-
-	protected static String NAME = "Game Name";
-	protected static String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
-	protected static String FOLDER_PATH = "InfoFiles/";
-	protected static String FONT_FILE = Windows.getFONT_NAME();
 	
 	protected static CustomFont customFont;
 	/**
@@ -212,9 +215,7 @@ public class Control extends JPanel implements Screen {
 
 	protected int score;
 	protected Character letter;
-
-	protected static boolean fullscreen = false;
-	protected static boolean scaleRatio = false;
+	
 	protected AffineTransform trans = new AffineTransform();
 		
 	protected double startTime;
@@ -222,9 +223,9 @@ public class Control extends JPanel implements Screen {
 
 	protected ArrayList<Direction> nextDirection = new ArrayList<Direction>();
 
-	// public static Graphics2D graphics;
+	// protected static Graphics2D graphics;
 
-	public Control() {
+	protected Control() {
 
 		FileDependencies.checkFolder("InfoFiles");
 		setBackground(Color.BLACK);
@@ -247,12 +248,12 @@ public class Control extends JPanel implements Screen {
 		timer.start();
 	}
 
-	public void setSpeed(int speed) {
+	protected void setSpeed(int speed) {
 		this.speed = speed;
 		timer.setDelay(1000 / speed);
 	}
 
-	public void setBackgroundColor(Color c) {
+	protected void setBackgroundColor(Color c) {
 
 		this.setBackground(c);
 	}
@@ -261,7 +262,7 @@ public class Control extends JPanel implements Screen {
 	 * can be called to set the direction keys if they have been modified and
 	 * sets the keyMap when the game starts
 	 */
-	public final void setKeys() {
+	protected final void setKeys() {
 
 		upKey = keyMap[0];
 		rightKey = keyMap[1];
@@ -275,7 +276,7 @@ public class Control extends JPanel implements Screen {
 	 * in the UserGame class, which override methods in this class so that is
 	 * the user has not defined a custom method, a default one is drawn
 	 */
-	public final void paintComponent(Graphics g) {
+	protected final void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
 
@@ -319,7 +320,7 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
-	public void scale(Graphics2D g) {
+	protected void scale(Graphics2D g) {
 
 		scaleRatio = true;
 		if (!scaleRatio) {
@@ -360,7 +361,7 @@ public class Control extends JPanel implements Screen {
 
 	}
 
-	public void draw(Graphics2D g) {
+	protected void draw(Graphics2D g) {
 
 	}
 
@@ -369,7 +370,7 @@ public class Control extends JPanel implements Screen {
 	 * 
 	 * @param g
 	 */
-	public void drawStart(Graphics2D g) {
+	protected void drawStart(Graphics2D g) {
 
 		// g.setColor(Color.WHITE);
 //	 	g.setFont(new Font(Windows.getFONT_NAME(), Font.BOLD, Windows.getTITLE_SIZE()));
@@ -393,7 +394,7 @@ public class Control extends JPanel implements Screen {
 	 * @param g
 	 */
 
-	public void drawPlaying(Graphics2D g) {
+	protected void drawPlaying(Graphics2D g) {
 
 		g.setColor(Color.CYAN);
 		g.fillRect(20, 30, playerX, playerY);
@@ -404,7 +405,7 @@ public class Control extends JPanel implements Screen {
 	 * 
 	 * @param g
 	 */
-	public void drawPaused(Graphics2D g) {
+	protected void drawPaused(Graphics2D g) {
 
 		g.setFont(customFont.getFont(Windows.getPAUSE_SIZE()));
 		g.setColor(Color.WHITE);
@@ -416,7 +417,7 @@ public class Control extends JPanel implements Screen {
 	 * 
 	 * @param g
 	 */
-	public void drawEnd(Graphics2D g) {
+	protected void drawEnd(Graphics2D g) {
 
 		g.setFont(customFont.getFont(Windows.getEND_SCORE_SIZE()));
 		g.setColor(Color.WHITE);
@@ -431,34 +432,22 @@ public class Control extends JPanel implements Screen {
 		CenteredText.draw("Enter to Restart", Windows.getRESTART_Y(), g);
 	}
 
-	public void drawBorder(Graphics2D g) {
+	protected void drawBorder(Graphics2D g) {
 
-		g.setColor(Color.WHITE);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(15));
-		g2.drawRect(outerbox.x, outerbox.y, outerbox.width, outerbox.height);
-		g2.setStroke(new BasicStroke(2));
+		drawBorder(g, Color.WHITE, 15);
 	}
 
-	public void drawBorder(Graphics2D g, Color c) {
+	protected void drawBorder(Graphics2D g, Color c) {
 
-		g.setColor(c);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(15));
-		g2.drawRect(outerbox.x, outerbox.y, outerbox.width, outerbox.height);
-		g2.setStroke(new BasicStroke(2));
+		drawBorder(g, c, 15);
 	}
 
-	public void drawBorder(Graphics2D g, int width) {
+	protected void drawBorder(Graphics2D g, int width) {
 
-		g.setColor(Color.WHITE);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(width));
-		g2.drawRect(outerbox.x, outerbox.y, outerbox.width, outerbox.height);
-		g2.setStroke(new BasicStroke(2));
+		drawBorder(g, Color.WHITE, width);
 	}
 
-	public void drawBorder(Graphics2D g, Color c, int width) {
+	protected void drawBorder(Graphics2D g, Color c, int width) {
 
 		g.setColor(c);
 		Graphics2D g2 = (Graphics2D) g;
@@ -467,11 +456,11 @@ public class Control extends JPanel implements Screen {
 		g2.setStroke(new BasicStroke(2));
 	}
 
-	public void setup() {
+	protected void setup() {
 
 	}
 
-	public void reset() {
+	protected void reset() {
 
 	}
 
@@ -479,7 +468,7 @@ public class Control extends JPanel implements Screen {
 	 * starts the timer that can be displayed on screen. Use getTime() to get
 	 * the number seconds that have passed
 	 */
-	public final void startTime() {
+	protected final void startTime() {
 
 		// startTime = System.currentTimeMillis();
 		actionTimer.start();
@@ -488,7 +477,7 @@ public class Control extends JPanel implements Screen {
 	/**
 	 * Pauses the timer
 	 */
-	public final void stopTime() {
+	protected final void stopTime() {
 
 		// totalTime += System.currentTimeMillis() - startTime;
 		// startTime = System.currentTimeMillis();
@@ -500,7 +489,7 @@ public class Control extends JPanel implements Screen {
 	 * 
 	 * @return int
 	 */
-	public final int getTime() {
+	protected final int getTime() {
 
 		return gameTimer.getTime();
 		// if (!paused) stopTime();
@@ -510,7 +499,7 @@ public class Control extends JPanel implements Screen {
 	/**
 	 * resets the time passed and sets the start time to the current time
 	 */
-	public final void resetTime() {
+	protected final void resetTime() {
 		gameTimer.resetTime();
 		actionTimer.restart();
 		// totalTime = 0;
@@ -523,7 +512,7 @@ public class Control extends JPanel implements Screen {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-
+		
 		if (startGame && e.getKeyCode() != KeyEvent.VK_ENTER) {
 
 			keyMap[keyIndex] = e.getKeyCode();
@@ -687,11 +676,11 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 
-	public boolean checkIfDead() {
+	protected boolean checkIfDead() {
 		return false;
 	}
 
-	public void moves() {
+	protected void moves() {
 
 	}
 
@@ -725,19 +714,19 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 
-	public void clicked() {
+	protected void clicked() {
 	}
 
-	public void pressed() {
+	protected void pressed() {
 	}
 
-	public void released() {
+	protected void released() {
 	}
 
-	public void enters() {
+	protected void enters() {
 	}
 
-	public void exits() {
+	protected void exits() {
 	}
 
 	/**
@@ -804,11 +793,11 @@ public class Control extends JPanel implements Screen {
 		rightPressed = false;
 	}
 
-	public void customPressed(KeyEvent e) {
+	protected void customPressed(KeyEvent e) {
 
 	}
 
-	public void customReleased(KeyEvent e) {
+	protected void customReleased(KeyEvent e) {
 
 	}
 
@@ -818,11 +807,11 @@ public class Control extends JPanel implements Screen {
 	 * @param g
 	 * @param size
 	 */
-	public Font getFont(int size) {
+	protected Font getFont(int size) {
 		return customFont.getFont(size);
 	}
 	
-	public void setNewFont(String name) {
+	protected void setNewFont(String name) {
 		customFont = new CustomFont(name, Font.BOLD,
 				18);
 	}
@@ -832,7 +821,7 @@ public class Control extends JPanel implements Screen {
 	 * 
 	 * @param d
 	 */
-	public void addDirection(Direction d) {
+	protected void addDirection(Direction d) {
 
 		if (singleDirection) {
 			if (nextDirection.size() < 2)
@@ -843,7 +832,7 @@ public class Control extends JPanel implements Screen {
 	/**
 	 * Executes the direction passed into the method
 	 */
-	public void executeDirection() {
+	protected void executeDirection() {
 
 		Direction d = nextDirection.get(0);
 		nextDirection.remove(0);
@@ -867,7 +856,7 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
-	public Direction getDirection(int keyCode) {
+	protected Direction getDirection(int keyCode) {
 
 		if (keyCode == upKey) {
 			return Direction.up;
@@ -883,18 +872,18 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
-	public void alwaysExecute() {
+	protected void alwaysExecute() {
 	}
 
-	public String getGameName() {
+	protected String getGameName() {
 		return null;
 	}
 
-	public String getFolderPath() {
+	protected String getFolderPath() {
 		return "InfoFiles/";
 	}
 	
-	public int getScore() {
+	protected int getScore() {
 		return score;
 	}
 	/**
@@ -903,7 +892,7 @@ public class Control extends JPanel implements Screen {
 	 * w
 	 * h
 	 */
-	public void setWindowSize(int w, int h) {
+	protected void setWindowSize(int w, int h) {
 		WIDTH = w;
 		HEIGHT = h;
 	}
@@ -922,11 +911,11 @@ public class Control extends JPanel implements Screen {
 			}
 		}
 
-		public int getTime() {
+		protected int getTime() {
 			return timeSeconds;
 		}
 
-		public void resetTime() {
+		protected void resetTime() {
 			timeSplit = 0;
 			timeSeconds = 0;
 		}
