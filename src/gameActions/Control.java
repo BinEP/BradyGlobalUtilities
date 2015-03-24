@@ -30,82 +30,82 @@ public class Control extends JPanel implements Screen {
 	 * When start screen is showing Paint checks this variable for whether or
 	 * not draw the start screen
 	 */
-	public boolean startGame = true;
+	protected boolean startGame = true;
 	/**
 	 * When game is being played Paint checks this variable for whether or not
 	 * draw playing field
 	 */
-	public boolean playing = false;
+	protected boolean playing = false;
 	/**
 	 * When game is paused Paint checks this variable for whether or not draw
 	 * the pause screen
 	 */
-	public boolean paused = false;
+	protected boolean paused = false;
 	/**
 	 * When end screen is showing Paint checks this variable for whether or not
 	 * draw the game over screen
 	 */
-	public boolean endGame = false;
+	protected boolean endGame = false;
 	/**
 	 * When entering name screen is showing Paint checks this variable for
 	 * whether or not draw the enter name screen
 	 */
-	public boolean nameEnter = false;
+	protected boolean nameEnter = false;
 	/**
 	 * When high scores are listed on screen Paint checks this variable for
 	 * whether or not draw the high score screen
 	 */
-	public boolean highScores = false;
+	protected boolean highScores = false;
 
-	public boolean showMouseCoords = false;
+	protected boolean showMouseCoords = false;
 
 	/**
 	 * The value for the upKey This can be changed to suit the user of player
 	 */
-	public int upKey = KeyEvent.VK_UP;
+	protected int upKey = KeyEvent.VK_UP;
 	/**
 	 * The value for the downKey This can be changed to suit the user of player
 	 */
-	public int downKey = KeyEvent.VK_DOWN;
+	protected int downKey = KeyEvent.VK_DOWN;
 	/**
 	 * The value for the leftKey This can be changed to suit the user of player
 	 */
-	public int leftKey = KeyEvent.VK_LEFT;
+	protected int leftKey = KeyEvent.VK_LEFT;
 	/**
 	 * The value for the rightKey This can be changed to suit the user of player
 	 */
-	public int rightKey = KeyEvent.VK_RIGHT;
+	protected int rightKey = KeyEvent.VK_RIGHT;
 
-	public boolean upPressed = false;
-	public boolean downPressed = false;
-	public boolean leftPressed = false;
-	public boolean rightPressed = false;
+	protected boolean upPressed = false;
+	protected boolean downPressed = false;
+	protected boolean leftPressed = false;
+	protected boolean rightPressed = false;
 
-	public int width = Windows.getWidth();
-	public int height = Windows.getHeight();
+	protected int width = Windows.getWidth();
+	protected int height = Windows.getHeight();
 	
-	public static int WIDTH = 800;
-	public static int HEIGHT = 480;
+	protected static int WIDTH = 800;
+	protected static int HEIGHT = 480;
 
 	/**
 	 * Outside box of Windows
 	 */
-	public Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
+	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
 
-	public static String NAME = "Game Name";
-	public static String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
-	public static String FOLDER_PATH = "InfoFiles/";
-	public static String FONT_FILE = Windows.getFONT_NAME();
+	protected static String NAME = "Game Name";
+	protected static String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
+	protected static String FOLDER_PATH = "InfoFiles/";
+	protected static String FONT_FILE = Windows.getFONT_NAME();
 	
-	public static CustomFont customFont;
+	protected static CustomFont customFont;
 	/**
 	 * Set to true if only one direction per frame
 	 * 
 	 * @author Brady Stoffel
 	 */
-	public boolean singleDirection = false;
+	protected boolean singleDirection = false;
 
-	public enum Direction {
+	protected enum Direction {
 		up, down, left, right;
 	}
 
@@ -115,18 +115,20 @@ public class Control extends JPanel implements Screen {
 	 * 
 	 * @author Brady Stoffel
 	 */
-	public enum ScoreCoords {
+	protected enum ScoreCoords {
 
-		top_left(10, 10), top_middle(Windows.getWidth() / 2, 10), top_right(
-				Windows.getWidth() - 10, 10), middle_left(10, Windows.getHeight() / 2), middle_middle(
-				Windows.getWidth() / 2, Windows.getHeight() / 2), middle_right(
-				Windows.getWidth() - 10, Windows.getHeight() / 2), bottom_left(10,
-				Windows.getHeight() - 15), bottom_middle(Windows.getWidth() / 2,
-				Windows.getHeight() - Windows.getTopBuffer()), bottom_right(
-				Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
+		top_left			(10, 10), 
+		top_middle			(Windows.getWidth() / 2, 10), 
+		top_right			(Windows.getWidth() - 10, 10), 
+		middle_left			(10, Windows.getHeight() / 2), 
+		middle_middle		(Windows.getWidth() / 2, Windows.getHeight() / 2), 
+		middle_right		(Windows.getWidth() - 10, Windows.getHeight() / 2), 
+		bottom_left			(10,Windows.getHeight() - 15), 
+		bottom_middle		(Windows.getWidth() / 2, Windows.getHeight() - Windows.getTopBuffer()), 
+		bottom_right		(Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
 
-		public int x;
-		public int y;
+		protected int x;
+		protected int y;
 
 		private ScoreCoords(int x, int y) {
 
@@ -134,7 +136,7 @@ public class Control extends JPanel implements Screen {
 			this.y = y;
 		}
 
-		public Point getCoords() {
+		protected Point getCoords() {
 			return new Point(this.x, this.y);
 		}
 
@@ -144,7 +146,7 @@ public class Control extends JPanel implements Screen {
 		 * @param text
 		 * @param g
 		 */
-		public void draw(String text, Graphics2D g) {
+		protected void draw(String text, Graphics2D g) {
 
 			g.setFont(CustomFont.makeCustomFont(FONT_FILE, Windows.getSCORE_SIZE()));
 
@@ -170,55 +172,55 @@ public class Control extends JPanel implements Screen {
 	 * start screen and keys are pressed Assigned in order of when pressed then
 	 * the key are mapped when the game starts
 	 */
-	public int[] keyMap = { KeyEvent.VK_UP, KeyEvent.VK_RIGHT,
+	protected int[] keyMap = { KeyEvent.VK_UP, KeyEvent.VK_RIGHT,
 			KeyEvent.VK_DOWN, KeyEvent.VK_LEFT };
 
-	public int keyIndex = 0;
+	protected int keyIndex = 0;
 
 	/**
 	 * The value that deltaX and deltaY will change player position by
 	 */
-	public int movementVar = 10;
+	protected int movementVar = 10;
 	/**
 	 * How much a player moves in the x direction
 	 */
-	public int deltaX = movementVar;
+	protected int deltaX = movementVar;
 	/**
 	 * How much a player moves in the y direction
 	 */
-	public int deltaY = 0;
-	public String pName = "";
+	protected int deltaY = 0;
+	protected String pName = "";
 
 	/**
 	 * player x position
 	 */
-	public int playerX;
+	protected int playerX;
 	/**
 	 * player y position
 	 */
-	public int playerY;
+	protected int playerY;
 
-	public final Timer timer;
-	public final Timer actionTimer;
+	protected final Timer timer;
+	protected final Timer actionTimer;
 	protected final GameTime gameTimer = new GameTime();
-	public int origSpeed = 60;
-	public double speed = origSpeed;
+	protected int origSpeed = 60;
+	protected double speed = origSpeed;
 	/**
 	 * If you want to game to speed up as the score gets higher
 	 */
-	public boolean speedUp = false;
+	protected boolean speedUp = false;
 
-	public int score;
-	public Character letter;
+	protected int score;
+	protected Character letter;
 
-	public static boolean fullscreen = false;
-	public static boolean scaleRatio = false;
-	public AffineTransform trans = new AffineTransform();
+	protected static boolean fullscreen = false;
+	protected static boolean scaleRatio = false;
+	protected AffineTransform trans = new AffineTransform();
 		
-	public double startTime;
-	public double totalTime = 0;
+	protected double startTime;
+	protected double totalTime = 0;
 
-	public ArrayList<Direction> nextDirection = new ArrayList<Direction>();
+	protected ArrayList<Direction> nextDirection = new ArrayList<Direction>();
 
 	// public static Graphics2D graphics;
 
