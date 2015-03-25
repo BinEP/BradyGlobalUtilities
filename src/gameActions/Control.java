@@ -227,7 +227,8 @@ public class Control extends JPanel implements Screen {
 		setBackground(Color.BLACK);
 		setFocusable(true);
 		addKeyListener(this);
-
+		addMouseListener(this);
+		
 		setup();
 		
 		NAME = getGameName();
