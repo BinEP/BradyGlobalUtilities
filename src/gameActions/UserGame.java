@@ -140,4 +140,9 @@ public int getScore() {
 	return getTime();
 }
 
+public static void main(String[] args) {
+	new Runner(new UserGame());
+	
+}
+
 }

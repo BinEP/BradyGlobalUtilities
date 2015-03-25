@@ -59,7 +59,7 @@ public class DatabaseManagement {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			System.out.println("Table created already");
-			e.printStackTrace();
+//			e.printStackTrace();
 		}
 
 	}
