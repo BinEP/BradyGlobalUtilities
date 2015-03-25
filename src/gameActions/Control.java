@@ -11,6 +11,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -226,8 +227,6 @@ public class Control extends JPanel implements Screen {
 		FileDependencies.checkFolder("InfoFiles");
 		setBackground(Color.BLACK);
 		setFocusable(true);
-		addKeyListener(this);
-		addMouseListener(this);
 		
 		setup();
 		
@@ -242,6 +241,12 @@ public class Control extends JPanel implements Screen {
 		actionTimer = new Timer((int) (1000 / speed), gameTimer);
 
 		timer.start();
+	}
+	
+	protected void addListeners() {
+		addKeyListener(this);
+		addMouseListener(this);
+		addFocusListener(this);
 	}
 
 	protected void setSpeed(int speed) {
@@ -664,6 +669,22 @@ public class Control extends JPanel implements Screen {
 
 	protected void exits(MouseEvent e) {}
 
+	public void focusGained(FocusEvent e) {
+		gotFocus(e);
+		repaint();
+	}
+
+	protected void gotFocus(FocusEvent e) {}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
+		lostFocus(e);
+		repaint();
+	}
+	
+	protected void lostFocus(FocusEvent e) {}
+
 	/**
 	 * What to set variables to when upKey is pressed. Called by keyPressed
 	 */
@@ -847,4 +868,6 @@ public class Control extends JPanel implements Screen {
 			timeSeconds = 0;
 		}
 	}
+
+	
 }
