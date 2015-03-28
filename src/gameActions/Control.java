@@ -67,6 +67,7 @@ public class Control extends JPanel implements Screen {
 	protected boolean highScores = false;
 
 	protected boolean showMouseCoords = false;
+	protected boolean resumeOnFocusGain = false;
 
 	/**
 	 * The value for the upKey This can be changed to suit the user of player
@@ -227,7 +228,7 @@ public class Control extends JPanel implements Screen {
 		FileDependencies.checkFolder("InfoFiles");
 		setBackground(Color.BLACK);
 		setFocusable(true);
-		
+		addListeners();
 		setup();
 		
 		NAME = getGameName();
@@ -454,6 +455,14 @@ public class Control extends JPanel implements Screen {
 		playing = !playing;
 		paused = !paused;
 	}
+	
+	protected void pauseTime(boolean ifOnlyPlaying) {
+		if (playing || paused) pauseTime();
+	}
+	
+	protected boolean ifPlaying() {
+		return playing || paused;
+	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -669,7 +678,13 @@ public class Control extends JPanel implements Screen {
 
 	protected void exits(MouseEvent e) {}
 
+	@Override
 	public void focusGained(FocusEvent e) {
+		if (resumeOnFocusGain && ifPlaying()) {
+			startTime();
+			playing = true;
+			paused = false;
+		}
 		gotFocus(e);
 		repaint();
 	}
@@ -679,6 +694,11 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
+		if (ifPlaying()) {
+			stopTime();
+			playing = false;
+			paused = true;
+		}
 		lostFocus(e);
 		repaint();
 	}
