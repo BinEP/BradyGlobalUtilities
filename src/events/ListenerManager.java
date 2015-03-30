@@ -75,10 +75,9 @@ public class ListenerManager {
 	private static ListenerManager lm = new ListenerManager();
 	public static List<TriggerInfo> triggers = new ArrayList<TriggerInfo>();
 	public static List<GameListener> listeners = new ArrayList<GameListener>();
-	public static boolean running = true;
 
-	public static Thread t;
-
+	private static ListenerThread t = new ListenerThread();
+	
 	public static void addTrigger(Action a, Movement m, Direction d,
 			Rectangle r, String message, Trigger t) {
 		triggers.add(lm.new TriggerInfo(a, m, d, r, message, t));
@@ -125,6 +124,7 @@ public class ListenerManager {
 
 	public static void sendEvent(TriggerInfo ti) {
 
+//		if (ti.changed) {
 		GameEvent g = new GameEvent(ti.action, ti.movement, ti.direction,
 				ti.rectangle, ti.message);
 		switch (ti.action) {
@@ -136,6 +136,7 @@ public class ListenerManager {
 			sendDeath(g);
 			break;
 		}
+//		}
 	}
 
 	public static void sendScore(GameEvent e) {
@@ -149,18 +150,16 @@ public class ListenerManager {
 			l.death(e);
 		}
 	}
-
+	
 	public static void startThread() {
-		System.out.println("Starting Thread");
-		running = true;
-		t = new Thread(lm.new ListenerThread());
-		t.start();
+		t.startThread();
+	}
+	
+	public static void stopThread() {
+		t.stopThread();
 	}
 
-	public static void stopThread() {
-		System.out.println("Stopping Thread");
-		running = false;
-	}
+	
 
 	public ListenerManager() {}
 
@@ -177,6 +176,7 @@ public class ListenerManager {
 		public Rectangle rectangle;
 		public String message;
 		public Trigger trigger;
+		public boolean changed = true;
 
 		public TriggerInfo(Action a, Movement m, Direction d, Rectangle r,
 				String message, Trigger t) {
@@ -189,8 +189,33 @@ public class ListenerManager {
 		}
 	}
 
-	public class ListenerThread implements Runnable {
+	private static class ListenerThread implements Runnable {
+		
+		public static boolean running = true;
+		private Thread t;
+		
+		public void startThread() {
+			
+			if (running) {
+				System.out.println("Already Running");
+				return;
+			}
+			System.out.println("Starting Thread");
+			
+			running = true;
+			if (t != null) 
+				t.interrupt();
+			
+			t = new Thread(this);
+			t.start();
+		}
 
+		public void stopThread() {
+			System.out.println("Stopping Thread");
+			running = false;
+			
+		}
+		
 		@Override
 		public void run() {
 			while (running) {
@@ -200,7 +225,7 @@ public class ListenerManager {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				// System.out.println("ListenerThread");
+				 System.out.println("ListenerThread");
 			}
 		}
 	}

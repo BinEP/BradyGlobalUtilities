@@ -139,6 +139,8 @@ public class UserGame extends Game {
 
 		player = new BSRectangle(playerX, playerY, 20, 20);
 		ListenerManager.addTrigger(Action.death, Movement.exit, outerbox, "Stuff", player);
+//		ListenerManager.addTrigger(Action.score, Movement.exit, outerbox, "Stuff", player);
+
 		
 	}
 
