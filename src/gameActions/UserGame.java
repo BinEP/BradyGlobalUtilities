@@ -3,9 +3,14 @@ package gameActions;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
 import javax.swing.Timer;
 
+import events.ListenerManager;
+import events.ListenerManager.Action;
+import events.ListenerManager.Movement;
+import shapes.BSRectangle;
 import utilityClasses.*;
 
 public class UserGame extends Game {
@@ -39,6 +44,8 @@ public class UserGame extends Game {
 	 * 
 	 */
 	
+	public BSRectangle player;
+	
 	public UserGame() {
 
 		super();
@@ -63,8 +70,8 @@ public class UserGame extends Game {
 	public void drawPlaying(Graphics2D g) {
 		
 		g.setColor(Color.CYAN);
-		g.fillRect(20, 30, playerX, playerY);
-		
+//		g.fillRect(playerX, playerY, 20, 20);
+		g.fill(player);
 		
 		g.drawString(String.valueOf(getTime()), 5, 15);
 
@@ -91,8 +98,8 @@ public class UserGame extends Game {
 			deltaX = 0;
 		}
 		
-		playerX += deltaX;
-		playerY += deltaY;
+		player.x += deltaX;
+		player.y += deltaY;
 
 		
 
@@ -103,7 +110,8 @@ public class UserGame extends Game {
 	public boolean checkIfDead() {
 		
 		
-		return playerX > 500;
+//		return playerX > 500;
+		return false;
 	}
 	
 	/**
@@ -112,7 +120,10 @@ public class UserGame extends Game {
 	 */
 	public void reset() {
 
-		setup();
+		deltaX = 2;
+		deltaY = 2;
+		player.x = playerX;
+		player.y = playerY;
 
 	}
 /**
@@ -126,6 +137,9 @@ public class UserGame extends Game {
 		playerX = 100;
 		playerY = 100;
 
+		player = new BSRectangle(playerX, playerY, 20, 20);
+		ListenerManager.addTrigger(Action.death, Movement.exit, outerbox, "Stuff", player);
+		
 	}
 
 @Override

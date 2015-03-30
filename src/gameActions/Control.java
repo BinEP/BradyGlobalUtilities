@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import events.GameEvent;
+import events.ListenerManager;
 import utilityClasses.*;
 
 /**
@@ -68,6 +70,7 @@ public class Control extends JPanel implements Screen {
 
 	protected boolean showMouseCoords = false;
 	protected boolean resumeOnFocusGain = false;
+	private boolean dead = false;
 
 	/**
 	 * The value for the upKey This can be changed to suit the user of player
@@ -230,7 +233,7 @@ public class Control extends JPanel implements Screen {
 		setFocusable(true);
 		addListeners();
 		setup();
-		
+//		ListenerManager.startThread();
 		NAME = getGameName();
 		TXT_FILE = (NAME != null) ? NAME.toLowerCase().replaceAll("\\s", "") : "";
 		FOLDER_PATH = getFolderPath();
@@ -248,6 +251,7 @@ public class Control extends JPanel implements Screen {
 		addKeyListener(this);
 		addMouseListener(this);
 		addFocusListener(this);
+		ListenerManager.addListener(this);
 	}
 
 	protected void setSpeed(int speed) {
@@ -512,11 +516,10 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !(paused || playing)) {
 
 			if (startGame) {
-				toPlayingBooleans();
-
 				setKeys();
 				resetTime();
 				setup();
+				toPlayingBooleans();
 
 			} else if (endGame) {
 				
@@ -559,13 +562,16 @@ public class Control extends JPanel implements Screen {
 	}
 
 	protected void toPlayingBooleans() {
+		dead = false;
 		startGame = false;
 		playing = true;
+		ListenerManager.startThread();
 	}
 
 	protected void toEndGameBooleans() {
 		highScores = false;
 		endGame = true;
+		
 	}
 
 	protected void toHighscoreBooleans() {
@@ -577,6 +583,7 @@ public class Control extends JPanel implements Screen {
 		playing = false;
 		paused = false;
 		nameEnter = true;
+		ListenerManager.stopThread();
 	}
 
 	protected void resetBooleans() {
@@ -624,7 +631,7 @@ public class Control extends JPanel implements Screen {
 			if (speedUp)
 				timer.setDelay(1000 / (int) (speed + getScore() / 2));
 
-			if (checkIfDead()) {
+			if (checkIfDeadSuper()) {
 				toNameEnter();
 				stopTime();
 			}
@@ -632,7 +639,11 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 
-	protected boolean checkIfDead() {
+	private final boolean checkIfDeadSuper() {
+		return checkifDead() || dead;
+	}
+	
+	protected boolean checkifDead() {
 		return false;
 	}
 
@@ -704,6 +715,18 @@ public class Control extends JPanel implements Screen {
 	}
 	
 	protected void lostFocus(FocusEvent e) {}
+	
+	@Override
+	public void scored(GameEvent g) {
+		// TODO Auto-generated method stub
+		score++;
+	}
+
+	@Override
+	public void death(GameEvent g) {
+		// TODO Auto-generated method stub
+		dead = true;
+	}
 
 	/**
 	 * What to set variables to when upKey is pressed. Called by keyPressed
@@ -888,6 +911,8 @@ public class Control extends JPanel implements Screen {
 			timeSeconds = 0;
 		}
 	}
+
+	
 
 	
 }

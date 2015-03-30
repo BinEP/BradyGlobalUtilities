@@ -72,20 +72,24 @@ public class ListenerManager {
 	// ArrayList<ReactionListener>();
 	//
 
-	public List<TriggerInfo> triggers = new ArrayList<TriggerInfo>();
-	public List<GameListener> listeners = new ArrayList<GameListener>();
+	private static ListenerManager lm = new ListenerManager();
+	public static List<TriggerInfo> triggers = new ArrayList<TriggerInfo>();
+	public static List<GameListener> listeners = new ArrayList<GameListener>();
+	public static boolean running = true;
 
-	public void addTrigger(Action a, Movement m, Direction d, Rectangle r,
-			String message, Trigger t) {
-		triggers.add(new TriggerInfo(a, m, d, r, message, t));
+	public static Thread t;
+
+	public static void addTrigger(Action a, Movement m, Direction d,
+			Rectangle r, String message, Trigger t) {
+		triggers.add(lm.new TriggerInfo(a, m, d, r, message, t));
 	}
 
-	public void addTrigger(Action a, Movement m, Rectangle r, String message,
-			Trigger t) {
+	public static void addTrigger(Action a, Movement m, Rectangle r,
+			String message, Trigger t) {
 		addTrigger(a, m, Direction.any, r, message, t);
 	}
 
-	public void removeTrigger(Trigger t) {
+	public static void removeTrigger(Trigger t) {
 
 		for (Iterator<TriggerInfo> iterator = triggers.iterator(); iterator
 				.hasNext();) {
@@ -95,29 +99,31 @@ public class ListenerManager {
 		}
 	}
 
-	public void addListener(GameListener g) {
+	public static void addListener(GameListener g) {
 		listeners.add(g);
 	}
 
-	public void removeListener(GameListener g) {
+	public static void removeListener(GameListener g) {
 		listeners.remove(g);
 	}
 
-	public void triggerTheStuff() {
+	public static void triggerTheStuff() {
 
 		for (TriggerInfo ti : triggers) {
 			Trigger t = ti.trigger;
 
 			boolean entered = ti.rectangle.contains(t.getPosition());
-			if ((ti.movement == Movement.enter && entered)
-			|| (ti.movement == Movement.exit && !entered))
-				
-				if (ti.direction == Direction.any || ti.direction == t.getDirection())
-				sendEvent(ti);
+			
+			if ((ti.movement == Movement.enter && entered) 
+			 || (ti.movement == Movement.exit && !entered))
+
+				if (ti.direction == Direction.any
+						|| ti.direction == t.getDirection())
+					sendEvent(ti);
 		}
 	}
 
-	public void sendEvent(TriggerInfo ti) {
+	public static void sendEvent(TriggerInfo ti) {
 
 		GameEvent g = new GameEvent(ti.action, ti.movement, ti.direction,
 				ti.rectangle, ti.message);
@@ -125,46 +131,42 @@ public class ListenerManager {
 
 		case score:
 			sendScore(g);
-
 			break;
 		case death:
 			sendDeath(g);
-
 			break;
 		}
-
 	}
 
-	public void sendScore(GameEvent e) {
+	public static void sendScore(GameEvent e) {
 		for (GameListener l : listeners) {
 			l.scored(e);
 		}
 	}
 
-	public void sendDeath(GameEvent e) {
+	public static void sendDeath(GameEvent e) {
 		for (GameListener l : listeners) {
 			l.death(e);
 		}
 	}
 
-	public ListenerManager() {
-		// TODO Auto-generated constructor stub
+	public static void startThread() {
+		System.out.println("Starting Thread");
+		running = true;
+		t = new Thread(lm.new ListenerThread());
+		t.start();
 	}
 
-	// public interface TriggerUpdater {
-	//
-	// public void addTrigger(Action a, Movement m, Rectangle r, Trigger t);
-	//
-	//
-	// }
+	public static void stopThread() {
+		System.out.println("Stopping Thread");
+		running = false;
+	}
+
+	public ListenerManager() {}
 
 	public interface Trigger {
-
-		// public void makeTrigger(Action a, Movement m, Rectangle r);
 		public Rectangle getPosition();
-
 		public Direction getDirection();
-
 	}
 
 	private class TriggerInfo {
@@ -178,13 +180,28 @@ public class ListenerManager {
 
 		public TriggerInfo(Action a, Movement m, Direction d, Rectangle r,
 				String message, Trigger t) {
-			// TODO Auto-generated constructor stub
 			this.action = a;
 			this.movement = m;
 			this.direction = d;
 			this.rectangle = r;
 			this.message = message;
 			this.trigger = t;
+		}
+	}
+
+	public class ListenerThread implements Runnable {
+
+		@Override
+		public void run() {
+			while (running) {
+				triggerTheStuff();
+				try {
+					Thread.sleep(100);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				// System.out.println("ListenerThread");
+			}
 		}
 	}
 

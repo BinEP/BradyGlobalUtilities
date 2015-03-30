@@ -7,7 +7,9 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.peer.MouseInfoPeer;
 
-public interface Screen extends KeyListener, ActionListener, MouseListener, FocusListener {
+import events.listeners.GameListener;
+
+public interface Screen extends KeyListener, ActionListener, MouseListener, FocusListener, GameListener {
 
 	
 //	public void moves();
