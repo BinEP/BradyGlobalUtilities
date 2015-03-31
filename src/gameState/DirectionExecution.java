@@ -67,9 +67,11 @@ public class DirectionExecution {
 		} else if (keyCode == game.leftKey) {
 			return Direction.left;
 
-		} else {
+		} else if (keyCode == game.rightKey) {
 			return Direction.right;
 		}
+		
+		return Direction.none;
 	}
 	
 	public ArrayList<Direction> getNextDirection() {

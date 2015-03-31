@@ -7,9 +7,11 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.peer.MouseInfoPeer;
 
+import customListeners.BSActionListener;
 import customListeners.BSGameListener;
+import customListeners.BSKeyListener;
 
 //public interface Screen extends KeyListener, ActionListener, MouseListener, FocusListener, BSGameListener {
-public interface Screen extends KeyListener, ActionListener {
+public interface Screen extends BSKeyListener, BSActionListener {
 
 }

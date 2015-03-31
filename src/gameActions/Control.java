@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import listenerControl.ListenerActivator;
+import listenerControl.ListenerIndex;
 import gameState.BooleanManager;
 import gameState.DirectionExecution;
 import gameState.GameTime;
@@ -51,7 +52,7 @@ public class Control extends JPanel implements Screen {
 	protected static CustomFont customFont;
 
 	public enum Direction {
-		up, down, left, right;
+		up, down, left, right, none;
 	}
 
 	/**
@@ -150,12 +151,19 @@ public class Control extends JPanel implements Screen {
 		
 		listenerActivator = new ListenerActivator(this);
 		directionExecution = new DirectionExecution(this);
-
+		addListeners();
+		
 		setup();
 		customFont = new CustomFont(getFONT_FILE(), Font.BOLD, 18);
 
-		timer = new Timer((int) (1000 / speed), this);
+		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
+	}
+
+	private void addListeners() {
+		// TODO Auto-generated method stub
+		ListenerIndex.addActionListener(this);
+		ListenerIndex.addKeyListener(this);
 	}
 
 	protected void setSpeed(int speed) {
@@ -316,6 +324,7 @@ public class Control extends JPanel implements Screen {
 				keyIndex = 0;
 
 		} else if (e.getKeyCode() == upKey) {
+		
 
 			if (BooleanManager.isSingleDirection()) {
 				directionExecution.addDirection(Direction.up);
@@ -383,6 +392,8 @@ public class Control extends JPanel implements Screen {
 			
 			if (pName.length() < 10) 
 				addLetterToName(e);
+		} else if (BooleanManager.isSingleDirection()) {	
+			directionExecution.addDirection(directionExecution.getDirection(e.getKeyCode()));
 		}
 	}
 
@@ -392,21 +403,7 @@ public class Control extends JPanel implements Screen {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-
-		if (e.getKeyCode() == upKey) {
-			listenerActivator.upReleased();
-
-		} else if (e.getKeyCode() == downKey) {
-			listenerActivator.downReleased();
-
-		} else if (e.getKeyCode() == leftKey) {
-			listenerActivator.leftReleased();
-
-		} else if (e.getKeyCode() == rightKey) {
-			listenerActivator.rightReleased();
-		}
-	}
+	public void keyReleased(KeyEvent e) {}
 	
 
 	/** Gets called when timer activates an action, and the timer fires very

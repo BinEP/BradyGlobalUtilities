@@ -46,19 +46,19 @@ public class ListenerIndex {
 		actionListeners.remove(a);
 	}
 	
-	public static void addKeyListener(BSMouseListener m) {
+	public static void addMouseListener(BSMouseListener m) {
 		mouseListeners.add(m);
 	}
 	
-	public static void removeKeyListener(BSMouseListener m) {
+	public static void removeMouseListener(BSMouseListener m) {
 		mouseListeners.remove(m);
 	}
 	
-	public static void addKeyListener(BSFocusListener f) {
+	public static void addFocusListener(BSFocusListener f) {
 		focusListeners.add(f);
 	}
 	
-	public static void removeKeyListener(BSFocusListener f) {
+	public static void removeFocusListener(BSFocusListener f) {
 		focusListeners.remove(f);
 	}
 	
