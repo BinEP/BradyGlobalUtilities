@@ -43,10 +43,6 @@ public class GameStateManager {
 	 */
 	private static boolean singleDirection = false;
 	
-	public GameStateManager() {
-		
-	}
-
 	public static void toPlayingBooleans() {
 		dead = false;
 		startGame = false;
@@ -57,7 +53,6 @@ public class GameStateManager {
 	public static void toEndGameBooleans() {
 		highScores = false;
 		endGame = true;
-		
 	}
 
 	public static void toHighscoreBooleans() {
@@ -138,12 +133,10 @@ public class GameStateManager {
 		resumeOnFocusGain = resumeOnFocus;
 	}
 
-	
-	public static  boolean isSingleDirection() {
+	public static boolean isSingleDirection() {
 		return singleDirection;
 	}
 	
-
 	public static void setSingleDirection(boolean single) {
 		singleDirection = single;
 	}

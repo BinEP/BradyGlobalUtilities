@@ -6,5 +6,4 @@ public interface BSFocusListener {
 
 	public void gotFocus(FocusEvent e);
 	public void lostFocus(FocusEvent e);
-	
 }

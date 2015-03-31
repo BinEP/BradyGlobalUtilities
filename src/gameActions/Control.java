@@ -15,10 +15,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import custom_listeners.BSActionListener;
-import custom_listeners.BSKeyListener;
 import listener_control.ListenerActivator;
-import listener_control.ListenerIndex;
+import listener_control.ListenerManager;
 import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
@@ -170,8 +168,8 @@ public class Control extends JPanel implements Screen {
 	}
 
 	private void addListeners() {
-		ListenerIndex.addActionListener(this);
-		ListenerIndex.addKeyListener(this);
+		ListenerManager.addActionListener(this);
+		ListenerManager.addKeyListener(this);
 	}
 
 	protected void setSpeed(int speed) {
@@ -470,8 +468,5 @@ public class Control extends JPanel implements Screen {
 
 	public static String getFONT_FILE() {
 		return Windows.getFONT_NAME();
-	}
-	
-	public static interface Screen extends BSKeyListener, BSActionListener {
 	}
 }

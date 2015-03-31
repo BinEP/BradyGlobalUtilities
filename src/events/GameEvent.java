@@ -15,7 +15,6 @@ public class GameEvent {
 	private String message;
 	
 	public GameEvent(Action a, Movement m, Direction d, Rectangle r, String message) {
-		// TODO Auto-generated constructor stub
 		this.action = a;
 		this.movement = m;
 		this.direction = d;
@@ -42,5 +41,4 @@ public class GameEvent {
 	public String getMessage() {
 		return message;
 	}
-
 }

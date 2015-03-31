@@ -36,14 +36,14 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void scored(GameEvent g) {
-		for (BSGameListener gl : ListenerIndex.gameListeners) {
+		for (BSGameListener gl : ListenerManager.gameListeners) {
 			gl.scored(g);
 		}
 	}
 
 	@Override
 	public void death(GameEvent g) {
-		for (BSGameListener gl : ListenerIndex.gameListeners) {
+		for (BSGameListener gl : ListenerManager.gameListeners) {
 			gl.death(g);
 		}
 	}
@@ -56,7 +56,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 			GameStateManager.resume();
 		}
 
-		for (BSFocusListener f : ListenerIndex.focusListeners)
+		for (BSFocusListener f : ListenerManager.focusListeners)
 			f.gotFocus(e);
 
 		game.repaint();
@@ -69,7 +69,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 			GameStateManager.pause();
 		}
 
-		for (BSFocusListener f : ListenerIndex.focusListeners)
+		for (BSFocusListener f : ListenerManager.focusListeners)
 			f.lostFocus(e);
 
 		game.repaint();
@@ -77,7 +77,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+		for (BSMouseListener m : ListenerManager.mouseListeners) {
 			m.clicked(e);
 		}
 		game.repaint();
@@ -85,7 +85,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+		for (BSMouseListener m : ListenerManager.mouseListeners) {
 			m.pressed(e);
 		}
 		game.repaint();
@@ -93,7 +93,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+		for (BSMouseListener m : ListenerManager.mouseListeners) {
 			m.released(e);
 		}
 		game.repaint();
@@ -101,7 +101,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+		for (BSMouseListener m : ListenerManager.mouseListeners) {
 			m.enters(e);
 		}
 		game.repaint();
@@ -109,7 +109,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+		for (BSMouseListener m : ListenerManager.mouseListeners) {
 			m.exits(e);
 		}
 		game.repaint();
@@ -117,14 +117,14 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for (BSActionListener a : ListenerIndex.actionListeners) {
+		for (BSActionListener a : ListenerManager.actionListeners) {
 			a.actionPerformed(e);
 		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {
-		for (BSKeyListener k : ListenerIndex.keyListeners) {
+		for (BSKeyListener k : ListenerManager.keyListeners) {
 			k.keyTyped(e);
 		}
 	}
@@ -132,7 +132,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		for (BSKeyListener k : ListenerIndex.keyListeners) {
+		for (BSKeyListener k : ListenerManager.keyListeners) {
 			k.keyPressed(e);
 		}
 
@@ -150,32 +150,32 @@ public class ListenerActivator implements KeyListener, ActionListener,
 	}
 
 	public void right() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.right();
 		}
 	}
 
 	public void left() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.left();
 		}
 	}
 
 	public void down() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.down();
 		}
 	}
 
 	public void up() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.up();
 		}
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		for (BSKeyListener k : ListenerIndex.keyListeners) {
+		for (BSKeyListener k : ListenerManager.keyListeners) {
 			k.keyReleased(e);
 		}
 
@@ -193,25 +193,25 @@ public class ListenerActivator implements KeyListener, ActionListener,
 	}
 
 	public void upReleased() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.leftReleased();
 		}
 	}
 
 	public void downReleased() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.leftReleased();
 		}
 	}
 
 	public void leftReleased() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.leftReleased();
 		}
 	}
 
 	public void rightReleased() {
-		for (BSDirectionKeyListener d : ListenerIndex.directionKeyListeners) {
+		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.leftReleased();
 		}
 	}

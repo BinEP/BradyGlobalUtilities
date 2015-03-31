@@ -10,11 +10,8 @@ import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
 
-public class ListenerIndex {
+public class ListenerManager {
 
-	public ListenerIndex() {
-	}
-	
 	public static List<BSKeyListener> keyListeners = new ArrayList<BSKeyListener>();
 	public static List<BSDirectionKeyListener> directionKeyListeners = new ArrayList<BSDirectionKeyListener>();
 	public static List<BSActionListener> actionListeners = new ArrayList<BSActionListener>();

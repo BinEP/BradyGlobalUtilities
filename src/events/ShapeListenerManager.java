@@ -10,20 +10,6 @@ import events.ShapeListenerManager.Movement.Direction;
 
 public class ShapeListenerManager {
 
-	/*
-	 * Types of actions
-	 * 
-	 * Movement Trigger Death Created
-	 * 
-	 * Object Reactions
-	 * 
-	 * Bounce Teleport Hit other shape
-	 * 
-	 * Movement Actions
-	 * 
-	 * Move Enter Exit None
-	 */
-
 	public enum Action {
 		score, death;
 	}
@@ -121,10 +107,6 @@ public class ShapeListenerManager {
 		t.stopThread();
 	}
 
-	
-
-	public ShapeListenerManager() {}
-
 	public interface Trigger {
 		public Rectangle getPosition();
 		public Direction getDirection();
@@ -174,7 +156,6 @@ public class ShapeListenerManager {
 		public void stopThread() {
 			System.out.println("Stopping Thread");
 			running = false;
-			
 		}
 		
 		@Override
@@ -190,5 +171,4 @@ public class ShapeListenerManager {
 			}
 		}
 	}
-
 }
