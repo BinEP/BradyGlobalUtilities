@@ -1,8 +1,8 @@
-package gameState;
+package game_state;
 
 import events.ShapeListenerManager;
 
-public class BooleanManager {
+public class GameStateManager {
 
 	/**
 	 * When start screen is showing Paint checks this variable for whether or
@@ -43,7 +43,7 @@ public class BooleanManager {
 	 */
 	private static boolean singleDirection = false;
 	
-	public BooleanManager() {
+	public GameStateManager() {
 		
 	}
 
