@@ -10,6 +10,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import customListeners.BSGameListener;
+import customListeners.BSMouseListener;
 import events.GameEvent;
 import events.ShapeListenerManager;
 import gameActions.Control;
@@ -53,32 +54,42 @@ public class ListenerActivator implements KeyListener, ActionListener, MouseList
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+			m.clicked(e);
+		}
+		game.repaint();
 	}
 
 	@Override
 	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+			m.pressed(e);
+		}
+		game.repaint();
 	}
 
 	@Override
 	public void mouseReleased(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+			m.released(e);
+		}
+		game.repaint();
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+			m.enters(e);
+		}
+		game.repaint();
 	}
 
 	@Override
 	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-		
+		for (BSMouseListener m : ListenerIndex.mouseListeners) {
+			m.exits(e);
+		}
+		game.repaint();
 	}
 
 	@Override

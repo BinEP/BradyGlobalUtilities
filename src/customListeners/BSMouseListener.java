@@ -4,9 +4,9 @@ import java.awt.event.MouseEvent;
 
 public interface BSMouseListener {
 
-	public void mouseClicked(MouseEvent e);
-	public void mousePressed(MouseEvent e);
-	public void mouseReleased(MouseEvent e);
-	public void mouseEntered(MouseEvent e);
-	public void mouseExited(MouseEvent e);
+	public void clicked(MouseEvent e);
+	public void pressed(MouseEvent e);
+	public void released(MouseEvent e);
+	public void enters(MouseEvent e);
+	public void exits(MouseEvent e);
 }

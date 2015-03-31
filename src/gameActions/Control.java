@@ -537,47 +537,7 @@ public class Control extends JPanel implements Screen {
 		return false;
 	}
 
-	protected void moves() {}
-
-	@Override
-	public void mouseClicked(MouseEvent e) {
-		clicked(e);
-		repaint();
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		pressed(e);
-		repaint();
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent e) {
-		released(e);
-		repaint();
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		enters(e);
-		repaint();
-	}
-
-	@Override
-	public void mouseExited(MouseEvent e) {
-		exits(e);
-		repaint();
-	}
-
-	protected void clicked(MouseEvent e) {}
-
-	protected void pressed(MouseEvent e) {}
-
-	protected void released(MouseEvent e) {}
-
-	protected void enters(MouseEvent e) {}
-
-	protected void exits(MouseEvent e) {}
+	protected void moves() {}	
 
 	@Override
 	public void focusGained(FocusEvent e) {
