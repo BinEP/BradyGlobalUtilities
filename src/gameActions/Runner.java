@@ -95,7 +95,7 @@ public class Runner extends JFrame {
 	}
 	
 	public Runner(Control game) {
-		super(game.NAME + "!");
+		super(game.getGameName() + "!");
 
 		fullscreen = game.fullscreen;
 		

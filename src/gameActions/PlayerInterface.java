@@ -14,10 +14,6 @@ public abstract class PlayerInterface extends Control {
 
 	public PlayerInterface() {
 		super();
-		NAME = getGameName();
-		TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
-		FOLDER_PATH = getFolderPath();
-		FONT_FILE = Windows.getFONT_NAME();
 	}
 	public abstract void moves();
 	public abstract boolean checkIfDead();

@@ -25,7 +25,7 @@ public class GameTime implements ActionListener {
 	 * 
 	 * @return int
 	 */
-	public int getTime() {
+	public static int getTime() {
 		return timeSeconds;
 	}
 
@@ -47,12 +47,12 @@ public class GameTime implements ActionListener {
 	/**
 	 * resets the time passed and sets the start time to the current time
 	 */
-	public void resetTime() {
+	public static void resetTime() {
 		timeSeconds = 0;
 		actionTimer.restart();
 	}
 
-	public void pauseTime() {
+	public static void pauseTime() {
 		if (BooleanManager.isPlaying()) {
 			stopTime();
 		} else {
@@ -62,7 +62,7 @@ public class GameTime implements ActionListener {
 		BooleanManager.togglePlaying();
 	}
 
-	public void pauseTime(boolean ifOnlyPlaying) {
+	public static void pauseTime(boolean ifOnlyPlaying) {
 		if (BooleanManager.isPlaying() || BooleanManager.isPaused())
 			pauseTime();
 	}

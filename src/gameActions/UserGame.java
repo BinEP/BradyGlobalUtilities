@@ -82,22 +82,22 @@ public class UserGame extends Game {
 	 */
 	public void moves() {
 		
-		if (upPressed) {
-			deltaY = -movementVar;
-		} else if (downPressed) {
-			deltaY = movementVar;
-		} else {
-			deltaY = 0;
-		}
-		
-		if (leftPressed) {
-			deltaX = -movementVar;
-		} else if (rightPressed) {
-			deltaX = movementVar;
-		} else {
-			deltaX = 0;
-		}
-		
+//		if (upPressed) {
+//			deltaY = -movementVar;
+//		} else if (downPressed) {
+//			deltaY = movementVar;
+//		} else {
+//			deltaY = 0;
+//		}
+//		
+//		if (leftPressed) {
+//			deltaX = -movementVar;
+//		} else if (rightPressed) {
+//			deltaX = movementVar;
+//		} else {
+//			deltaX = 0;
+//		}
+//		
 		player.x += deltaX;
 		player.y += deltaY;
 

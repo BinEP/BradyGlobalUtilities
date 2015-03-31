@@ -11,13 +11,13 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import listenerControl.ListenerActivator;
 import gameState.BooleanManager;
+import gameState.DirectionExecution;
 import gameState.GameTime;
 import utilityClasses.*;
 
@@ -25,30 +25,18 @@ import utilityClasses.*;
  * @author Brady Stoffel
  */
 public class Control extends JPanel implements Screen {
-
-	protected static String NAME = "Game Name";
-	protected static String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
-	protected static String FOLDER_PATH = "InfoFiles/";
-	protected static String FONT_FILE = Windows.getFONT_NAME();
 	
+	private static final long serialVersionUID = 6238122615986771090L;
 	protected boolean showMouseCoords = false;
 	public boolean fullscreen = false;
 	
-	/**
-	 * The value for the upKey This can be changed to suit the user of player
-	 */
+	/** The value for the upKey This can be changed to suit the user of player */
 	public int upKey = KeyEvent.VK_UP;
-	/**
-	 * The value for the downKey This can be changed to suit the user of player
-	 */
+	/** The value for the downKey This can be changed to suit the user of player */
 	public int downKey = KeyEvent.VK_DOWN;
-	/**
-	 * The value for the leftKey This can be changed to suit the user of player
-	 */
+	/** The value for the leftKey This can be changed to suit the user of player */
 	public int leftKey = KeyEvent.VK_LEFT;
-	/**
-	 * The value for the rightKey This can be changed to suit the user of player
-	 */
+	/** The value for the rightKey This can be changed to suit the user of player */
 	public int rightKey = KeyEvent.VK_RIGHT;
 
 	protected int width = Windows.getWidth();
@@ -57,21 +45,18 @@ public class Control extends JPanel implements Screen {
 	protected static int WIDTH = 800;
 	protected static int HEIGHT = 480;
 
-	/**
-	 * Outside box of Windows
-	 */
+	/** Outside box of Windows */
 	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
 	
 	protected static CustomFont customFont;
 
-	protected enum Direction {
+	public enum Direction {
 		up, down, left, right;
 	}
 
 	/**
 	 * The positions that scores could be on screen to make it easier to
 	 * position the score
-	 * 
 	 * @author Brady Stoffel
 	 */
 	protected enum ScoreCoords {
@@ -100,13 +85,12 @@ public class Control extends JPanel implements Screen {
 
 		/**
 		 * Draws text at preset enum position using current font
-		 * 
 		 * @param text
 		 * @param g
 		 */
 		protected void draw(String text, Graphics2D g) {
 
-			g.setFont(CustomFont.makeCustomFont(FONT_FILE, Windows.getSCORE_SIZE()));
+			g.setFont(CustomFont.makeCustomFont(getFONT_FILE(), Windows.getSCORE_SIZE()));
 
 			FontMetrics fontInfo = g.getFontMetrics();
 			int textWidth = fontInfo.stringWidth(text);
@@ -124,55 +108,39 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
-	/**
-	 * keyMap - modify this to change key locations Gets modified when on the
+	/** keyMap - modify this to change key locations Gets modified when on the
 	 * start screen and keys are pressed Assigned in order of when pressed then
-	 * the key are mapped when the game starts
-	 */
+	 * the key are mapped when the game starts */
 	protected int[] keyMap = { KeyEvent.VK_UP, KeyEvent.VK_RIGHT,
 			KeyEvent.VK_DOWN, KeyEvent.VK_LEFT };
 
 	protected int keyIndex = 0;
 
-	/**
-	 * The value that deltaX and deltaY will change player position by
-	 */
+	/** The value that deltaX and deltaY will change player position by */
 	protected int movementVar = 10;
-	/**
-	 * How much a player moves in the x direction
-	 */
+	/** How much a player moves in the x direction */
 	protected int deltaX = movementVar;
-	/**
-	 * How much a player moves in the y direction
-	 */
+	/** How much a player moves in the y direction */
 	protected int deltaY = 0;
 	
 	protected String pName = "";
 
-	/**
-	 * player x position
-	 */
+	/** player x position */
 	protected int playerX;
-	/**
-	 * player y position
-	 */
+	/** player y position */
 	protected int playerY;
 
 	protected Timer timer;
-	protected final GameTime gameTimer = new GameTime();
 	protected int origSpeed = 60;
 	protected double speed = origSpeed;
-	/**
-	 * If you want to game to speed up as the score gets higher
-	 */
+	/** If you want to game to speed up as the score gets higher */
 	protected boolean speedUp = false;
 
 	public int score;
 	protected Character letter;
-
-	protected ArrayList<Direction> nextDirection = new ArrayList<Direction>();
 	
 	private ListenerActivator listenerActivator;
+	private DirectionExecution directionExecution;
 
 	protected Control() {
 
@@ -181,18 +149,12 @@ public class Control extends JPanel implements Screen {
 		setFocusable(true);
 		
 		listenerActivator = new ListenerActivator(this);
+		directionExecution = new DirectionExecution(this);
 
 		setup();
-		
-		NAME = getGameName();
-		TXT_FILE = (NAME != null) ? NAME.toLowerCase().replaceAll("\\s", "") : "";
-		FOLDER_PATH = getFolderPath();
-		FONT_FILE = Windows.getFONT_NAME();
-		
-		customFont = new CustomFont(FONT_FILE, Font.BOLD, 18);
+		customFont = new CustomFont(getFONT_FILE(), Font.BOLD, 18);
 
 		timer = new Timer((int) (1000 / speed), this);
-
 		timer.start();
 	}
 
@@ -205,10 +167,8 @@ public class Control extends JPanel implements Screen {
 		this.setBackground(c);
 	}
 
-	/**
-	 * can be called to set the direction keys if they have been modified and
-	 * sets the keyMap when the game starts
-	 */
+	/** Can be called to set the direction keys if they have been modified and
+	 * sets the keyMap when the game starts */
 	protected final void setKeys() {
 		upKey = keyMap[0];
 		rightKey = keyMap[1];
@@ -216,12 +176,10 @@ public class Control extends JPanel implements Screen {
 		leftKey = keyMap[3];
 	}
 
-	/**
-	 * This paintComponent checks which state the game is in using the
+	/** This paintComponent checks which state the game is in using the
 	 * BooleanManager.isStartGame(), BooleanManager.endGame(), etc. to know what to paint. Attempts to call methods
 	 * in the UserGame class, which override methods in this class so that is
-	 * the user has not defined a custom method, a default one is drawn
-	 */
+	 * the user has not defined a custom method, a default one is drawn */
 	protected final void paintComponent(Graphics g) {
 
 		super.paintComponent(g);
@@ -249,7 +207,7 @@ public class Control extends JPanel implements Screen {
 			ScoreInfo.enterName(g2, getScore(), pName);
 
 		} else if (BooleanManager.isHighScores()) {
-			ScoreInfo.drawScores(g2, TXT_FILE, FOLDER_PATH);
+			ScoreInfo.drawScores(g2, getTXT_FILE(), getFOLDER_PATH());
 		}
 	}
 
@@ -270,50 +228,35 @@ public class Control extends JPanel implements Screen {
 
 	protected void draw(Graphics2D g) {}
 
-	/**
-	 * Draws the start screen. gets game name from Windows class
-	 * 
-	 * @param g
-	 */
+	/** Draws the start screen. gets game name from Windows class */
 	protected void drawStart(Graphics2D g) {
 
 		g.setFont(customFont.getFont(Windows.getTITLE_SIZE()));
-
-		CenteredText.draw(NAME, Windows.getTITLE_Y(), g);
+		CenteredText.draw(getGameName(), Windows.getTITLE_Y(), g);
+		
 		g.setFont(customFont.getFont(Windows.getENTER_TO_START_SIZE()));
-
 		CenteredText.draw("Press Enter to", Windows.getENTER_Y(), g);
 		CenteredText.draw("Start", Windows.getSTART_Y(), g);
 
 		g.setFont(customFont.getFont(12));
-
 		CenteredText.draw("Press keys Up, Right, Down, Left to map new keys",
 				30, g);
 	}
 
-	/**
-	 * Draws the screen when BooleanManager.isPlaying()
-	 * @param g
-	 */
+	/** Draws the screen when BooleanManager.isPlaying() */
 	protected void drawPlaying(Graphics2D g) {
 		g.setColor(Color.CYAN);
 		g.fillRect(20, 30, playerX, playerY);
 	}
 
-	/**
-	 * Draws the word "Paused" in the middle of the screen
-	 * @param g
-	 */
+	/** Draws the word "Paused" in the middle of the screen */
 	protected void drawPaused(Graphics2D g) {
 		g.setFont(customFont.getFont(Windows.getPAUSE_SIZE()));
 		g.setColor(Color.WHITE);
 		CenteredText.draw("Paused", Windows.getPAUSE_Y(), g);
 	}
 
-	/**
-	 * Draws the end game screen
-	 * @param g
-	 */
+	/** Draws the end game screen */
 	protected void drawEnd(Graphics2D g) {
 
 		g.setColor(Color.WHITE);
@@ -342,10 +285,9 @@ public class Control extends JPanel implements Screen {
 
 	protected void drawBorder(Graphics2D g, Color c, int width) {
 		g.setColor(c);
-		Graphics2D g2 = (Graphics2D) g;
-		g2.setStroke(new BasicStroke(width));
-		g2.drawRect(outerbox.x, outerbox.y, outerbox.width, outerbox.height);
-		g2.setStroke(new BasicStroke(2));
+		g.setStroke(new BasicStroke(width));
+		g.drawRect(outerbox.x, outerbox.y, outerbox.width, outerbox.height);
+		g.setStroke(new BasicStroke(2));
 	}
 
 	protected void setup() {}
@@ -353,11 +295,15 @@ public class Control extends JPanel implements Screen {
 	protected void reset() {}
 
 	protected int getTime() {
-		return gameTimer.getTime();
+		return GameTime.getTime();
+	}
+	
+	public ListenerActivator getListenerActivator() {
+		return listenerActivator;
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {}
+ 	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -372,7 +318,7 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == upKey) {
 
 			if (BooleanManager.isSingleDirection()) {
-				addDirection(Direction.up);
+				directionExecution.addDirection(Direction.up);
 			} else {
 				listenerActivator.up();
 			}
@@ -380,7 +326,7 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == downKey) {
 
 			if (BooleanManager.isSingleDirection()) {
-				addDirection(Direction.down);
+				directionExecution.addDirection(Direction.down);
 			} else {
 				listenerActivator.down();
 			}
@@ -388,7 +334,7 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == leftKey) {
 
 			if (BooleanManager.isSingleDirection()) {
-				addDirection(Direction.left);
+				directionExecution.addDirection(Direction.left);
 			} else {
 				listenerActivator.left();
 			}
@@ -396,7 +342,7 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == rightKey) {
 
 			if (BooleanManager.isSingleDirection()) {
-				addDirection(Direction.right);
+				directionExecution.addDirection(Direction.right);
 			} else {
 				listenerActivator.right();
 			}
@@ -405,7 +351,7 @@ public class Control extends JPanel implements Screen {
 
 			if (BooleanManager.isStartGame()) {
 				setKeys();
-				gameTimer.resetTime();
+				GameTime.resetTime();
 				setup();
 				BooleanManager.toPlayingBooleans();
 
@@ -413,7 +359,7 @@ public class Control extends JPanel implements Screen {
 				
 				speed = origSpeed;
 				reset();
-				gameTimer.resetTime();
+				GameTime.resetTime();
 				BooleanManager.resetBooleans();
 				pName = "";
 				speed = 10;
@@ -421,7 +367,7 @@ public class Control extends JPanel implements Screen {
 
 			} else if (BooleanManager.isNameEnter()) {
 				BooleanManager.toHighscoreBooleans();
-				ScoreInfo.setScores(getScore(), pName, TXT_FILE, FOLDER_PATH);
+				ScoreInfo.setScores(getScore(), pName, getTXT_FILE(), getFOLDER_PATH());
 			} else if (BooleanManager.isHighScores()) {
 				BooleanManager.toEndGameBooleans();
 			} else {
@@ -429,23 +375,19 @@ public class Control extends JPanel implements Screen {
 			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && (BooleanManager.isPlaying() || BooleanManager.isPaused())) {
-			gameTimer.pauseTime();
-			
+			GameTime.pauseTime();
 			repaint();
 
 		} else if (e.getKeyLocation() == KeyEvent.KEY_LOCATION_STANDARD
-
-		&& BooleanManager.isNameEnter()) {
-
-			if (pName.length() < 10) addLetterToName(e);
+				&& BooleanManager.isNameEnter()) {
 			
+			if (pName.length() < 10) 
+				addLetterToName(e);
 		}
-		customPressed(e);
 	}
 
 	protected void addLetterToName(KeyEvent e) {
-		letter = e.getKeyChar();
-		letter = Character.toUpperCase(letter);
+		letter = Character.toUpperCase(e.getKeyChar());
 		pName = pName.concat(letter.toString());
 	}
 
@@ -464,23 +406,20 @@ public class Control extends JPanel implements Screen {
 		} else if (e.getKeyCode() == rightKey) {
 			listenerActivator.rightReleased();
 		}
-
-		customReleased(e);
 	}
+	
 
-	/**
-	 * Gets called when timer activates an action, and the timer fires very
+	/** Gets called when timer activates an action, and the timer fires very
 	 * quickly. Calls the moves method in the UserGame class if the BooleanManager.isPlaying()
-	 * variable is true
-	 */
+	 * variable is true */
 	@Override
 	public final void actionPerformed(ActionEvent e) {
-
+		
 		alwaysExecute();
-
 		if (BooleanManager.isPlaying()) {
-
-			if (nextDirection.size() > 0 && BooleanManager.isSingleDirection()) executeDirection();
+			
+			if (directionExecution.getNextDirection().size() > 0 && BooleanManager.isSingleDirection()) 
+				directionExecution.executeDirection();
 
 			moves();
 
@@ -489,34 +428,28 @@ public class Control extends JPanel implements Screen {
 
 			if (checkIfDeadSuper()) {
 				BooleanManager.toNameEnter();
-				gameTimer.stopTime();
+				GameTime.stopTime();
 			}
 		}
 		repaint();
 	}
+	
 
 	private final boolean checkIfDeadSuper() {
 		return checkifDead() || BooleanManager.isDead();
 	}
 	
+	
 	protected boolean checkifDead() {
 		return false;
 	}
+	
 
 	protected void moves() {}	
 
 
-	
 
-	protected void customPressed(KeyEvent e) {}
-
-	protected void customReleased(KeyEvent e) {}
-
-	/**
-	 * Sets the graphics font at the given size
-	 * @param g
-	 * @param size
-	 */
+	/** Sets the graphics font at the given size */
 	protected Font getFont(int size) {
 		return customFont.getFont(size);
 	}
@@ -525,83 +458,39 @@ public class Control extends JPanel implements Screen {
 		customFont = new CustomFont(name, Font.BOLD, 18);
 	}
 
-	/**
-	 * Adds the direction to a list of directions to be executed.
-	 * @param d
-	 */
-	protected void addDirection(Direction d) {
-
-		if (BooleanManager.isSingleDirection()) {
-			if (nextDirection.size() < 2)
-				nextDirection.add(d);
-		}
-	}
-
-	/**
-	 * Executes the direction passed into the method
-	 */
-	protected void executeDirection() {
-
-		Direction d = nextDirection.get(0);
-		nextDirection.remove(0);
-
-		switch (d) {
-
-		case up:
-			listenerActivator.up();
-			break;
-			
-		case down:
-			listenerActivator.down();
-			break;
-
-		case left:
-			listenerActivator.left();
-			break;
-
-		case right:
-			listenerActivator.right();
-		}
-	}
-
-	protected Direction getDirection(int keyCode) {
-
-		if (keyCode == upKey) {
-			return Direction.up;
-
-		} else if (keyCode == downKey) {
-			return Direction.down;
-
-		} else if (keyCode == leftKey) {
-			return Direction.left;
-
-		} else {
-			return Direction.right;
-		}
-	}
+	
 
 	protected void alwaysExecute() {}
 
 	protected String getGameName() {
 		return null;
 	}
+	
 
 	protected String getFolderPath() {
 		return "InfoFiles/";
 	}
 	
+	
 	protected int getScore() {
 		return score;
 	}
-	/**
-	 * Sets a custom size of the Window and scaling behavior. Default 800x480
-	 * @param
-	 * w
-	 * h
-	 */
+	
+	/** Sets a custom size of the Window and scaling behavior. Default 800x480 */
 	protected void setWindowSize(int w, int h) {
 		WIDTH = w;
 		HEIGHT = h;
 	}
 
+	public String getTXT_FILE() {
+		return (getGameName() != null) ? getGameName().toLowerCase().replaceAll("\\s", "") : "";
+	}
+
+	public static String getFOLDER_PATH() {
+		return "InfoFiles/";
+	}
+
+	public static String getFONT_FILE() {
+		return Windows.getFONT_NAME();
+	}
 }
