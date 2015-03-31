@@ -1,6 +1,5 @@
 package events;
 
-import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -8,9 +7,6 @@ import java.util.List;
 
 import events.ListenerManager.Movement.Direction;
 import events.listeners.GameListener;
-import events.listeners.ReactionListener;
-import events.listeners.StateListener;
-import events.sender.ActionSender;
 
 public class ListenerManager {
 
@@ -32,14 +28,6 @@ public class ListenerManager {
 		score, death;
 	}
 
-	// public enum State {
-	// death, creation;
-	// }
-
-	// public enum Reaction {
-	// bounce, teleport;//, overlap;
-	// }
-
 	public enum Movement {
 		enter, exit, intersect, none;
 
@@ -47,30 +35,6 @@ public class ListenerManager {
 			right, left, up, down, any, none;
 		}
 	}
-
-	// public List<ActionSender> onDeathSenders = new ArrayList<ActionSender>();
-	// public List<ActionSender> onCreateSenders = new
-	// ArrayList<ActionSender>();
-	//
-	// public List<StateListener> stateListeners = new
-	// ArrayList<StateListener>();
-	//
-	//
-	// public List<ActionSender> onBounceSenders = new
-	// ArrayList<ActionSender>();
-	// public List<ActionSender> onTeleportSenders = new
-	// ArrayList<ActionSender>();
-	//
-	// public List<ReactionListener> reactionListeners = new
-	// ArrayList<ReactionListener>();
-	//
-	//
-	// public List<ActionSender> movementSenders = new
-	// ArrayList<ActionSender>();
-	//
-	// public List<ReactionListener> movementListeners = new
-	// ArrayList<ReactionListener>();
-	//
 
 	private static ListenerManager lm = new ListenerManager();
 	public static List<TriggerInfo> triggers = new ArrayList<TriggerInfo>();
@@ -124,7 +88,6 @@ public class ListenerManager {
 
 	public static void sendEvent(TriggerInfo ti) {
 
-//		if (ti.changed) {
 		GameEvent g = new GameEvent(ti.action, ti.movement, ti.direction,
 				ti.rectangle, ti.message);
 		switch (ti.action) {
@@ -136,7 +99,6 @@ public class ListenerManager {
 			sendDeath(g);
 			break;
 		}
-//		}
 	}
 
 	public static void sendScore(GameEvent e) {
@@ -176,7 +138,6 @@ public class ListenerManager {
 		public Rectangle rectangle;
 		public String message;
 		public Trigger trigger;
-		public boolean changed = true;
 
 		public TriggerInfo(Action a, Movement m, Direction d, Rectangle r,
 				String message, Trigger t) {
