@@ -1,4 +1,4 @@
-package gameState;
+package game_state;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,17 +53,17 @@ public class GameTime implements ActionListener {
 	}
 
 	public static void pauseTime() {
-		if (BooleanManager.isPlaying()) {
+		if (GameStateManager.isPlaying()) {
 			stopTime();
 		} else {
 			startTime();
 		}
 
-		BooleanManager.togglePlaying();
+		GameStateManager.togglePlaying();
 	}
 
 	public static void pauseTime(boolean ifOnlyPlaying) {
-		if (BooleanManager.isPlaying() || BooleanManager.isPaused())
+		if (GameStateManager.isPlaying() || GameStateManager.isPaused())
 			pauseTime();
 	}
 

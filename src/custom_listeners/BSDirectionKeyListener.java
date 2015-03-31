@@ -1,4 +1,4 @@
-package customListeners;
+package custom_listeners;
 
 public interface BSDirectionKeyListener {
 

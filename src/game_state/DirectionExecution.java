@@ -1,8 +1,8 @@
-package gameState;
+package game_state;
 
 import java.util.ArrayList;
 
-import listenerControl.ListenerActivator;
+import listener_control.ListenerActivator;
 import gameActions.Control;
 import gameActions.Control.Direction;
 
@@ -23,7 +23,7 @@ public class DirectionExecution {
 	 */
 	public void addDirection(Direction d) {
 
-		if (BooleanManager.isSingleDirection()) {
+		if (GameStateManager.isSingleDirection()) {
 			if (nextDirection.size() < 2)
 				nextDirection.add(d);
 		}

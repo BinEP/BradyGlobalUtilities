@@ -15,12 +15,12 @@ import java.awt.event.KeyEvent;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import listenerControl.ListenerActivator;
-import listenerControl.ListenerIndex;
-import gameState.BooleanManager;
-import gameState.DirectionExecution;
-import gameState.GameTime;
-import utilityClasses.*;
+import listener_control.ListenerActivator;
+import listener_control.ListenerIndex;
+import game_state.DirectionExecution;
+import game_state.GameStateManager;
+import game_state.GameTime;
+import utility_classes.*;
 
 /**
  * @author Brady Stoffel
@@ -45,8 +45,8 @@ public class Control extends JPanel implements Screen {
 	protected int width = Windows.getWidth();
 	protected int height = Windows.getHeight();
 
-	protected static int WIDTH = 800;
-	protected static int HEIGHT = 480;
+	public static int WIDTH = 800;
+	public static int HEIGHT = 480;
 
 	/** Outside box of Windows */
 	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
@@ -208,25 +208,25 @@ public class Control extends JPanel implements Screen {
 		g.setColor(Color.WHITE);
 		draw(g2);
 
-		if (BooleanManager.isStartGame()) {
+		if (GameStateManager.isStartGame()) {
 			drawStart(g2);
 
-		} else if (BooleanManager.isPlaying() || BooleanManager.isPaused()) {
+		} else if (GameStateManager.isPlaying() || GameStateManager.isPaused()) {
 
 			drawPlaying(g2);
 
 			showMouseCoords(g);
-			if (BooleanManager.isPaused()) {
+			if (GameStateManager.isPaused()) {
 				drawPaused(g2);
 			}
-		} else if (BooleanManager.isEndGame()) {
+		} else if (GameStateManager.isEndGame()) {
 			drawEnd(g2);
 
-		} else if (BooleanManager.isNameEnter()) {
+		} else if (GameStateManager.isNameEnter()) {
 			ScoreInfo.enterName(g2, getScore(), pName);
 
-		} else if (BooleanManager.isHighScores()) {
-			ScoreInfo.drawScores(g2, getTXT_FILE(), getFOLDER_PATH());
+		} else if (GameStateManager.isHighScores()) {
+			ScoreInfo.drawScores(g2);
 		}
 	}
 
@@ -332,53 +332,52 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public void keyPressed(KeyEvent e) {
 
-		if (BooleanManager.isStartGame() && e.getKeyCode() != KeyEvent.VK_ENTER) {
+		if (GameStateManager.isStartGame() && e.getKeyCode() != KeyEvent.VK_ENTER) {
 
 			keyMap[keyIndex] = e.getKeyCode();
 			keyIndex++;
 			if (keyIndex > 3)
 				keyIndex = 0;
 
-		} else if (BooleanManager.isSingleDirection()
+		} else if (GameStateManager.isSingleDirection()
 				&& (directionExecution.getDirection(e.getKeyCode()) != Direction.none)) {
 			directionExecution.addDirection(directionExecution.getDirection(e.getKeyCode()));
 
 		} else if (e.getKeyCode() == KeyEvent.VK_ENTER
-				&& !(BooleanManager.isPaused() || BooleanManager.isPlaying())) {
+				&& !(GameStateManager.isPaused() || GameStateManager.isPlaying())) {
 
-			if (BooleanManager.isStartGame()) {
+			if (GameStateManager.isStartGame()) {
 				setKeys();
 				GameTime.resetTime();
 				setup();
-				BooleanManager.toPlayingBooleans();
+				GameStateManager.toPlayingBooleans();
 
-			} else if (BooleanManager.isEndGame()) {
+			} else if (GameStateManager.isEndGame()) {
 
 				speed = origSpeed;
 				reset();
 				GameTime.resetTime();
-				BooleanManager.resetBooleans();
+				GameStateManager.resetBooleans();
 				pName = "";
 				speed = 10;
 				score = 0;
 
-			} else if (BooleanManager.isNameEnter()) {
-				BooleanManager.toHighscoreBooleans();
-				ScoreInfo.setScores(getScore(), pName, getTXT_FILE(),
-						getFOLDER_PATH());
-			} else if (BooleanManager.isHighScores()) {
-				BooleanManager.toEndGameBooleans();
+			} else if (GameStateManager.isNameEnter()) {
+				GameStateManager.toHighscoreBooleans();
+				ScoreInfo.setScores(getScore(), pName);
+			} else if (GameStateManager.isHighScores()) {
+				GameStateManager.toEndGameBooleans();
 			} else {
-				BooleanManager.toPlayingBooleans();
+				GameStateManager.toPlayingBooleans();
 			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE
-				&& (BooleanManager.isPlaying() || BooleanManager.isPaused())) {
+				&& (GameStateManager.isPlaying() || GameStateManager.isPaused())) {
 			GameTime.pauseTime();
 			repaint();
 
 		} else if (e.getKeyLocation() == KeyEvent.KEY_LOCATION_STANDARD
-				&& BooleanManager.isNameEnter()) {
+				&& GameStateManager.isNameEnter()) {
 
 			if (pName.length() < 10)
 				addLetterToName(e);
@@ -402,11 +401,11 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public final void actionPerformed(ActionEvent e) {
 
-		alwaysExecute();
-		if (BooleanManager.isPlaying()) {
+		executeEveryTick();
+		if (GameStateManager.isPlaying()) {
 
 			if (directionExecution.getNextDirection().size() > 0
-					&& BooleanManager.isSingleDirection())
+					&& GameStateManager.isSingleDirection())
 				directionExecution.executeDirection();
 
 			moves();
@@ -415,15 +414,17 @@ public class Control extends JPanel implements Screen {
 				timer.setDelay(1000 / (int) (speed + getScore() / 2));
 
 			if (checkIfDeadSuper()) {
-				BooleanManager.toNameEnter();
+				GameStateManager.toNameEnter();
 				GameTime.stopTime();
 			}
 		}
 		repaint();
 	}
 
+	protected void executeEveryTick() {}
+
 	private final boolean checkIfDeadSuper() {
-		return checkifDead() || BooleanManager.isDead();
+		return checkifDead() || GameStateManager.isDead();
 	}
 
 	protected boolean checkifDead() {
@@ -440,9 +441,6 @@ public class Control extends JPanel implements Screen {
 
 	protected void setNewFont(String name) {
 		customFont = new CustomFont(name, Font.BOLD, 18);
-	}
-
-	protected void alwaysExecute() {
 	}
 
 	protected String getGameName() {
@@ -463,14 +461,10 @@ public class Control extends JPanel implements Screen {
 		HEIGHT = h;
 	}
 
-	public String getTXT_FILE() {
-		return (getGameName() != null) ? getGameName().toLowerCase()
-				.replaceAll("\\s", "") : "";
-	}
-
-	public static String getFOLDER_PATH() {
-		return "InfoFiles/";
-	}
+//	public String getTXT_FILE() {
+//		return (getGameName() != null) ? getGameName().toLowerCase()
+//				.replaceAll("\\s", "") : "";
+//	}
 
 	public static String getFONT_FILE() {
 		return Windows.getFONT_NAME();

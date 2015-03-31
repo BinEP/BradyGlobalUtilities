@@ -1,4 +1,4 @@
-package utilityClasses;
+package utility_classes;
 
 import java.awt.FontMetrics;
 import java.awt.Graphics;

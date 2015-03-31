@@ -2,7 +2,7 @@ package gameActions;
 
 import java.awt.Graphics2D;
 
-import utilityClasses.Windows;
+import utility_classes.Windows;
 /**
  * Methods that UserGame needs to have, the draw methods are in control, so only need of you want a custom
  * screen

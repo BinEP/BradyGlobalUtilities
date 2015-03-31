@@ -1,4 +1,4 @@
-package gameState;
+package game_state;
 
 public class CustomDrawing {
 

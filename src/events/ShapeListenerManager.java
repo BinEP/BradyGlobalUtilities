@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import customListeners.BSGameListener;
+import custom_listeners.BSGameListener;
 import events.ShapeListenerManager.Movement.Direction;
 
 public class ShapeListenerManager {

@@ -1,14 +1,14 @@
-package listenerControl;
+package listener_control;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import customListeners.BSActionListener;
-import customListeners.BSDirectionKeyListener;
-import customListeners.BSFocusListener;
-import customListeners.BSKeyListener;
-import customListeners.BSMouseListener;
-import customListeners.BSGameListener;
+import custom_listeners.BSActionListener;
+import custom_listeners.BSDirectionKeyListener;
+import custom_listeners.BSFocusListener;
+import custom_listeners.BSGameListener;
+import custom_listeners.BSKeyListener;
+import custom_listeners.BSMouseListener;
 
 public class ListenerIndex {
 

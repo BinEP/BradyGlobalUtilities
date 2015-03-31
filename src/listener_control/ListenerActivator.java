@@ -1,4 +1,4 @@
-package listenerControl;
+package listener_control;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,16 +9,17 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import customListeners.BSDirectionKeyListener;
-import customListeners.BSFocusListener;
-import customListeners.BSGameListener;
-import customListeners.BSKeyListener;
-import customListeners.BSMouseListener;
+import custom_listeners.BSActionListener;
+import custom_listeners.BSDirectionKeyListener;
+import custom_listeners.BSFocusListener;
+import custom_listeners.BSGameListener;
+import custom_listeners.BSKeyListener;
+import custom_listeners.BSMouseListener;
 import events.GameEvent;
 import events.ShapeListenerManager;
 import gameActions.Control;
-import gameState.BooleanManager;
-import gameState.GameTime;
+import game_state.GameStateManager;
+import game_state.GameTime;
 
 public class ListenerActivator implements KeyListener, ActionListener,
 		MouseListener, FocusListener, BSGameListener {
@@ -50,9 +51,9 @@ public class ListenerActivator implements KeyListener, ActionListener,
 	@Override
 	public void focusGained(FocusEvent e) {
 
-		if (BooleanManager.isResumeOnFocus() && BooleanManager.ifPlaying()) {
+		if (GameStateManager.isResumeOnFocus() && GameStateManager.ifPlaying()) {
 			GameTime.startTime();
-			BooleanManager.resume();
+			GameStateManager.resume();
 		}
 
 		for (BSFocusListener f : ListenerIndex.focusListeners)
@@ -63,9 +64,9 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		if (BooleanManager.ifPlaying()) {
+		if (GameStateManager.ifPlaying()) {
 			GameTime.stopTime();
-			BooleanManager.pause();
+			GameStateManager.pause();
 		}
 
 		for (BSFocusListener f : ListenerIndex.focusListeners)
@@ -116,8 +117,9 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		for (BSActionListener a : ListenerIndex.actionListeners) {
+			a.actionPerformed(e);
+		}
 	}
 
 	@Override

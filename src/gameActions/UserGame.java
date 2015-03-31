@@ -11,7 +11,7 @@ import events.ShapeListenerManager;
 import events.ShapeListenerManager.Action;
 import events.ShapeListenerManager.Movement;
 import shapes.BSRectangle;
-import utilityClasses.*;
+import utility_classes.*;
 
 public class UserGame extends Game {
 
