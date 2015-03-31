@@ -2,9 +2,9 @@ package events;
 
 import java.awt.Rectangle;
 
-import events.ListenerManager.Action;
-import events.ListenerManager.Movement;
-import events.ListenerManager.Movement.Direction;
+import events.ShapeListenerManager.Action;
+import events.ShapeListenerManager.Movement;
+import events.ShapeListenerManager.Movement.Direction;
 
 public class GameEvent {
 

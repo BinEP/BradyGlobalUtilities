@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import events.ListenerManager.Movement.Direction;
-import events.listeners.GameListener;
+import customListeners.BSGameListener;
+import events.ShapeListenerManager.Movement.Direction;
 
-public class ListenerManager {
+public class ShapeListenerManager {
 
 	/*
 	 * Types of actions
@@ -36,9 +36,9 @@ public class ListenerManager {
 		}
 	}
 
-	private static ListenerManager lm = new ListenerManager();
+	private static ShapeListenerManager lm = new ShapeListenerManager();
 	public static List<TriggerInfo> triggers = new ArrayList<TriggerInfo>();
-	public static List<GameListener> listeners = new ArrayList<GameListener>();
+	public static List<BSGameListener> listeners = new ArrayList<BSGameListener>();
 
 	private static ListenerThread t = new ListenerThread();
 	
@@ -62,11 +62,11 @@ public class ListenerManager {
 		}
 	}
 
-	public static void addListener(GameListener g) {
+	public static void addListener(BSGameListener g) {
 		listeners.add(g);
 	}
 
-	public static void removeListener(GameListener g) {
+	public static void removeListener(BSGameListener g) {
 		listeners.remove(g);
 	}
 
@@ -102,13 +102,13 @@ public class ListenerManager {
 	}
 
 	public static void sendScore(GameEvent e) {
-		for (GameListener l : listeners) {
+		for (BSGameListener l : listeners) {
 			l.scored(e);
 		}
 	}
 
 	public static void sendDeath(GameEvent e) {
-		for (GameListener l : listeners) {
+		for (BSGameListener l : listeners) {
 			l.death(e);
 		}
 	}
@@ -123,7 +123,7 @@ public class ListenerManager {
 
 	
 
-	public ListenerManager() {}
+	public ShapeListenerManager() {}
 
 	public interface Trigger {
 		public Rectangle getPosition();

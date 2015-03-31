@@ -1,8 +1,8 @@
-package events.listeners;
+package customListeners;
 
 import events.GameEvent;
 
-public interface GameListener {
+public interface BSGameListener {
 	
 	public void scored(GameEvent g);
 	public void death(GameEvent g);

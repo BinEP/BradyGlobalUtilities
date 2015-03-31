@@ -2,8 +2,8 @@ package shapes;
 
 import java.awt.Shape;
 
-import events.ListenerManager.Movement.Direction;
-import events.ListenerManager.Trigger;
+import events.ShapeListenerManager.Movement.Direction;
+import events.ShapeListenerManager.Trigger;
 
 public interface BSShape extends Shape, Trigger {
 	

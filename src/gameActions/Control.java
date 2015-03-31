@@ -20,8 +20,11 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import listenerControl.ListenerActivator;
 import events.GameEvent;
-import events.ListenerManager;
+import events.ShapeListenerManager;
+import gameState.BooleanManager;
+import gameState.GameTime;
 import utilityClasses.*;
 
 /**
@@ -37,40 +40,8 @@ public class Control extends JPanel implements Screen {
 	protected static boolean fullscreen = false;
 	protected static boolean scaleRatio = false;
 	
-	/**
-	 * When start screen is showing Paint checks this variable for whether or
-	 * not draw the start screen
-	 */
-	protected boolean startGame = true;
-	/**
-	 * When game is being played Paint checks this variable for whether or not
-	 * draw playing field
-	 */
-	protected boolean playing = false;
-	/**
-	 * When game is paused Paint checks this variable for whether or not draw
-	 * the pause screen
-	 */
-	protected boolean paused = false;
-	/**
-	 * When end screen is showing Paint checks this variable for whether or not
-	 * draw the game over screen
-	 */
-	protected boolean endGame = false;
-	/**
-	 * When entering name screen is showing Paint checks this variable for
-	 * whether or not draw the enter name screen
-	 */
-	protected boolean nameEnter = false;
-	/**
-	 * When high scores are listed on screen Paint checks this variable for
-	 * whether or not draw the high score screen
-	 */
-	protected boolean highScores = false;
-
 	protected boolean showMouseCoords = false;
 	protected boolean resumeOnFocusGain = false;
-	private boolean dead = false;
 
 	/**
 	 * The value for the upKey This can be changed to suit the user of player
@@ -206,8 +177,7 @@ public class Control extends JPanel implements Screen {
 	 */
 	protected int playerY;
 
-	protected final Timer timer;
-	protected final Timer actionTimer;
+	protected Timer timer;
 	protected final GameTime gameTimer = new GameTime();
 	protected int origSpeed = 60;
 	protected double speed = origSpeed;
@@ -218,22 +188,24 @@ public class Control extends JPanel implements Screen {
 
 	protected int score;
 	protected Character letter;
-	
-	protected AffineTransform trans = new AffineTransform();
-		
+			
 	protected double startTime;
 	protected double totalTime = 0;
 
 	protected ArrayList<Direction> nextDirection = new ArrayList<Direction>();
+	
+	private ListenerActivator listenerActivator;
 
 	protected Control() {
 
 		FileDependencies.checkFolder("InfoFiles");
 		setBackground(Color.BLACK);
 		setFocusable(true);
-		addListeners();
+		
+		listenerActivator = new ListenerActivator(this);
+
 		setup();
-//		ListenerManager.startThread();
+		
 		NAME = getGameName();
 		TXT_FILE = (NAME != null) ? NAME.toLowerCase().replaceAll("\\s", "") : "";
 		FOLDER_PATH = getFolderPath();
@@ -242,16 +214,8 @@ public class Control extends JPanel implements Screen {
 		customFont = new CustomFont(FONT_FILE, Font.BOLD, 18);
 
 		timer = new Timer((int) (1000 / speed), this);
-		actionTimer = new Timer((int) (1000 / speed), gameTimer);
 
 		timer.start();
-	}
-	
-	protected void addListeners() {
-		addKeyListener(this);
-		addMouseListener(this);
-		addFocusListener(this);
-		ListenerManager.addListener(this);
 	}
 
 	protected void setSpeed(int speed) {
@@ -276,7 +240,7 @@ public class Control extends JPanel implements Screen {
 
 	/**
 	 * This paintComponent checks which state the game is in using the
-	 * startGame, endGame, etc. to know what to paint. Attempts to call methods
+	 * BooleanManager.isStartGame(), BooleanManager.endGame(), etc. to know what to paint. Attempts to call methods
 	 * in the UserGame class, which override methods in this class so that is
 	 * the user has not defined a custom method, a default one is drawn
 	 */
@@ -289,24 +253,24 @@ public class Control extends JPanel implements Screen {
 		g.setColor(Color.WHITE);
 		draw(g2);
 
-		if (startGame) {
+		if (BooleanManager.isStartGame()) {
 			drawStart(g2);
 
-		} else if (playing || paused) {
+		} else if (BooleanManager.isPlaying() || BooleanManager.isPaused()) {
 
 			drawPlaying(g2);
 
 			showMouseCoords(g);
-			if (paused) {
+			if (BooleanManager.isPaused()) {
 				drawPaused(g2);
 			}
-		} else if (endGame) {
+		} else if (BooleanManager.isEndGame()) {
 			drawEnd(g2);
 			
-		} else if (nameEnter) {
+		} else if (BooleanManager.isNameEnter()) {
 			ScoreInfo.enterName(g2, getScore(), pName);
 
-		} else if (highScores) {
+		} else if (BooleanManager.isHighScores()) {
 			ScoreInfo.drawScores(g2, TXT_FILE, FOLDER_PATH);
 		}
 	}
@@ -358,7 +322,7 @@ public class Control extends JPanel implements Screen {
 	}
 
 	/**
-	 * Draws the screen when playing
+	 * Draws the screen when BooleanManager.isPlaying()
 	 * @param g
 	 */
 	protected void drawPlaying(Graphics2D g) {
@@ -418,54 +382,12 @@ public class Control extends JPanel implements Screen {
 
 	protected void reset() {}
 
-	/**
-	 * Starts the timer that can be displayed on screen. Use getTime() to get
-	 * the number seconds that have passed
-	 */
-	protected final void startTime() {
-		actionTimer.start();
-	}
-
-	/**
-	 * Pauses the timer
-	 */
-	protected final void stopTime() {
-		actionTimer.stop();
-	}
-
-	/**
-	 * Gets the number of seconds that have passed since the timer was started
-	 * @return int
-	 */
-	protected final int getTime() {
+	protected int getTime() {
 		return gameTimer.getTime();
-	}
-
-	/**
-	 * resets the time passed and sets the start time to the current time
-	 */
-	protected final void resetTime() {
-		gameTimer.resetTime();
-		actionTimer.restart();
-	}
-	
-	protected void pauseTime() {
-		if (playing) {
-			stopTime();
-		} else {
-			startTime();
-		}
-		
-		playing = !playing;
-		paused = !paused;
-	}
-	
-	protected void pauseTime(boolean ifOnlyPlaying) {
-		if (playing || paused) pauseTime();
 	}
 	
 	protected boolean ifPlaying() {
-		return playing || paused;
+		return BooleanManager.isPlaying() || BooleanManager.isPaused();
 	}
 
 	@Override
@@ -474,7 +396,7 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		
-		if (startGame && e.getKeyCode() != KeyEvent.VK_ENTER) {
+		if (BooleanManager.isStartGame() && e.getKeyCode() != KeyEvent.VK_ENTER) {
 
 			keyMap[keyIndex] = e.getKeyCode();
 			keyIndex++;
@@ -513,41 +435,41 @@ public class Control extends JPanel implements Screen {
 				right();
 			}
 
-		} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !(paused || playing)) {
+		} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !(BooleanManager.isPaused() || BooleanManager.isPlaying())) {
 
-			if (startGame) {
+			if (BooleanManager.isStartGame()) {
 				setKeys();
-				resetTime();
+				gameTimer.resetTime();
 				setup();
-				toPlayingBooleans();
+				BooleanManager.toPlayingBooleans();
 
-			} else if (endGame) {
+			} else if (BooleanManager.isEndGame()) {
 				
 				speed = origSpeed;
 				reset();
-				resetTime();
-				resetBooleans();
+				gameTimer.resetTime();
+				BooleanManager.resetBooleans();
 				pName = "";
 				speed = 10;
 				score = 0;
 
-			} else if (nameEnter) {
-				toHighscoreBooleans();
+			} else if (BooleanManager.isNameEnter()) {
+				BooleanManager.toHighscoreBooleans();
 				ScoreInfo.setScores(getScore(), pName, TXT_FILE, FOLDER_PATH);
-			} else if (highScores) {
-				toEndGameBooleans();
+			} else if (BooleanManager.isHighScores()) {
+				BooleanManager.toEndGameBooleans();
 			} else {
-				toPlayingBooleans();
+				BooleanManager.toPlayingBooleans();
 			}
 
-		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && (playing || paused)) {
-			pauseTime();
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE && (BooleanManager.isPlaying() || BooleanManager.isPaused())) {
+			gameTimer.pauseTime();
 			
 			repaint();
 
 		} else if (e.getKeyLocation() == KeyEvent.KEY_LOCATION_STANDARD
 
-		&& nameEnter) {
+		&& BooleanManager.isNameEnter()) {
 
 			if (pName.length() < 10) addLetterToName(e);
 			
@@ -559,38 +481,6 @@ public class Control extends JPanel implements Screen {
 		letter = e.getKeyChar();
 		letter = Character.toUpperCase(letter);
 		pName = pName.concat(letter.toString());
-	}
-
-	protected void toPlayingBooleans() {
-		dead = false;
-		startGame = false;
-		playing = true;
-		ListenerManager.startThread();
-	}
-
-	protected void toEndGameBooleans() {
-		highScores = false;
-		endGame = true;
-		
-	}
-
-	protected void toHighscoreBooleans() {
-		nameEnter = false;
-		highScores = true;
-	}
-	
-	protected void toNameEnter() {
-		playing = false;
-		paused = false;
-		nameEnter = true;
-		ListenerManager.stopThread();
-	}
-
-	protected void resetBooleans() {
-		toPlayingBooleans();
-		nameEnter = false;
-		highScores = false;
-		endGame = false;
 	}
 
 	@Override
@@ -614,7 +504,7 @@ public class Control extends JPanel implements Screen {
 
 	/**
 	 * Gets called when timer activates an action, and the timer fires very
-	 * quickly. Calls the moves method in the UserGame class if the playing
+	 * quickly. Calls the moves method in the UserGame class if the BooleanManager.isPlaying()
 	 * variable is true
 	 */
 	@Override
@@ -622,7 +512,7 @@ public class Control extends JPanel implements Screen {
 
 		alwaysExecute();
 
-		if (playing) {
+		if (BooleanManager.isPlaying()) {
 
 			if (nextDirection.size() > 0 && singleDirection) executeDirection();
 
@@ -632,15 +522,15 @@ public class Control extends JPanel implements Screen {
 				timer.setDelay(1000 / (int) (speed + getScore() / 2));
 
 			if (checkIfDeadSuper()) {
-				toNameEnter();
-				stopTime();
+				BooleanManager.toNameEnter();
+				gameTimer.stopTime();
 			}
 		}
 		repaint();
 	}
 
 	private final boolean checkIfDeadSuper() {
-		return checkifDead() || dead;
+		return checkifDead() || BooleanManager.isDead();
 	}
 	
 	protected boolean checkifDead() {
@@ -692,9 +582,8 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public void focusGained(FocusEvent e) {
 		if (resumeOnFocusGain && ifPlaying()) {
-			startTime();
-			playing = true;
-			paused = false;
+			gameTimer.startTime();
+			BooleanManager.resume();
 		}
 		gotFocus(e);
 		repaint();
@@ -706,9 +595,8 @@ public class Control extends JPanel implements Screen {
 	public void focusLost(FocusEvent e) {
 		// TODO Auto-generated method stub
 		if (ifPlaying()) {
-			stopTime();
-			playing = false;
-			paused = true;
+			gameTimer.stopTime();
+			BooleanManager.pause();
 		}
 		lostFocus(e);
 		repaint();
@@ -725,7 +613,7 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public void death(GameEvent g) {
 		// TODO Auto-generated method stub
-		dead = true;
+		BooleanManager.setDead(true);
 	}
 
 	/**
@@ -888,31 +776,4 @@ public class Control extends JPanel implements Screen {
 		HEIGHT = h;
 	}
 
-	protected class GameTime implements ActionListener {
-
-		private int timeSplit = 0;
-		private int timeSeconds = 0;
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			timeSplit++;
-			if (timeSplit % 60 == 0) {
-				timeSplit = 0;
-				timeSeconds++;
-			}
-		}
-
-		protected int getTime() {
-			return timeSeconds;
-		}
-
-		protected void resetTime() {
-			timeSplit = 0;
-			timeSeconds = 0;
-		}
-	}
-
-	
-
-	
 }

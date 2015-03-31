@@ -7,9 +7,9 @@ import java.awt.Rectangle;
 
 import javax.swing.Timer;
 
-import events.ListenerManager;
-import events.ListenerManager.Action;
-import events.ListenerManager.Movement;
+import events.ShapeListenerManager;
+import events.ShapeListenerManager.Action;
+import events.ShapeListenerManager.Movement;
 import shapes.BSRectangle;
 import utilityClasses.*;
 
@@ -20,7 +20,7 @@ public class UserGame extends Game {
 	 * 
 	 * int playerX int playerY
 	 * 
-	 * boolean startGame boolean playing boolean endGame boolean nameEnter
+	 * boolean startGame boolean playing boolean BooleanManager.endGame() boolean nameEnter
 	 * boolean highScores
 	 * 
 	 * boolean singleDirection sets if only one directin per frame
@@ -138,7 +138,7 @@ public class UserGame extends Game {
 		playerY = 100;
 
 		player = new BSRectangle(playerX, playerY, 20, 20);
-		ListenerManager.addTrigger(Action.death, Movement.exit, outerbox, "Stuff", player);
+		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox, "Stuff", player);
 //		ListenerManager.addTrigger(Action.score, Movement.exit, outerbox, "Stuff", player);
 
 		

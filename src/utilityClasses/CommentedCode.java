@@ -44,7 +44,7 @@ public class CommentedCode {
 	 * startTime = System.currentTimeMillis();
 	 * 
 	 * getTime
-	 * if (!paused) stopTime();
+	 * if (!BooleanManager.isPaused()) stopTime();
 	 * return (int) (totalTime / 1000);
 	 * 
 	 * resetTime
