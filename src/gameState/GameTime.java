@@ -7,12 +7,12 @@ import javax.swing.Timer;
 
 public class GameTime implements ActionListener {
 
-	private int timeSeconds = 0;
+	private static int timeSeconds = 0;
 
-	private Timer actionTimer;
+	private static Timer actionTimer;
 
 	public GameTime() {
-		actionTimer = new Timer((int) (1000), this);
+		if (actionTimer == null) actionTimer = new Timer((int) (1000), this);
 	}
 
 	@Override
@@ -33,14 +33,14 @@ public class GameTime implements ActionListener {
 	 * Starts the timer that can be displayed on screen. Use getTime() to get
 	 * the number seconds that have passed
 	 */
-	public final void startTime() {
+	public static final void startTime() {
 		actionTimer.start();
 	}
 
 	/**
 	 * Pauses the timer
 	 */
-	public final void stopTime() {
+	public static final void stopTime() {
 		actionTimer.stop();
 	}
 

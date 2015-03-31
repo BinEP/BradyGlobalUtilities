@@ -4,7 +4,7 @@ import java.awt.event.FocusEvent;
 
 public interface BSFocusListener {
 
-	public void focusGained(FocusEvent e);
-	public void focusLost(FocusEvent e);
+	public void gotFocus(FocusEvent e);
+	public void lostFocus(FocusEvent e);
 	
 }

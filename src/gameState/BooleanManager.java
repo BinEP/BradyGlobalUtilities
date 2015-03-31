@@ -36,7 +36,12 @@ public class BooleanManager {
 	private static boolean highScores = false;
 	
 	private static boolean dead = false;
-
+	private static boolean resumeOnFocusGain = false;
+	
+	/**
+	 * Set to true if only one direction per frame
+	 */
+	private static boolean singleDirection = false;
 	
 	public BooleanManager() {
 		
@@ -100,6 +105,10 @@ public class BooleanManager {
 	public static boolean isPaused() {
 		return paused;
 	}
+	
+	public static boolean ifPlaying() {
+		return playing || paused;
+	}
 
 	public static boolean isEndGame() {
 		return endGame;
@@ -121,5 +130,21 @@ public class BooleanManager {
 		dead = d;
 	}
 	
+	public static boolean isResumeOnFocus() {
+		return resumeOnFocusGain;
+	}
 	
+	public static void setResumeOnFocus(boolean resumeOnFocus) {
+		resumeOnFocusGain = resumeOnFocus;
+	}
+
+	
+	public static  boolean isSingleDirection() {
+		return singleDirection;
+	}
+	
+
+	public static void setSingleDirection(boolean single) {
+		singleDirection = single;
+	}
 }

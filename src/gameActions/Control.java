@@ -10,19 +10,13 @@ import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
 import listenerControl.ListenerActivator;
-import events.GameEvent;
-import events.ShapeListenerManager;
 import gameState.BooleanManager;
 import gameState.GameTime;
 import utilityClasses.*;
@@ -37,33 +31,25 @@ public class Control extends JPanel implements Screen {
 	protected static String FOLDER_PATH = "InfoFiles/";
 	protected static String FONT_FILE = Windows.getFONT_NAME();
 	
-	protected static boolean fullscreen = false;
-	protected static boolean scaleRatio = false;
-	
 	protected boolean showMouseCoords = false;
-	protected boolean resumeOnFocusGain = false;
-
+	public boolean fullscreen = false;
+	
 	/**
 	 * The value for the upKey This can be changed to suit the user of player
 	 */
-	protected int upKey = KeyEvent.VK_UP;
+	public int upKey = KeyEvent.VK_UP;
 	/**
 	 * The value for the downKey This can be changed to suit the user of player
 	 */
-	protected int downKey = KeyEvent.VK_DOWN;
+	public int downKey = KeyEvent.VK_DOWN;
 	/**
 	 * The value for the leftKey This can be changed to suit the user of player
 	 */
-	protected int leftKey = KeyEvent.VK_LEFT;
+	public int leftKey = KeyEvent.VK_LEFT;
 	/**
 	 * The value for the rightKey This can be changed to suit the user of player
 	 */
-	protected int rightKey = KeyEvent.VK_RIGHT;
-
-	protected boolean upPressed = false;
-	protected boolean downPressed = false;
-	protected boolean leftPressed = false;
-	protected boolean rightPressed = false;
+	public int rightKey = KeyEvent.VK_RIGHT;
 
 	protected int width = Windows.getWidth();
 	protected int height = Windows.getHeight();
@@ -77,12 +63,6 @@ public class Control extends JPanel implements Screen {
 	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
 	
 	protected static CustomFont customFont;
-	/**
-	 * Set to true if only one direction per frame
-	 * 
-	 * @author Brady Stoffel
-	 */
-	protected boolean singleDirection = false;
 
 	protected enum Direction {
 		up, down, left, right;
@@ -166,6 +146,7 @@ public class Control extends JPanel implements Screen {
 	 * How much a player moves in the y direction
 	 */
 	protected int deltaY = 0;
+	
 	protected String pName = "";
 
 	/**
@@ -186,11 +167,8 @@ public class Control extends JPanel implements Screen {
 	 */
 	protected boolean speedUp = false;
 
-	protected int score;
+	public int score;
 	protected Character letter;
-			
-	protected double startTime;
-	protected double totalTime = 0;
 
 	protected ArrayList<Direction> nextDirection = new ArrayList<Direction>();
 	
@@ -286,16 +264,8 @@ public class Control extends JPanel implements Screen {
 	}
 
 	protected void scale(Graphics2D g) {
-
-		if (!scaleRatio) {
 			g.scale((double) getWidth() / (double) Windows.getWidth(),
 					(double) (getHeight()) / (double) Windows.getHeight());
-		} else {
-			boolean widthLarger = Windows.getWidth() >= Windows.getHeight();
-			double scale = (widthLarger) ? (double) getWidth() / (double) Windows.getWidth() : (double) getHeight() / (double) Windows.getHeight();
-
-			g.scale(scale, scale);
-		}
 	}
 
 	protected void draw(Graphics2D g) {}
@@ -385,10 +355,6 @@ public class Control extends JPanel implements Screen {
 	protected int getTime() {
 		return gameTimer.getTime();
 	}
-	
-	protected boolean ifPlaying() {
-		return BooleanManager.isPlaying() || BooleanManager.isPaused();
-	}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -405,34 +371,34 @@ public class Control extends JPanel implements Screen {
 
 		} else if (e.getKeyCode() == upKey) {
 
-			if (singleDirection) {
+			if (BooleanManager.isSingleDirection()) {
 				addDirection(Direction.up);
 			} else {
-				up();
+				listenerActivator.up();
 			}
 
 		} else if (e.getKeyCode() == downKey) {
 
-			if (singleDirection) {
+			if (BooleanManager.isSingleDirection()) {
 				addDirection(Direction.down);
 			} else {
-				down();
+				listenerActivator.down();
 			}
 
 		} else if (e.getKeyCode() == leftKey) {
 
-			if (singleDirection) {
+			if (BooleanManager.isSingleDirection()) {
 				addDirection(Direction.left);
 			} else {
-				left();
+				listenerActivator.left();
 			}
 
 		} else if (e.getKeyCode() == rightKey) {
 
-			if (singleDirection) {
+			if (BooleanManager.isSingleDirection()) {
 				addDirection(Direction.right);
 			} else {
-				right();
+				listenerActivator.right();
 			}
 
 		} else if (e.getKeyCode() == KeyEvent.VK_ENTER && !(BooleanManager.isPaused() || BooleanManager.isPlaying())) {
@@ -487,16 +453,16 @@ public class Control extends JPanel implements Screen {
 	public void keyReleased(KeyEvent e) {
 
 		if (e.getKeyCode() == upKey) {
-			upReleased();
+			listenerActivator.upReleased();
 
 		} else if (e.getKeyCode() == downKey) {
-			downReleased();
+			listenerActivator.downReleased();
 
 		} else if (e.getKeyCode() == leftKey) {
-			leftReleased();
+			listenerActivator.leftReleased();
 
 		} else if (e.getKeyCode() == rightKey) {
-			rightReleased();
+			listenerActivator.rightReleased();
 		}
 
 		customReleased(e);
@@ -514,7 +480,7 @@ public class Control extends JPanel implements Screen {
 
 		if (BooleanManager.isPlaying()) {
 
-			if (nextDirection.size() > 0 && singleDirection) executeDirection();
+			if (nextDirection.size() > 0 && BooleanManager.isSingleDirection()) executeDirection();
 
 			moves();
 
@@ -539,106 +505,8 @@ public class Control extends JPanel implements Screen {
 
 	protected void moves() {}	
 
-	@Override
-	public void focusGained(FocusEvent e) {
-		if (resumeOnFocusGain && ifPlaying()) {
-			gameTimer.startTime();
-			BooleanManager.resume();
-		}
-		gotFocus(e);
-		repaint();
-	}
 
-	protected void gotFocus(FocusEvent e) {}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		if (ifPlaying()) {
-			gameTimer.stopTime();
-			BooleanManager.pause();
-		}
-		lostFocus(e);
-		repaint();
-	}
 	
-	protected void lostFocus(FocusEvent e) {}
-	
-	@Override
-	public void scored(GameEvent g) {
-		// TODO Auto-generated method stub
-		score++;
-	}
-
-	@Override
-	public void death(GameEvent g) {
-		// TODO Auto-generated method stub
-		BooleanManager.setDead(true);
-	}
-
-	/**
-	 * What to set variables to when upKey is pressed. Called by keyPressed
-	 */
-	@Override
-	public void up() {
-		upPressed = true;
-	}
-
-	/**
-	 * What to set variables to when upKey is pressed Called by keyPressed
-	 */
-	@Override
-	public void down() {
-		downPressed = true;
-	}
-
-	/**
-	 * What to set variables to when upKey is pressed Called by keyPressed
-	 */
-	@Override
-	public void left() {
-		leftPressed = true;
-	}
-
-	/**
-	 * What to set variables to when upKey is pressed Called by keyPressed
-	 */
-	@Override
-	public void right() {
-		rightPressed = true;
-	}
-
-	/**
-	 * What to set variables to when upKey is released Called by keyReleased
-	 */
-	@Override
-	public void upReleased() {
-		upPressed = false;
-	}
-
-	/**
-	 * What to set variables to when downKey is released Called by keyReleased
-	 */
-	@Override
-	public void downReleased() {
-		downPressed = false;
-	}
-
-	/**
-	 * What to set variables to when leftKey is released Called by keyReleased
-	 */
-	@Override
-	public void leftReleased() {
-		leftPressed = false;
-	}
-
-	/**
-	 * What to set variables to when rightKey is released Called by keyReleased
-	 */
-	@Override
-	public void rightReleased() {
-		rightPressed = false;
-	}
 
 	protected void customPressed(KeyEvent e) {}
 
@@ -663,7 +531,7 @@ public class Control extends JPanel implements Screen {
 	 */
 	protected void addDirection(Direction d) {
 
-		if (singleDirection) {
+		if (BooleanManager.isSingleDirection()) {
 			if (nextDirection.size() < 2)
 				nextDirection.add(d);
 		}
@@ -680,19 +548,19 @@ public class Control extends JPanel implements Screen {
 		switch (d) {
 
 		case up:
-			up();
+			listenerActivator.up();
 			break;
 			
 		case down:
-			down();
+			listenerActivator.down();
 			break;
 
 		case left:
-			left();
+			listenerActivator.left();
 			break;
 
 		case right:
-			right();
+			listenerActivator.right();
 		}
 	}
 
