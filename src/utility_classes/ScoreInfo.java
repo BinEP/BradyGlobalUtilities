@@ -87,7 +87,6 @@ public class ScoreInfo {
 	public static void enterName(Graphics2D g, int score, String pName) {
 
 		int wSW = Windows.getWidth();
-		int wSH = Windows.getHeight();
 		g.setFont(new Font("Joystix", Font.BOLD, 40));
 		CenteredText.draw("Enter", 100, g);
 		CenteredText.draw("Your Name", 170, g);

@@ -13,32 +13,7 @@ import utility_classes.Windows;
  */
 public class Runner extends JFrame {
 	
-	private static boolean fullscreen = false;
-	
-	public static void main(String[] args) {
-		
-		Runner r = new Runner(new UserGame());
-		if (fullscreen) Runner.enterFullScreen(r);
-		
-	}
-	
-//	public static void run(Control game) {
-//		
-//		JFrame frame = new JFrame(game.NAME + "!");
-//
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setLayout(new BorderLayout());
-//		
-//		frame.setResizable(Windows.RESIZEABLE);
-//		frame.setAlwaysOnTop(Windows.ALWAYS_ON_TOP);
-//		
-//		frame.add(game, BorderLayout.CENTER);
-//
-//		frame.setSize(Windows.WIDTH, Windows.REAL_HEIGHT);
-//		
-//		tryFullScreen(frame);
-//		frame.setVisible(true);
-//	}
+	private static final long serialVersionUID = 7320121689295681465L;
 	
 	public static void tryFullScreen(Window window) {
 		
@@ -46,15 +21,12 @@ public class Runner extends JFrame {
             enableFullScreenMode(window);
             enterFullScreen(window);
         }
-		
 	}
 	
 	public static void enableFullScreenMode(Window window) {
- 
         try {
-        	
             Class<?> FSUClass = Class.forName("com.apple.eawt.FullScreenUtilities");
-            Class params[] = new Class[]{Window.class, Boolean.TYPE};
+            Class<?> params[] = new Class[]{Window.class, Boolean.TYPE};
             Method allowFullScreen = FSUClass.getMethod("setWindowCanFullScreen", params);
             
             allowFullScreen.invoke(FSUClass, window, true);
@@ -68,7 +40,7 @@ public class Runner extends JFrame {
 		
 		try {
 			Class<?> appClass = Class.forName("com.apple.eawt.Application");
-			Class params[] = new Class[]{};
+			Class<?> params[] = new Class[]{};
 			
 			Method getApplication = appClass.getMethod("getApplication", params);
 			Object application = getApplication.invoke(appClass);
@@ -80,8 +52,6 @@ public class Runner extends JFrame {
 			System.out.println("An exception occurred while trying to toggle full screen mode");
 			e.printStackTrace();
 		}
-
-		
 	}
 	
 	private static boolean isMacOSX() {
@@ -89,15 +59,13 @@ public class Runner extends JFrame {
     }
 
 	public Runner() {
-		
 		enableFullScreenMode(this);
 		setVisible(true);
 	}
 	
 	public Runner(Control game) {
 		super(game.getGameName() + "!");
-
-		fullscreen = game.fullscreen;
+		boolean fullscreen = game.fullscreen;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setLayout(new BorderLayout());
@@ -106,10 +74,10 @@ public class Runner extends JFrame {
 		setAlwaysOnTop(Windows.isALWAYS_ON_TOP());
 		
 		add(game, BorderLayout.CENTER);
-
 		setSize(Windows.getWidth(), Windows.getREAL_HEIGHT());
 		
 		enableFullScreenMode(this);
+		if (fullscreen) enterFullScreen(this);
 		
 		setVisible(true);
 	}

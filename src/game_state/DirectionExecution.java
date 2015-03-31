@@ -53,6 +53,9 @@ public class DirectionExecution {
 
 		case right:
 			listenerActivator.right();
+			break;
+		case none:
+			break;
 		}
 	}
 
@@ -77,5 +80,4 @@ public class DirectionExecution {
 	public ArrayList<Direction> getNextDirection() {
 		return nextDirection;
 	}
-
 }
