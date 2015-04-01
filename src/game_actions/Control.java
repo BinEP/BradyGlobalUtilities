@@ -2,7 +2,6 @@ package game_actions;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.MouseInfo;
@@ -66,6 +65,11 @@ public class Control extends JPanel implements Screen {
 	protected int deltaY = 0;
 	protected int playerX;
 	protected int playerY;
+	
+	protected boolean upPressed = false;
+	protected boolean downPressed = false;
+	protected boolean leftPressed = false;
+	protected boolean rightPressed = false;
 
 	protected String pName = "";
 	protected Character letter;
@@ -199,11 +203,7 @@ public class Control extends JPanel implements Screen {
 	public void keyPressed(KeyEvent e) {
 
 		if (GameStateManager.isStartGame() && e.getKeyCode() != KeyEvent.VK_ENTER) {
-
-			keyMap[keyIndex] = e.getKeyCode();
-			keyIndex++;
-			if (keyIndex > 3)
-				keyIndex = 0;
+			mapKeys(e);
 
 		} else if (GameStateManager.isSingleDirection()
 				&& (directionExecution.getDirection(e.getKeyCode()) != Direction.none)) {
@@ -249,6 +249,13 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
+	private void mapKeys(KeyEvent e) {
+		keyMap[keyIndex] = e.getKeyCode();
+		keyIndex++;
+		if (keyIndex > 3)
+			keyIndex = 0;
+	}
+
 	protected void addLetterToName(KeyEvent e) {
 		letter = Character.toUpperCase(e.getKeyChar());
 		pName = pName.concat(letter.toString());
@@ -285,6 +292,30 @@ public class Control extends JPanel implements Screen {
 	}
 
 	protected void executeEveryTick() {}
+	
+	@Override
+	public void up() 			{upPressed = true;}
+
+	@Override
+	public void down() 			{downPressed = true;}
+
+	@Override
+	public void left() 			{leftPressed = true;}
+
+	@Override
+	public void right()			{rightPressed = true;}
+
+	@Override
+	public void upReleased() 	{upPressed = false;}
+
+	@Override
+	public void downReleased() 	{downPressed = false;}
+
+	@Override
+	public void leftReleased() 	{leftPressed = false;}
+
+	@Override
+	public void rightReleased() {rightPressed = false;}
 	
 	/** Sets a custom size of the Window and scaling behavior. Default 800x480 */
 	protected void setWindowSize(int w, int h) {
