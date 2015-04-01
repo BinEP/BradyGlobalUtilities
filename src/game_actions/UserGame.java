@@ -18,25 +18,6 @@ public class UserGame extends Game implements BSGameListener {
 
 	private static final long serialVersionUID = 6772560356584757192L;
 
-	/*
-	 * int deltaX int deltaY int movementVar
-	 * 
-	 * int playerX int playerY
-	 * 
-	 * boolean startGame boolean playing boolean BooleanManager.endGame()
-	 * boolean nameEnter boolean highScores
-	 * 
-	 * boolean singleDirection sets if only one directin per frame
-	 */
-
-	/*
-	 * You can override these methods to customize actions
-	 * 
-	 * drawStart(Graphics2D g) drawPlaying(Graphics2D g) drawPaused(Graphics2D
-	 * g) drawEnd(Graphics2D g) up() down() left() right() upReleased()
-	 * downReleased() rightReleased() leftReleased()
-	 */
-
 	public BSRectangle player;
 
 	/**
