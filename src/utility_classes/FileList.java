@@ -12,12 +12,10 @@ public class FileList {
 
 	public static String checkFileName(String fileName) {
 
-		if (fileName.indexOf('.') == -1) {
-
+		if (fileName.indexOf('.') == -1)
 			fileName = fileName.concat(".txt");
-		}
-		return fileName;
 
+		return fileName;
 	}
 
 	public static ArrayList<String> getFileList(String filePath) {
@@ -33,12 +31,9 @@ public class FileList {
 			input.close();
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		return wordList;
-
 	}
 
 	public static void addToFile(String filePath, String newLine) {
@@ -48,16 +43,13 @@ public class FileList {
 
 		try {
 			fileWriter = new PrintWriter(new FileWriter(filePath, true));
-
 			fileWriter.println(newLine);
 
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void addToFile(String filePath, ArrayList<String> newLine) {
@@ -69,38 +61,29 @@ public class FileList {
 			fileWriter = new PrintWriter(new FileWriter(filePath, true));
 
 			for (String line : newLine) {
-
 				fileWriter.println(line);
-
 			}
 
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void insertLine(String filePath, String newLine, int index) {
 
 		ArrayList<String> wordList = getFileList(filePath);
-
 		wordList.add(index, newLine);
 		overwriteFile(filePath, wordList);
-
 	}
 
 	public static void insertLines(String filePath, ArrayList<String> newLines,
 			int index) {
 
 		ArrayList<String> wordList = getFileList(filePath);
-
 		wordList.addAll(index, newLines);
-
 		overwriteFile(filePath, wordList);
-
 	}
 
 	public static void overwriteFile(String filePath, String newLine) {
@@ -110,16 +93,13 @@ public class FileList {
 
 		try {
 			fileWriter = new PrintWriter(new FileWriter(filePath));
-
 			fileWriter.println(newLine);
 
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void overwriteFile(String filePath, ArrayList<String> newLine) {
@@ -131,18 +111,14 @@ public class FileList {
 			fileWriter = new PrintWriter(new FileWriter(filePath));
 
 			for (String line : newLine) {
-
 				fileWriter.println(line);
-
 			}
 
 			fileWriter.flush();
 			fileWriter.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
 
 	public static String[] getFileArray(String filePath) {
@@ -171,7 +147,5 @@ public class FileList {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
-
 }
