@@ -51,7 +51,7 @@ public class Control extends JPanel implements Screen {
 	/** Outside box of Windows */
 	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
 
-	protected static CustomFont customFont;
+	public static CustomFont customFont;
 
 	public enum Direction {
 		up, down, left, right, none;
@@ -139,6 +139,7 @@ public class Control extends JPanel implements Screen {
 	protected int playerY;
 
 	protected Timer timer;
+	private GameTime actionTimer;
 	protected int origSpeed = 60;
 	protected double speed = origSpeed;
 	/** If you want to game to speed up as the score gets higher */
@@ -162,7 +163,7 @@ public class Control extends JPanel implements Screen {
 
 		setup();
 		customFont = new CustomFont(getFONT_FILE(), Font.BOLD, 18);
-
+		actionTimer = new GameTime();
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
 	}
@@ -318,7 +319,7 @@ public class Control extends JPanel implements Screen {
 	}
 
 	protected int getTime() {
-		return GameTime.getTime();
+		return actionTimer.getTime();
 	}
 
 	public ListenerActivator getListenerActivator() {
@@ -348,7 +349,7 @@ public class Control extends JPanel implements Screen {
 
 			if (GameStateManager.isStartGame()) {
 				setKeys();
-				GameTime.resetTime();
+				actionTimer.resetTime();
 				setup();
 				GameStateManager.toPlayingBooleans();
 
@@ -356,7 +357,7 @@ public class Control extends JPanel implements Screen {
 
 				speed = origSpeed;
 				reset();
-				GameTime.resetTime();
+				actionTimer.resetTime();
 				GameStateManager.resetBooleans();
 				pName = "";
 				speed = 10;
@@ -373,7 +374,7 @@ public class Control extends JPanel implements Screen {
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE
 				&& (GameStateManager.isPlaying() || GameStateManager.isPaused())) {
-			GameTime.pauseTime();
+			actionTimer.pauseTime();
 			repaint();
 
 		} else if (e.getKeyLocation() == KeyEvent.KEY_LOCATION_STANDARD
@@ -415,7 +416,7 @@ public class Control extends JPanel implements Screen {
 
 			if (checkIfDeadSuper()) {
 				GameStateManager.toNameEnter();
-				GameTime.stopTime();
+				actionTimer.stopTime();
 			}
 		}
 		repaint();
@@ -468,5 +469,9 @@ public class Control extends JPanel implements Screen {
 
 	public static String getFONT_FILE() {
 		return Windows.getFONT_NAME();
+	}
+	
+	public GameTime getGameTime() {
+		return actionTimer;
 	}
 }

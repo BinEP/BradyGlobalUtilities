@@ -27,20 +27,14 @@ public class CustomFont {
 		makeCustomFont(fontPath);
 		setFont(fontThickness, size);
 	}
-	
-	public static String getFontPath(String fontName) {
-		
-		return "/Fonts/" + fontName + ".ttf";
-	}
 
-	public void makeCustomFont(String fontPath) {
+	public void makeCustomFont(String fontFileName) {
 
 		try {
 
-			fontPath = getFontPath(fontPath);
-			this.path = fontPath;
+			this.path = "/Fonts/" + fontFileName + ".ttf";
 
-			InputStream fontStream = CustomFont.class.getClass().getResourceAsStream(fontPath);
+			InputStream fontStream = CustomFont.class.getClass().getResourceAsStream(path);
 			System.out.println(CustomFont.class.getClassLoader());
 			System.out.println(fontStream.toString());
 			
@@ -59,15 +53,12 @@ public class CustomFont {
 		
 	}
 	
-	public static Font makeCustomFont(String fontPath, int size) {
+	public static Font makeCustomFont(String fontFileName, int size) {
 
-		
-		
 		try {
 
-			fontPath = getFontPath(fontPath);
 			Font customFont;
-			InputStream fontStream = CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontPath + ".ttf");
+			InputStream fontStream = CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontFileName + ".ttf");
 
 
 			GraphicsEnvironment ge = GraphicsEnvironment

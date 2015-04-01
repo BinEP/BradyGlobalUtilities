@@ -1,7 +1,6 @@
 package utility_classes;
 
 import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
@@ -12,87 +11,26 @@ import java.awt.Rectangle;
  */
 public class CenteredText {
 
-	public static void draw(String text, int yVal, Graphics g) {
-
-		int width = Windows.getWidth();
-		int height = Windows.getHeight();
-		
-		FontMetrics fontInfo = g.getFontMetrics();
-		int textWidth = fontInfo.stringWidth(text);
-		int textHeight = fontInfo.getHeight();
-
-		int x = (width - textWidth) / 2;
-		int y = (height - textHeight) / 2;
-		
-		g.drawString(text, x, yVal);
-
+	public static void draw(String text, int yVal, Graphics2D g) {
+		draw(g, text, 0, 0, 0, yVal, false);
 	}
 	
-	public static void draw(String text, Rectangle r, Graphics g) {
-
+	public static void draw(String text, Rectangle r, Graphics2D g) {		
+		draw(g, text, r.width, r.height, r.x, r.y, true);
+	}
+	
+	private static void draw(Graphics2D g, String text, int width, int height, int xVal, int yVal, boolean yCenter) {
+		
+		if (width == 0) width = Windows.getWidth();
+		if (height == 0) height = Windows.getHeight();
+		
 		FontMetrics fontInfo = g.getFontMetrics();
 		int textWidth = fontInfo.stringWidth(text);
 		int textHeight = fontInfo.getHeight();
-
-		int x = r.x + (r.width - textWidth) / 2;
-		int y = r.y + (r.height - textHeight) / 2;
+		
+		int x = xVal + (width - textWidth) / 2;
+		int y = (yCenter) ? yVal + (height - textHeight) / 2 + textHeight - 2 : yVal + textHeight / 2 - 2;
 		
 		g.drawString(text, x, y);
-
 	}
-	
-	public static void draw(String text, int w, int h, Graphics g, boolean t, int yVal) {
-		
-		int width = w;
-		int height = h;
-		
-		FontMetrics fontInfo = g.getFontMetrics();
-		int textWidth = fontInfo.stringWidth(text);
-		int textHeight = fontInfo.getHeight();
-
-		int x = (width - textWidth) / 2;
-		int y = (height - textHeight) / 2;
-		
-		g.drawString(text, x, yVal);
-		
-		
-	}
-	
-	public static void draw(String text, int yVal, Graphics2D g, int fontSize, String fontFile) {
-
-		int width = Windows.getWidth();
-		int height = Windows.getHeight();
-		
-		g.setFont(CustomFont.makeCustomFont(fontFile, fontSize));
-		
-		FontMetrics fontInfo = g.getFontMetrics();
-		int textWidth = fontInfo.stringWidth(text);
-		int textHeight = fontInfo.getHeight();
-
-		int x = (width - textWidth) / 2;
-		int y = (height - textHeight) / 2;
-		
-		g.drawString(text, x, yVal);
-
-	}
-	
-	public static void draw(String text, Rectangle r, Graphics2D g, int fontSize, String fontFile) {
-
-		g.setFont(CustomFont.makeCustomFont(fontFile, fontSize));
-		
-		FontMetrics fontInfo = g.getFontMetrics();
-		int textWidth = fontInfo.stringWidth(text);
-		int textHeight = fontInfo.getHeight();
-
-		int x = r.x + (r.width - textWidth) / 2;
-		int y = r.y + (r.height - textHeight) / 2;
-		
-		g.drawString(text, x, y);
-
-	}
-	
-	
-	
-	
-
 }

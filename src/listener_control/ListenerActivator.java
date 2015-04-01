@@ -19,7 +19,6 @@ import events.GameEvent;
 import events.ShapeListenerManager;
 import gameActions.Control;
 import game_state.GameStateManager;
-import game_state.GameTime;
 
 public class ListenerActivator implements KeyListener, ActionListener,
 		MouseListener, FocusListener, BSGameListener {
@@ -52,7 +51,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 	public void focusGained(FocusEvent e) {
 
 		if (GameStateManager.isResumeOnFocus() && GameStateManager.ifPlaying()) {
-			GameTime.startTime();
+			game.getGameTime().startTime();
 			GameStateManager.resume();
 		}
 
@@ -65,7 +64,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 	@Override
 	public void focusLost(FocusEvent e) {
 		if (GameStateManager.ifPlaying()) {
-			GameTime.stopTime();
+			game.getGameTime().stopTime();
 			GameStateManager.pause();
 		}
 

@@ -7,8 +7,8 @@ import javax.swing.Timer;
 
 public class GameTime implements ActionListener {
 
-	private static int timeSeconds = 0;
-	private static Timer actionTimer;
+	private int timeSeconds = 0;
+	private Timer actionTimer;
 
 	public GameTime() {
 		if (actionTimer == null) actionTimer = new Timer((int) (1000), this);
@@ -23,7 +23,7 @@ public class GameTime implements ActionListener {
 	 * Gets the number of seconds that have passed since the timer was started
 	 * @return int
 	 */
-	public static int getTime() {
+	public int getTime() {
 		return timeSeconds;
 	}
 
@@ -31,26 +31,26 @@ public class GameTime implements ActionListener {
 	 * Starts the timer that can be displayed on screen. Use getTime() to get
 	 * the number seconds that have passed
 	 */
-	public static final void startTime() {
+	public final void startTime() {
 		actionTimer.start();
 	}
 
 	/**
 	 * Pauses the timer
 	 */
-	public static final void stopTime() {
+	public final void stopTime() {
 		actionTimer.stop();
 	}
 
 	/**
 	 * resets the time passed and sets the start time to the current time
 	 */
-	public static void resetTime() {
+	public void resetTime() {
 		timeSeconds = 0;
 		actionTimer.restart();
 	}
 
-	public static void pauseTime() {
+	public void pauseTime() {
 		if (GameStateManager.isPlaying()) {
 			stopTime();
 		} else {
@@ -59,7 +59,7 @@ public class GameTime implements ActionListener {
 		GameStateManager.togglePlaying();
 	}
 
-	public static void pauseTime(boolean ifOnlyPlaying) {
+	public void pauseTime(boolean ifOnlyPlaying) {
 		if (GameStateManager.isPlaying() || GameStateManager.isPaused())
 			pauseTime();
 	}

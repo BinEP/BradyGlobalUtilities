@@ -2,13 +2,19 @@ package gameActions;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 
+import custom_listeners.BSGameListener;
+import listener_control.ListenerManager;
+import events.GameEvent;
 import events.ShapeListenerManager;
 import events.ShapeListenerManager.Action;
 import events.ShapeListenerManager.Movement;
+import game_state.GameStateManager;
 import shapes.BSRectangle;
+import utility_classes.CenteredText;
 
-public class UserGame extends Game {
+public class UserGame extends Game implements BSGameListener {
 
 	private static final long serialVersionUID = 6772560356584757192L;
 
@@ -51,6 +57,12 @@ public class UserGame extends Game {
 		g.setColor(Color.CYAN);
 		g.fill(player);
 
+		CenteredText.draw("Draw 1", 20, g);
+		g.drawRoundRect(0, 0, 800, 40, 5, 5);
+		
+		CenteredText.draw("Draw 2", new Rectangle(50, 70, 100, 60), g);
+		g.drawRoundRect(50, 70, 100, 60, 5, 5);
+		
 		g.drawString(String.valueOf(getTime()), 5, 15);
 	}
 
@@ -114,7 +126,7 @@ public class UserGame extends Game {
 		deltaY = 2;
 		playerX = 100;
 		playerY = 100;
-
+		ListenerManager.addGameListener(this);
 		player = new BSRectangle(playerX, playerY, 20, 20);
 		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox,
 				"Stuff", player);
@@ -134,5 +146,15 @@ public class UserGame extends Game {
 
 	public static void main(String[] args) {
 		new Runner(new UserGame());
+	}
+
+	@Override
+	public void scored(GameEvent g) {
+		score++;
+	}
+
+	@Override
+	public void death(GameEvent g) {
+		GameStateManager.setDead(true);
 	}
 }

@@ -134,7 +134,7 @@ public class ShapeListenerManager {
 
 	private static class ListenerThread implements Runnable {
 		
-		public static boolean running = true;
+		public static boolean running = false;
 		private Thread t;
 		
 		public void startThread() {
@@ -167,7 +167,7 @@ public class ShapeListenerManager {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				 System.out.println("ListenerThread");
+//				 System.out.println("ListenerThread");
 			}
 		}
 	}
