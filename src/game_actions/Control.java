@@ -1,6 +1,5 @@
 package game_actions;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
@@ -17,6 +16,7 @@ import javax.swing.Timer;
 
 import listener_control.ListenerActivator;
 import listener_control.ListenerManager;
+import game_state.CustomDrawing;
 import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
@@ -80,7 +80,7 @@ public class Control extends JPanel implements Screen {
 		 */
 		protected void draw(String text, Graphics2D g) {
 
-			g.setFont(CustomFont.makeCustomFont(getFONT_FILE(),
+			g.setFont(CustomFont.makeCustomFont(Windows.getFONT_NAME(),
 					Windows.getSCORE_SIZE()));
 
 			FontMetrics fontInfo = g.getFontMetrics();
@@ -106,7 +106,6 @@ public class Control extends JPanel implements Screen {
 	/** Outside box of Windows */
 	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
 
-
 	/**
 	 * keyMap - modify this to change key locations Gets modified when on the
 	 * start screen and keys are pressed Assigned in order of when pressed then
@@ -116,29 +115,27 @@ public class Control extends JPanel implements Screen {
 			KeyEvent.VK_DOWN, KeyEvent.VK_LEFT };
 
 	protected int keyIndex = 0;
+	
 	protected int movementVar = 10;
 	protected int deltaX = movementVar;
 	protected int deltaY = 0;
-
-	protected String pName = "";
-
 	protected int playerX;
 	protected int playerY;
 
+	protected String pName = "";
+	protected Character letter;
+
 	protected Timer timer;
-	private GameTime actionTimer;
 	protected int origSpeed = 60;
 	protected double speed = origSpeed;
 	/** If you want to game to speed up as the score gets higher */
 	protected boolean speedUp = false;
 
-	
-	protected Character letter;
-
+	private GameTime actionTimer;
 	private ListenerActivator listenerActivator;
 	private DirectionExecution directionExecution;
+	private CustomDrawing customDrawing;
 	
-
 	protected Control() {
 
 		FileDependencies.checkFolder("InfoFiles");
@@ -147,10 +144,11 @@ public class Control extends JPanel implements Screen {
 
 		listenerActivator = new ListenerActivator(this);
 		directionExecution = new DirectionExecution(this);
+		customDrawing = new CustomDrawing(this);
 		addListeners();
 
 		setup();
-		customFont = new CustomFont(getFONT_FILE(), Font.BOLD, 18);
+		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		actionTimer = new GameTime();
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
@@ -164,10 +162,6 @@ public class Control extends JPanel implements Screen {
 	protected void setSpeed(int speed) {
 		this.speed = speed;
 		timer.setDelay(1000 / speed);
-	}
-
-	protected void setBackgroundColor(Color c) {
-		this.setBackground(c);
 	}
 
 	/**
@@ -189,37 +183,12 @@ public class Control extends JPanel implements Screen {
 	 * method, a default one is drawn
 	 */
 	protected final void paintComponent(Graphics g) {
-
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-
-		scale(g2);
-		g.setColor(Color.WHITE);
-		draw(g2);
-
-		if (GameStateManager.isStartGame()) {
-			drawStart(g2);
-
-		} else if (GameStateManager.isPlaying() || GameStateManager.isPaused()) {
-
-			drawPlaying(g2);
-
-			showMouseCoords(g);
-			if (GameStateManager.isPaused()) {
-				drawPaused(g2);
-			}
-		} else if (GameStateManager.isEndGame()) {
-			drawEnd(g2);
-
-		} else if (GameStateManager.isNameEnter()) {
-			ScoreInfo.enterName(g2, getScore(), pName);
-
-		} else if (GameStateManager.isHighScores()) {
-			ScoreInfo.drawScores(g2);
-		}
+		customDrawing.paintScreen(g2);
 	}
 
-	protected void showMouseCoords(Graphics g) {
+	public void showMouseCoords(Graphics g) {
 		if (showMouseCoords) {
 			Point mouse = MouseInfo.getPointerInfo().getLocation();
 			Point screen = this.getLocationOnScreen();
@@ -229,82 +198,54 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
-	protected void scale(Graphics2D g) {
+	public void scale(Graphics2D g) {
 		g.scale((double) getWidth() / (double) Windows.getWidth(),
 				(double) (getHeight()) / (double) Windows.getHeight());
 	}
 
 	protected void draw(Graphics2D g) {
+		customDrawing.draw(g);
 	}
 
 	/** Draws the start screen. gets game name from Windows class */
 	protected void drawStart(Graphics2D g) {
-
-		g.setFont(customFont.getFont(Windows.getTITLE_SIZE()));
-		CenteredText.draw(getGameName(), Windows.getTITLE_Y(), g);
-
-		g.setFont(customFont.getFont(Windows.getENTER_TO_START_SIZE()));
-		CenteredText.draw("Press Enter to", Windows.getENTER_Y(), g);
-		CenteredText.draw("Start", Windows.getSTART_Y(), g);
-
-		g.setFont(customFont.getFont(12));
-		CenteredText.draw("Press keys Up, Right, Down, Left to map new keys",
-				30, g);
+		customDrawing.drawStart(g);
 	}
 
 	/** Draws the screen when BooleanManager.isPlaying() */
 	protected void drawPlaying(Graphics2D g) {
-		g.setColor(Color.CYAN);
-		g.fillRect(20, 30, playerX, playerY);
+		customDrawing.drawPlaying(g);
 	}
 
 	/** Draws the word "Paused" in the middle of the screen */
 	protected void drawPaused(Graphics2D g) {
-		g.setFont(customFont.getFont(Windows.getPAUSE_SIZE()));
-		g.setColor(Color.WHITE);
-		CenteredText.draw("Paused", Windows.getPAUSE_Y(), g);
+		customDrawing.drawPaused(g);
 	}
 
 	/** Draws the end game screen */
 	protected void drawEnd(Graphics2D g) {
-
-		g.setColor(Color.WHITE);
-
-		g.setFont(customFont.getFont(Windows.getEND_SCORE_SIZE()));
-		CenteredText.draw(String.valueOf(getScore()), Windows.getEND_SCORE_Y(),
-				g);
-
-		g.setFont(customFont.getFont(Windows.getYOU_LOSE_SIZE()));
-		CenteredText.draw("You Lose!", Windows.getYOU_LOSE_Y(), g);
-
-		g.setFont(customFont.getFont(Windows.getRESTART_SIZE()));
-		CenteredText.draw("Enter to Restart", Windows.getRESTART_Y(), g);
+		customDrawing.drawEnd(g);
 	}
 
 	protected void drawBorder(Graphics2D g) {
-		drawBorder(g, Color.WHITE, 15);
+		customDrawing.drawBorder(g, Color.WHITE, 15);
 	}
 
 	protected void drawBorder(Graphics2D g, Color c) {
-		drawBorder(g, c, 15);
+		customDrawing.drawBorder(g, c, 15);
 	}
 
 	protected void drawBorder(Graphics2D g, int width) {
-		drawBorder(g, Color.WHITE, width);
+		customDrawing.drawBorder(g, Color.WHITE, width);
 	}
 
 	protected void drawBorder(Graphics2D g, Color c, int width) {
-		g.setColor(c);
-		g.setStroke(new BasicStroke(width));
-		g.drawRect(outerbox.x, outerbox.y, outerbox.width, outerbox.height);
-		g.setStroke(new BasicStroke(2));
+		customDrawing.drawBorder(g, c, width);
 	}
 
-	protected void setup() {
-	}
+	protected void setup() {}
 
-	protected void reset() {
-	}
+	protected void reset() {}
 
 	protected int getTime() {
 		return actionTimer.getTime();
@@ -315,8 +256,7 @@ public class Control extends JPanel implements Screen {
 	}
 
 	@Override
-	public void keyTyped(KeyEvent e) {
-	}
+	public void keyTyped(KeyEvent e) {}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -342,7 +282,6 @@ public class Control extends JPanel implements Screen {
 				GameStateManager.toPlayingBooleans();
 
 			} else if (GameStateManager.isEndGame()) {
-
 				speed = origSpeed;
 				reset();
 				actionTimer.resetTime();
@@ -379,8 +318,7 @@ public class Control extends JPanel implements Screen {
 	}
 
 	@Override
-	public void keyReleased(KeyEvent e) {
-	}
+	public void keyReleased(KeyEvent e) {}
 
 	/**
 	 * Gets called when timer activates an action, and the timer fires very
@@ -392,7 +330,6 @@ public class Control extends JPanel implements Screen {
 
 		executeEveryTick();
 		if (GameStateManager.isPlaying()) {
-
 			if (directionExecution.getNextDirection().size() > 0
 					&& GameStateManager.isSingleDirection())
 				directionExecution.executeDirection();
@@ -416,45 +353,40 @@ public class Control extends JPanel implements Screen {
 		return checkifDead() || GameStateManager.isDead();
 	}
 
-	protected boolean checkifDead() {
-		return false;
-	}
+	protected boolean checkifDead() {return false;}
 
-	protected void moves() {
-	}
+	protected void moves() {}
 
 	/** Sets the graphics font at the given size */
-	protected Font getFont(int size) {
-		return customFont.getFont(size);
-	}
+	protected Font getFont(int size) {return customFont.getFont(size);}
 
-	protected void setNewFont(String name) {
-		customFont = new CustomFont(name, Font.BOLD, 18);
-	}
+	protected void setNewFont(String name) {customFont = new CustomFont(name, Font.BOLD, 18);}
 
-	protected String getGameName() {
-		return null;
-	}
+	public String getGameName() {return "Game";}
 
-	protected String getFolderPath() {
-		return "InfoFiles/";
-	}
-
-	protected int getScore() {
-		return score;
-	}
+	public int getScore() {return score;}
 
 	/** Sets a custom size of the Window and scaling behavior. Default 800x480 */
 	protected void setWindowSize(int w, int h) {
 		WIDTH = w;
 		HEIGHT = h;
 	}
+	
+	public GameTime getGameTime() {return actionTimer;}
 
-	public static String getFONT_FILE() {
-		return Windows.getFONT_NAME();
+	public int getPlayerX() {
+		return playerX;
+	}
+
+	public int getPlayerY() {
+		return playerY;
 	}
 	
-	public GameTime getGameTime() {
-		return actionTimer;
+	public Rectangle getOuterbox() {
+		return outerbox;
+	}
+	
+	public String getPlayerName() {
+		return pName;
 	}
 }

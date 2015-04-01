@@ -1,8 +1,8 @@
 package game_state;
 
-public class CustomDrawing {
+public class GetInfo {
 
-	public CustomDrawing() {
+	public GetInfo() {
 		// TODO Auto-generated constructor stub
 	}
 
