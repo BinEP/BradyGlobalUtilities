@@ -43,62 +43,7 @@ public class Control extends JPanel implements Screen {
 	public enum Direction {
 		up, down, left, right, none;
 	}
-	
-	/**
-	 * The positions that scores could be on screen to make it easier to
-	 * position the score
-	 * @author Brady Stoffel
-	 */
-	public enum ScoreCoords {
-
-		top_left					(10, 10), 
-		top_middle					(Windows.getWidth() / 2, 10), 
-		top_right					(Windows.getWidth() - 10, 10), 
-		middle_left					(10, Windows.getHeight() / 2), 
-		middle_middle				(Windows.getWidth() / 2, Windows.getHeight() / 2), 
-		middle_right				(Windows.getWidth() - 10, Windows.getHeight() / 2), 
-		bottom_left					(10, Windows.getHeight() - 15), 
-		bottom_middle				(Windows.getWidth() / 2, Windows.getHeight() - Windows.getTopBuffer()), 
-		bottom_right				(Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
-
-		protected int x;
-		protected int y;
-
-		private ScoreCoords(int x, int y) {
-			this.x = x;
-			this.y = y;
-		}
-
-		protected Point getCoords() {
-			return new Point(this.x, this.y);
-		}
-
-		/**
-		 * Draws text at preset enum position using current font
-		 * @param text
-		 * @param g
-		 */
-		protected void draw(String text, Graphics2D g) {
-
-			g.setFont(CustomFont.makeCustomFont(Windows.getFONT_NAME(),
-					Windows.getSCORE_SIZE()));
-
-			FontMetrics fontInfo = g.getFontMetrics();
-			int textWidth = fontInfo.stringWidth(text);
-			int textHeight = fontInfo.getHeight();
-
-			if (x == Windows.getWidth() / 2) {
-				CenteredText.draw(text, y, g);
-
-			} else if (x == 10) {
-				g.drawString(text, x, y + textHeight / 2);
-
-			} else if (x == Windows.getWidth() - 10) {
-				g.drawString(text, x - textWidth, y + textHeight / 2);
-			}
-		}
-	}
-	
+		
 	protected boolean showMouseCoords = false;
 	protected int width = Windows.getWidth();
 	protected int height = Windows.getHeight();
@@ -247,14 +192,6 @@ public class Control extends JPanel implements Screen {
 
 	protected void reset() {}
 
-	protected int getTime() {
-		return actionTimer.getTime();
-	}
-
-	public ListenerActivator getListenerActivator() {
-		return listenerActivator;
-	}
-
 	@Override
 	public void keyTyped(KeyEvent e) {}
 
@@ -348,45 +285,39 @@ public class Control extends JPanel implements Screen {
 	}
 
 	protected void executeEveryTick() {}
-
-	private final boolean checkIfDeadSuper() {
-		return checkifDead() || GameStateManager.isDead();
-	}
-
-	protected boolean checkifDead() {return false;}
-
-	protected void moves() {}
-
-	/** Sets the graphics font at the given size */
-	protected Font getFont(int size) {return customFont.getFont(size);}
-
-	protected void setNewFont(String name) {customFont = new CustomFont(name, Font.BOLD, 18);}
-
-	public String getGameName() {return "Game";}
-
-	public int getScore() {return score;}
-
+	
 	/** Sets a custom size of the Window and scaling behavior. Default 800x480 */
 	protected void setWindowSize(int w, int h) {
 		WIDTH = w;
 		HEIGHT = h;
 	}
-	
-	public GameTime getGameTime() {return actionTimer;}
 
-	public int getPlayerX() {
-		return playerX;
-	}
+	protected void moves() {}
+	
+	public ListenerActivator getListenerActivator() {return listenerActivator;}
+	
+	private final boolean checkIfDeadSuper() {return checkifDead() || GameStateManager.isDead();}
+	
+	protected int getTime() 				{return actionTimer.getTime();}
 
-	public int getPlayerY() {
-		return playerY;
-	}
+	protected boolean checkifDead() 		{return false;}
 	
-	public Rectangle getOuterbox() {
-		return outerbox;
-	}
+	/** Sets the graphics font at the given size */
+	protected Font getFont(int size) 		{return customFont.getFont(size);}
+
+	protected void setNewFont(String name) 	{customFont = new CustomFont(name, Font.BOLD, 18);}
+
+	public String getGameName() 			{return "Game";}
+
+	public int getScore() 					{return score;}
+
+	public GameTime getGameTime() 			{return actionTimer;}
+
+	public int getPlayerX() 				{return playerX;}
+
+	public int getPlayerY() 				{return playerY;}
 	
-	public String getPlayerName() {
-		return pName;
-	}
+	public Rectangle getOuterbox() 			{return outerbox;}
+	
+	public String getPlayerName() 			{return pName;}
 }
