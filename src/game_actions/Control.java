@@ -19,6 +19,7 @@ import game_state.CustomDrawing;
 import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
+import game_state.ListenerAutoAdd;
 import utility_classes.*;
 
 /**
@@ -106,6 +107,8 @@ public class Control extends JPanel implements Screen {
 	private void addListeners() {
 		ListenerManager.addActionListener(this);
 		ListenerManager.addKeyListener(this);
+		ListenerManager.addDirectionKeyListener(this);
+		ListenerAutoAdd.addListeners((Control) this);
 	}
 
 	protected void setSpeed(int speed) {
@@ -134,7 +137,30 @@ public class Control extends JPanel implements Screen {
 	protected final void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
-		customDrawing.paintScreen(g2);
+		scale(g2);
+		g.setColor(Color.WHITE);
+		draw(g2);
+
+		if (GameStateManager.isStartGame()) {
+			drawStart(g2);
+
+		} else if (GameStateManager.isPlaying() || GameStateManager.isPaused()) {
+
+			drawPlaying(g2);
+
+			showMouseCoords(g2);
+			if (GameStateManager.isPaused()) {
+				drawPaused(g2);
+			}
+		} else if (GameStateManager.isEndGame()) {
+			drawEnd(g2);
+
+		} else if (GameStateManager.isNameEnter()) {
+			ScoreInfo.enterName(g2, getScore(), getPlayerName());
+
+		} else if (GameStateManager.isHighScores()) {
+			ScoreInfo.drawScores(g2);
+		}
 	}
 
 	public void showMouseCoords(Graphics g) {
@@ -254,6 +280,13 @@ public class Control extends JPanel implements Screen {
 		keyIndex++;
 		if (keyIndex > 3)
 			keyIndex = 0;
+	}
+	
+	protected void resetDirectionPressed() {
+		upPressed = false;
+		downPressed = false;
+		leftPressed = false;
+		rightPressed = false;
 	}
 
 	protected void addLetterToName(KeyEvent e) {

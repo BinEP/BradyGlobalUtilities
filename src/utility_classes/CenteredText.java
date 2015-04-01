@@ -29,7 +29,7 @@ public class CenteredText {
 		int textHeight = fontInfo.getHeight();
 		
 		int x = xVal + (width - textWidth) / 2;
-		int y = (yCenter) ? yVal + (height - textHeight) / 2 + textHeight - 2 : yVal + textHeight / 2 - 2;
+		int y = (yCenter) ? yVal + (height - textHeight) / 2 : yVal;
 		
 		g.drawString(text, x, y);
 	}

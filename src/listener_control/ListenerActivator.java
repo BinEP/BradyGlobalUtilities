@@ -193,13 +193,13 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	public void upReleased() {
 		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
-			d.leftReleased();
+			d.upReleased();
 		}
 	}
 
 	public void downReleased() {
 		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
-			d.leftReleased();
+			d.downReleased();
 		}
 	}
 
@@ -211,7 +211,7 @@ public class ListenerActivator implements KeyListener, ActionListener,
 
 	public void rightReleased() {
 		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
-			d.leftReleased();
+			d.rightReleased();
 		}
 	}
 }

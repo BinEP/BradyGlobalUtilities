@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
 import custom_listeners.BSGameListener;
-import listener_control.ListenerManager;
 import events.GameEvent;
 import events.ShapeListenerManager;
 import events.ShapeListenerManager.Action;
@@ -34,6 +33,7 @@ public class UserGame extends Game implements BSGameListener {
 	 * something different than a box that you can change the size of, change
 	 * what is in here. Gets called when the screen in repainted
 	 */
+	@Override
 	public void drawPlaying(Graphics2D g) {
 		g.setColor(Color.CYAN);
 		g.fill(player);
@@ -90,10 +90,12 @@ public class UserGame extends Game implements BSGameListener {
 	 */
 	public void reset() {
 
-		deltaX = 2;
-		deltaY = 2;
+		resetDirectionPressed();
+		deltaX = 0;
+		deltaY = 0;
 		player.x = playerX;
 		player.y = playerY;
+		
 	}
 
 	/**
@@ -107,7 +109,7 @@ public class UserGame extends Game implements BSGameListener {
 		deltaY = 2;
 		playerX = 100;
 		playerY = 100;
-		ListenerManager.addGameListener(this);
+//		ListenerManager.addGameListener(this);
 		player = new BSRectangle(playerX, playerY, 20, 20);
 		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox,
 				"Stuff", player);

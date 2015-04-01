@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import utility_classes.CenteredText;
-import utility_classes.ScoreInfo;
 import utility_classes.Windows;
 
 public class CustomDrawing {
@@ -85,35 +84,4 @@ public class CustomDrawing {
 	public void setBackgroundColor(Color c) {
 		game.setBackground(c);
 	}
-	
-	public void paintScreen(Graphics2D g) {
-		
-		game.scale(g);
-		g.setColor(Color.WHITE);
-		draw(g);
-
-		if (GameStateManager.isStartGame()) {
-			drawStart(g);
-
-		} else if (GameStateManager.isPlaying() || GameStateManager.isPaused()) {
-
-			drawPlaying(g);
-
-			game.showMouseCoords(g);
-			if (GameStateManager.isPaused()) {
-				drawPaused(g);
-			}
-		} else if (GameStateManager.isEndGame()) {
-			drawEnd(g);
-
-		} else if (GameStateManager.isNameEnter()) {
-			ScoreInfo.enterName(g, game.getScore(), game.getPlayerName());
-
-		} else if (GameStateManager.isHighScores()) {
-			ScoreInfo.drawScores(g);
-		}
-		
-	}
-
-
 }
