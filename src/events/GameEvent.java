@@ -2,9 +2,9 @@ package events;
 
 import java.awt.Rectangle;
 
-import events.ListenerManager.Action;
-import events.ListenerManager.Movement;
-import events.ListenerManager.Movement.Direction;
+import events.ShapeListenerManager.Action;
+import events.ShapeListenerManager.Movement;
+import events.ShapeListenerManager.Movement.Direction;
 
 public class GameEvent {
 
@@ -15,7 +15,6 @@ public class GameEvent {
 	private String message;
 	
 	public GameEvent(Action a, Movement m, Direction d, Rectangle r, String message) {
-		// TODO Auto-generated constructor stub
 		this.action = a;
 		this.movement = m;
 		this.direction = d;
@@ -42,5 +41,4 @@ public class GameEvent {
 	public String getMessage() {
 		return message;
 	}
-
 }

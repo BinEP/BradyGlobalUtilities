@@ -1,16 +1,9 @@
-package gameActions;
-
-import java.util.ArrayList;
+package game_actions;
 
 public abstract class Directions extends Game {
 
+	private static final long serialVersionUID = 1018029021558999847L;
 	
-	
-	public Directions() {
-		
-		super();
-		
-	}
 	public abstract void up();
 	public abstract void down();
 	public abstract void left();
@@ -20,7 +13,4 @@ public abstract class Directions extends Game {
 	public abstract void downReleased();
 	public abstract void leftReleased();
 	public abstract void rightReleased();
-	
-	
-	
 }
