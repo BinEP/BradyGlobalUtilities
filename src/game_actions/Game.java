@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 import java.awt.Graphics2D;
 

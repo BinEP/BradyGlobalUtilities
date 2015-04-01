@@ -17,7 +17,7 @@ import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
 import events.GameEvent;
 import events.ShapeListenerManager;
-import gameActions.Control;
+import game_actions.Control;
 import game_state.GameStateManager;
 
 public class ListenerActivator implements KeyListener, ActionListener,

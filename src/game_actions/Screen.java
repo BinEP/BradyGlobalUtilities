@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 import custom_listeners.BSActionListener;
 import custom_listeners.BSKeyListener;

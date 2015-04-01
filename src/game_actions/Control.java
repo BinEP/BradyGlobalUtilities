@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -28,52 +28,38 @@ import utility_classes.*;
 public class Control extends JPanel implements Screen {
 
 	private static final long serialVersionUID = 6238122615986771090L;
-	protected boolean showMouseCoords = false;
-	public boolean fullscreen = false;
-
-	/** The value for the upKey This can be changed to suit the user of player */
-	public int upKey = KeyEvent.VK_UP;
-	/** The value for the downKey This can be changed to suit the user of player */
-	public int downKey = KeyEvent.VK_DOWN;
-	/** The value for the leftKey This can be changed to suit the user of player */
-	public int leftKey = KeyEvent.VK_LEFT;
-	/**
-	 * The value for the rightKey This can be changed to suit the user of player
-	 */
-	public int rightKey = KeyEvent.VK_RIGHT;
-
-	protected int width = Windows.getWidth();
-	protected int height = Windows.getHeight();
-
+	public static CustomFont customFont;
 	public static int WIDTH = 800;
 	public static int HEIGHT = 480;
-
-	/** Outside box of Windows */
-	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
-
-	public static CustomFont customFont;
-
+	
+	public boolean fullscreen = false;
+	public int score;
+	
+	public int upKey = KeyEvent.VK_UP;
+	public int downKey = KeyEvent.VK_DOWN;
+	public int leftKey = KeyEvent.VK_LEFT;
+	public int rightKey = KeyEvent.VK_RIGHT;
+	
 	public enum Direction {
 		up, down, left, right, none;
 	}
-
+	
 	/**
 	 * The positions that scores could be on screen to make it easier to
 	 * position the score
-	 * 
 	 * @author Brady Stoffel
 	 */
-	protected enum ScoreCoords {
+	public enum ScoreCoords {
 
-		top_left(10, 10), top_middle(Windows.getWidth() / 2, 10), top_right(
-				Windows.getWidth() - 10, 10), middle_left(10, Windows
-				.getHeight() / 2), middle_middle(Windows.getWidth() / 2,
-				Windows.getHeight() / 2), middle_right(Windows.getWidth() - 10,
-				Windows.getHeight() / 2), bottom_left(10,
-				Windows.getHeight() - 15), bottom_middle(
-				Windows.getWidth() / 2, Windows.getHeight()
-						- Windows.getTopBuffer()), bottom_right(Windows
-				.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
+		top_left					(10, 10), 
+		top_middle					(Windows.getWidth() / 2, 10), 
+		top_right					(Windows.getWidth() - 10, 10), 
+		middle_left					(10, Windows.getHeight() / 2), 
+		middle_middle				(Windows.getWidth() / 2, Windows.getHeight() / 2), 
+		middle_right				(Windows.getWidth() - 10, Windows.getHeight() / 2), 
+		bottom_left					(10, Windows.getHeight() - 15), 
+		bottom_middle				(Windows.getWidth() / 2, Windows.getHeight() - Windows.getTopBuffer()), 
+		bottom_right				(Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
 
 		protected int x;
 		protected int y;
@@ -89,7 +75,6 @@ public class Control extends JPanel implements Screen {
 
 		/**
 		 * Draws text at preset enum position using current font
-		 * 
 		 * @param text
 		 * @param g
 		 */
@@ -113,6 +98,14 @@ public class Control extends JPanel implements Screen {
 			}
 		}
 	}
+	
+	protected boolean showMouseCoords = false;
+	protected int width = Windows.getWidth();
+	protected int height = Windows.getHeight();
+
+	/** Outside box of Windows */
+	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
+
 
 	/**
 	 * keyMap - modify this to change key locations Gets modified when on the
@@ -123,19 +116,13 @@ public class Control extends JPanel implements Screen {
 			KeyEvent.VK_DOWN, KeyEvent.VK_LEFT };
 
 	protected int keyIndex = 0;
-
-	/** The value that deltaX and deltaY will change player position by */
 	protected int movementVar = 10;
-	/** How much a player moves in the x direction */
 	protected int deltaX = movementVar;
-	/** How much a player moves in the y direction */
 	protected int deltaY = 0;
 
 	protected String pName = "";
 
-	/** player x position */
 	protected int playerX;
-	/** player y position */
 	protected int playerY;
 
 	protected Timer timer;
@@ -145,11 +132,12 @@ public class Control extends JPanel implements Screen {
 	/** If you want to game to speed up as the score gets higher */
 	protected boolean speedUp = false;
 
-	public int score;
+	
 	protected Character letter;
 
 	private ListenerActivator listenerActivator;
 	private DirectionExecution directionExecution;
+	
 
 	protected Control() {
 
@@ -461,11 +449,6 @@ public class Control extends JPanel implements Screen {
 		WIDTH = w;
 		HEIGHT = h;
 	}
-
-//	public String getTXT_FILE() {
-//		return (getGameName() != null) ? getGameName().toLowerCase()
-//				.replaceAll("\\s", "") : "";
-//	}
 
 	public static String getFONT_FILE() {
 		return Windows.getFONT_NAME();

@@ -3,8 +3,8 @@ package game_state;
 import java.util.ArrayList;
 
 import listener_control.ListenerActivator;
-import gameActions.Control;
-import gameActions.Control.Direction;
+import game_actions.Control;
+import game_actions.Control.Direction;
 
 public class DirectionExecution {
 

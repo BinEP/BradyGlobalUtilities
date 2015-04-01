@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 public abstract class Directions extends Game {
 

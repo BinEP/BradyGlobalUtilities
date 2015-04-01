@@ -1,6 +1,6 @@
 package utility_classes;
 
-import gameActions.Control;
+import game_actions.Control;
 
 import java.awt.Color;
 import java.awt.Font;

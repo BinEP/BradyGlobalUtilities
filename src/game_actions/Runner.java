@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 import java.awt.BorderLayout;
 import java.awt.Window;
