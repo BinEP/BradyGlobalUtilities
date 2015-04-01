@@ -1,46 +1,28 @@
-package utilityClasses;
+package utility_classes;
 
 import java.awt.Font;
-import java.awt.FontFormatException;
 import java.awt.GraphicsEnvironment;
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
-import java.net.URISyntaxException;
 
 public class CustomFont {
 
 	private String path;
-	
-//	public Font customFont;
-	public Font customFont;
+	private Font customFont;
 
 	public CustomFont(String fontPath) {
-		
 		makeCustomFont(fontPath);
 	}
 	
 	public CustomFont(String fontPath, int fontThickness, int size) {
-
 		makeCustomFont(fontPath);
 		setFont(fontThickness, size);
 	}
-	
-	public static String getFontPath(String fontName) {
-		
-		return "/Fonts/" + fontName + ".ttf";
-	}
 
-	public void makeCustomFont(String fontPath) {
-
+	public void makeCustomFont(String fontFileName) {
 		try {
+			this.path = "/Fonts/" + fontFileName + ".ttf";
 
-			fontPath = getFontPath(fontPath);
-			this.path = fontPath;
-
-			InputStream fontStream = CustomFont.class.getClass().getResourceAsStream(fontPath);
+			InputStream fontStream = CustomFont.class.getClass().getResourceAsStream(path);
 			System.out.println(CustomFont.class.getClassLoader());
 			System.out.println(fontStream.toString());
 			
@@ -49,26 +31,17 @@ public class CustomFont {
 			customFont = Font.createFont(Font.TRUETYPE_FONT, fontStream);
 			ge.registerFont(customFont);
 		} catch (Exception e) {
-			// Handle exception
 			customFont = new Font("Arial", Font.BOLD, 18);
 			System.out.println("Special Font");
 			e.printStackTrace();
 		}
-
 		setFont(Font.BOLD, 18);
-		
 	}
 	
-	public static Font makeCustomFont(String fontPath, int size) {
-
-		
-		
+	public static Font makeCustomFont(String fontFileName, int size) {
 		try {
-
-			fontPath = getFontPath(fontPath);
 			Font customFont;
-			InputStream fontStream = CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontPath + ".ttf");
-
+			InputStream fontStream = CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontFileName + ".ttf");
 
 			GraphicsEnvironment ge = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();
@@ -79,26 +52,19 @@ public class CustomFont {
 			return customFont;
 			
 		} catch (Exception e) {
-			// Handle exception
 			e.printStackTrace();
 			return null;
 		}
-
-		
-		
 	}
 	
 	/**
 	 * Gets font at specified thickness and size
-	 * 
 	 * @param fontThickness
 	 * @param size
 	 * @return
 	 */
 	public Font getFont(int fontThickness, int size) {
-
 		return customFont.deriveFont(fontThickness, size);
-
 	}
 
 	/**
@@ -107,21 +73,16 @@ public class CustomFont {
 	 * @return
 	 */
 	public Font getFont(int size) {
-
 		return customFont.deriveFont((float) size);
-
 	}
 
 	/**
 	 * Gets current font size at specified weight
-	 * 
 	 * @param fontThickness
 	 * @return
 	 */
 	public Font getFontWeight(int fontThickness) {
-
 		return customFont.deriveFont(fontThickness);
-
 	}
 
 	/**
@@ -131,7 +92,6 @@ public class CustomFont {
 	 * @return
 	 */
 	public Font setFont(int fontThickness, int size) {
-
 		customFont = customFont.deriveFont(fontThickness, size);
 		return customFont;
 	}
@@ -142,7 +102,6 @@ public class CustomFont {
 	 * @return
 	 */
 	public Font setFontSize(int size) {
-
 		customFont = customFont.deriveFont(size);
 		return customFont;
 	}
@@ -153,22 +112,16 @@ public class CustomFont {
 	 * @return
 	 */
 	public Font setFontWeight(int fontThickness) {
-
 		customFont = customFont.deriveFont(fontThickness);
 		return customFont;
 	}
 	
 	/**
 	 * Returns the custom font
-	 * 
 	 * @return
 	 */
 	public Font getCustomFont() {
-		
-		
 		return customFont;
-		
-		
 	}
 	
 	/**
@@ -177,14 +130,10 @@ public class CustomFont {
 	 * @return
 	 */
 	public Font fontAtSize(int size) {
-		
 		return customFont.deriveFont(Font.BOLD, size);
-		
 	}
 
 	public Font getFont() {
-		// TODO Auto-generated method stub
 		return customFont;
 	}
-
 }

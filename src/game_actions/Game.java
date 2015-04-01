@@ -1,24 +1,16 @@
-package gameActions;
+package game_actions;
 
 import java.awt.Graphics2D;
 
-import utilityClasses.Windows;
 /**
  * Methods that UserGame needs to have, the draw methods are in control, so only need of you want a custom
  * screen
- * 
  * @author Brady
- *
  */
-public abstract class PlayerInterface extends Control {
+public abstract class Game extends Control {
 
-	public PlayerInterface() {
-		super();
-		NAME = getGameName();
-		TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
-		FOLDER_PATH = getFolderPath();
-		FONT_FILE = Windows.getFONT_NAME();
-	}
+	private static final long serialVersionUID = 3546423013132640029L;
+
 	public abstract void moves();
 	public abstract boolean checkIfDead();
 	public abstract void reset();
@@ -27,8 +19,4 @@ public abstract class PlayerInterface extends Control {
 	public abstract void setup();
 	
 	public abstract String getGameName();
-//	public abstract int getScore();
-//	public abstract String getFolderPath();
-//	public abstract String getFontFile();
-	
 }

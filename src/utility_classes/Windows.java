@@ -1,11 +1,8 @@
-package utilityClasses;
+package utility_classes;
 
 /**
- * 
  * All variables that the classes will use for sizing, names, and other constants for the game
- * 
  * @author Brady
- *
  */
 public class Windows {
 
@@ -22,9 +19,7 @@ public class Windows {
 	private static boolean ALWAYS_ON_TOP = false;
 	private static boolean RESIZEABLE = true;
 	
-	
 	private static String FONT_NAME = "joystix";
-//	private static String FONT_NAME = "tele";
 	private static int TITLE_SIZE = 80;
 	private static int ENTER_TO_START_SIZE = 26;
 	
@@ -45,23 +40,6 @@ public class Windows {
 	private static int YOU_LOSE_Y = 170;
 	private static int RESTART_Y = 320;
 	
-	/**
-	 * Game name displayed in window bar and on title screen
-	 */
-//	public static final String GAME_NAME = "Snake";
-//
-//	/**
-//	 * Path of folder where score and people files are
-//	 */
-//	public static final String FOLDER_PATH = "InfoFiles/";
-//	public static final String NAME = "Game Name";
-//	public static final String TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
-//	public static final String FONT_FILE = "joystix";
-//	
- 	public Windows() {
-		// TODO Auto-generated constructor stub
-	}
-
 	/**
 	 * @return the wIDTH
 	 */

@@ -5,24 +5,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import events.ListenerManager.Movement.Direction;
-import events.listeners.GameListener;
+import custom_listeners.BSGameListener;
+import events.ShapeListenerManager.Movement.Direction;
 
-public class ListenerManager {
-
-	/*
-	 * Types of actions
-	 * 
-	 * Movement Trigger Death Created
-	 * 
-	 * Object Reactions
-	 * 
-	 * Bounce Teleport Hit other shape
-	 * 
-	 * Movement Actions
-	 * 
-	 * Move Enter Exit None
-	 */
+public class ShapeListenerManager {
 
 	public enum Action {
 		score, death;
@@ -36,9 +22,9 @@ public class ListenerManager {
 		}
 	}
 
-	private static ListenerManager lm = new ListenerManager();
+	private static ShapeListenerManager lm = new ShapeListenerManager();
 	public static List<TriggerInfo> triggers = new ArrayList<TriggerInfo>();
-	public static List<GameListener> listeners = new ArrayList<GameListener>();
+	public static List<BSGameListener> listeners = new ArrayList<BSGameListener>();
 
 	private static ListenerThread t = new ListenerThread();
 	
@@ -62,11 +48,11 @@ public class ListenerManager {
 		}
 	}
 
-	public static void addListener(GameListener g) {
+	public static void addListener(BSGameListener g) {
 		listeners.add(g);
 	}
 
-	public static void removeListener(GameListener g) {
+	public static void removeListener(BSGameListener g) {
 		listeners.remove(g);
 	}
 
@@ -102,13 +88,13 @@ public class ListenerManager {
 	}
 
 	public static void sendScore(GameEvent e) {
-		for (GameListener l : listeners) {
+		for (BSGameListener l : listeners) {
 			l.scored(e);
 		}
 	}
 
 	public static void sendDeath(GameEvent e) {
-		for (GameListener l : listeners) {
+		for (BSGameListener l : listeners) {
 			l.death(e);
 		}
 	}
@@ -120,10 +106,6 @@ public class ListenerManager {
 	public static void stopThread() {
 		t.stopThread();
 	}
-
-	
-
-	public ListenerManager() {}
 
 	public interface Trigger {
 		public Rectangle getPosition();
@@ -152,7 +134,7 @@ public class ListenerManager {
 
 	private static class ListenerThread implements Runnable {
 		
-		public static boolean running = true;
+		public static boolean running = false;
 		private Thread t;
 		
 		public void startThread() {
@@ -174,7 +156,6 @@ public class ListenerManager {
 		public void stopThread() {
 			System.out.println("Stopping Thread");
 			running = false;
-			
 		}
 		
 		@Override
@@ -186,9 +167,8 @@ public class ListenerManager {
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
-				 System.out.println("ListenerThread");
+//				 System.out.println("ListenerThread");
 			}
 		}
 	}
-
 }
