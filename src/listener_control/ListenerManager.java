@@ -21,21 +21,21 @@ public class ListenerManager {
 	public static List<BSGameListener> gameListeners = new ArrayList<BSGameListener>();
 	
 	public static void addAllListeners(BSAllListeners al) {
-		keyListeners.add(al);
-		directionKeyListeners.add(al);
-		actionListeners.add(al);
-		mouseListeners.add(al);
-		focusListeners.add(al);
-		gameListeners.add(al);
+		addKeyListener(al);
+		addDirectionKeyListener(al);
+		addActionListener(al);
+		addMouseListener(al);
+		addFocusListener(al);
+		addGameListener(al);
 	}
 	
 	public static void removeAllListeners(BSAllListeners al) {
-		keyListeners.remove(al);
-		directionKeyListeners.remove(al);
-		actionListeners.remove(al);
-		mouseListeners.remove(al);
-		focusListeners.remove(al);
-		gameListeners.remove(al);
+		removeKeyListener(al);
+		removeDirectionKeyListener(al);
+		removeActionListener(al);
+		removeMouseListener(al);
+		removeFocusListener(al);
+		removeGameListener(al);
 	}
 	
 	public static void addKeyListener(BSKeyListener k) {
