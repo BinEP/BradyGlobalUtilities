@@ -1,5 +1,5 @@
 package shapes.interfaces;
 
-public interface Updateable {
+public interface Updatable {
 	public void update();
 }

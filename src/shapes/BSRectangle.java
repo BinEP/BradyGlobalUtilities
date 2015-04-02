@@ -147,39 +147,50 @@ public class BSRectangle implements BSShape {
 
 	@Override
 	public boolean intersects(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		
-		return false;
-		
+		return intersects(new Rectangle((int) x, (int) y, (int) w, (int) h));
 	}
 
 	@Override
 	public boolean intersects(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
+		int tw = this.width;
+        int th = this.height;
+        int rw = (int) r.getWidth();
+        int rh = (int) r.getHeight();
+        if (rw <= 0 || rh <= 0 || tw <= 0 || th <= 0) {
+            return false;
+        }
+        int tx = this.x;
+        int ty = this.y;
+        int rx = (int) r.getX();
+        int ry = (int) r.getY();
+        rw += rx;
+        rh += ry;
+        tw += tx;
+        th += ty;
+        //      overflow || intersect
+        return ((rw < rx || rw > tx) &&
+                (rh < ry || rh > ty) &&
+                (tw < tx || tw > rx) &&
+                (th < ty || th > ry));
 	}
 
 	@Override
 	public boolean contains(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
+		return contains(x, y) && contains(x + w, y + h);
 	}
 
 	@Override
 	public boolean contains(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
+		return contains(r.getX(), r.getY(), r.getWidth(), r.getHeight());
 	}
 
 	@Override
 	public PathIterator getPathIterator(AffineTransform at) {
-		// TODO Auto-generated method stub
-		return null;
+		 return new Rectangle(x, y, width, height).getPathIterator(at);
 	}
 
 	@Override
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		// TODO Auto-generated method stub
-		return null;
+		 return new Rectangle(x, y, width, height).getPathIterator(at, flatness);
 	}
 }
