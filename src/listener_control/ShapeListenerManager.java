@@ -23,8 +23,11 @@ public class ShapeListenerManager {
 			right, left, up, down, any, none;
 		}
 	}
+	
+	public enum State {
+		entered, exited;
+	}
 
-	private static ShapeListenerManager lm = new ShapeListenerManager();
 	public static List<TriggerInfo> triggers = new ArrayList<TriggerInfo>();
 	public static List<BSGameListener> listeners = new ArrayList<BSGameListener>();
 
@@ -32,7 +35,10 @@ public class ShapeListenerManager {
 	
 	public static void addTrigger(Action a, Movement m, Direction d,
 			Rectangle r, String message, Trigger t) {
-		triggers.add(lm.new TriggerInfo(a, m, d, r, message, t));
+		State s = (r.contains(t.getPosition().getBounds())) ? State.entered : State.exited;
+		
+		TriggerInfo ti = new TriggerInfo(a, m, d, s, r, message, t);
+			triggers.add(ti);
 	}
 
 	public static void addTrigger(Action a, Movement m, Rectangle r,
@@ -60,18 +66,33 @@ public class ShapeListenerManager {
 
 	public static void triggerTheStuff() {
 
+		System.out.println("Triggering Stuff");
 		for (TriggerInfo ti : triggers) {
 			Trigger t = ti.trigger;
-
-			boolean entered = t.getPosition().contains(ti.rectangle);
 			
-			if ((ti.movement == Movement.enter && entered) 
-			 || (ti.movement == Movement.exit && !entered))
-
+			boolean alreadyInside = ti.state == State.entered;
+			boolean entered = ti.rectangle.contains(t.getPosition().getBounds());
+			System.out.println("Inside: " + alreadyInside);
+			System.out.println("Entered: " + entered);
+			if ((ti.movement == Movement.enter && entered && !alreadyInside) 
+			 || (ti.movement == Movement.exit && !entered && alreadyInside)) {
+				
+				ti.state = (ti.state == State.entered) ? State.exited : State.entered;
 				if (ti.direction == Direction.any
 						|| ti.direction == t.getDirection())
 					sendEvent(ti);
+			}
 		}
+	}
+	
+	public static void resetAllStates() {
+		for (TriggerInfo ti : triggers) {
+			resetState(ti);
+		}
+	}
+	
+	public static void resetState(TriggerInfo ti) {
+			ti.resetState();
 	}
 
 	public static void sendEvent(TriggerInfo ti) {
@@ -109,16 +130,18 @@ public class ShapeListenerManager {
 		t.stopThread();
 	}
 
-	private class TriggerInfo {
+	private static class TriggerInfo {
 
 		public Action action;
 		public Movement movement;
 		public Direction direction;
+		public State state;
+		private State origState;
 		public Rectangle rectangle;
 		public String message;
 		public Trigger trigger;
 
-		public TriggerInfo(Action a, Movement m, Direction d, Rectangle r,
+		public TriggerInfo(Action a, Movement m, Direction d, State s, Rectangle r,
 				String message, Trigger t) {
 			this.action = a;
 			this.movement = m;
@@ -126,6 +149,12 @@ public class ShapeListenerManager {
 			this.rectangle = r;
 			this.message = message;
 			this.trigger = t;
+			this.state = s;
+			this.origState = s;
+		}
+		
+		public void resetState() {
+			state = origState;
 		}
 	}
 

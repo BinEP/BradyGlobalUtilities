@@ -4,9 +4,6 @@ import listener_control.ShapeListenerManager.Movement.Direction;
 import shapes.BSRectangle;
 
 public interface Trigger {
-
-	public abstract BSRectangle getPosition();
-
-	public abstract Direction getDirection();
-
+	public BSRectangle getPosition();
+	public Direction getDirection();
 }

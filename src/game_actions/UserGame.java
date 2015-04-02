@@ -18,6 +18,7 @@ public class UserGame extends Game implements BSGameListener {
 	private static final long serialVersionUID = 6772560356584757192L;
 
 	public BSRectangle player;
+	private BSRectangle goal;
 
 	/**
 	 * Used to draw custom graphics on the screen Anything in this method will
@@ -43,6 +44,8 @@ public class UserGame extends Game implements BSGameListener {
 		
 		CenteredText.draw("Draw 2", new Rectangle(50, 70, 100, 60), g);
 		g.drawRoundRect(50, 70, 100, 60, 5, 5);
+		
+		g.draw(goal);
 		
 		g.drawString(String.valueOf(getTime()), 5, 15);
 	}
@@ -109,9 +112,12 @@ public class UserGame extends Game implements BSGameListener {
 		deltaY = 2;
 		playerX = 100;
 		playerY = 100;
+		goal = new BSRectangle(300, 300, 30, 100);
 //		ListenerManager.addGameListener(this);
 		player = new BSRectangle(playerX, playerY, 20, 20);
 		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox,
+				"Stuff", player);
+		ShapeListenerManager.addTrigger(Action.score, Movement.enter, goal.getBounds(),
 				"Stuff", player);
 		// ListenerManager.addTrigger(Action.score, Movement.exit, outerbox,
 		// "Stuff", player);
@@ -124,7 +130,7 @@ public class UserGame extends Game implements BSGameListener {
 
 	@Override
 	public int getScore() {
-		return getTime();
+		return score;
 	}
 
 	public static void main(String[] args) {
