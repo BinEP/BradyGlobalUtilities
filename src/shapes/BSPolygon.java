@@ -1,5 +1,7 @@
 package shapes;
 
+import game_actions.Control;
+
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 
@@ -14,10 +16,12 @@ public class BSPolygon extends Polygon implements BSShape {
 	private Direction direction = Direction.none;
 	
 	public BSPolygon() {
+		Control.addUpdatable(this);
 	}
 
 	public BSPolygon(int[] xpoints, int[] ypoints, int npoints) {
 		super(xpoints, ypoints, npoints);
+		Control.addUpdatable(this);
 	}
 
 	@Override

@@ -9,6 +9,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JPanel;
 import javax.swing.Timer;
@@ -20,6 +22,7 @@ import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
+import shapes.interfaces.Updatable;
 import utility_classes.*;
 
 /**
@@ -29,6 +32,7 @@ public class Control extends JPanel implements Screen {
 
 	private static final long serialVersionUID = 6238122615986771090L;
 	public static CustomFont customFont;
+	private static final List<Updatable> updatables = new ArrayList<Updatable>();
 	public static int WIDTH = 800;
 	public static int HEIGHT = 480;
 	
@@ -80,7 +84,7 @@ public class Control extends JPanel implements Screen {
 	protected double speed = origSpeed;
 	/** If you want to game to speed up as the score gets higher */
 	protected boolean speedUp = false;
-
+	
 	private GameTime actionTimer;
 	private ListenerActivator listenerActivator;
 	private DirectionExecution directionExecution;
@@ -217,10 +221,12 @@ public class Control extends JPanel implements Screen {
 	protected void drawBorder(Graphics2D g, Color c, int width) {
 		customDrawing.drawBorder(g, c, width);
 	}
-
+	
 	protected void setup() {}
 
 	protected void reset() {}
+	
+	protected void moves() {}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -310,7 +316,10 @@ public class Control extends JPanel implements Screen {
 			if (directionExecution.getNextDirection().size() > 0
 					&& GameStateManager.isSingleDirection())
 				directionExecution.executeDirection();
-
+			synchronized(updatables) {
+				for (Updatable u : updatables) 
+					u.update();
+			}
 			moves();
 
 			if (speedUp)
@@ -324,6 +333,12 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 
+	public static final void addUpdatable(Updatable u) {
+		synchronized(updatables) {
+			updatables.add(u);
+		}
+	}
+	
 	protected void executeEveryTick() {}
 	
 	@Override
@@ -355,8 +370,6 @@ public class Control extends JPanel implements Screen {
 		WIDTH = w;
 		HEIGHT = h;
 	}
-
-	protected void moves() {}
 	
 	public ListenerActivator getListenerActivator() {return listenerActivator;}
 	

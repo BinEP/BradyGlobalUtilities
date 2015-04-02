@@ -1,5 +1,7 @@
 package shapes;
 
+import game_actions.Control;
+
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -54,6 +56,7 @@ public class BSRectangle implements BSShape {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		Control.addUpdatable(this);
 	}
 	
 	public BSRectangle(int x, int y, int width, int height, int dx, int dy) {
