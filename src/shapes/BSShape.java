@@ -17,8 +17,8 @@ import events.ShapeListenerManager.Trigger;
 
 public abstract class BSShape implements Shape, Trigger, BSAllListeners {
 
-	public static BSHashMap shapeTriggers = new BSHashMap();
-		
+	private static final BSHashMap shapeTriggers = new BSHashMap();
+
 	public BSShape() {
 		ListenerManager.addAllListeners(this);
 		ListenerManager.removeDirectionKeyListener(this);
@@ -28,13 +28,15 @@ public abstract class BSShape implements Shape, Trigger, BSAllListeners {
 
 	public abstract void setDirection(Direction d);
 
-	public static void addMouseAction(String listener, Class<?> classToCallMethod,
-			String methodName) {
+	public static void addMouseAction(String listener,
+			Class<?> classToCallMethod, String methodName) {
 		try {
 			Class<?> params[] = { getEventParameter(listener) };
 			Method callMethod = classToCallMethod.getMethod(methodName, params);
-			shapeTriggers.put(listener, new CallMethod(classToCallMethod,
-					callMethod));
+			synchronized (shapeTriggers) {
+				shapeTriggers.put(listener, new CallMethod(classToCallMethod,
+						callMethod));
+			}
 		} catch (NoSuchMethodException | SecurityException
 				| ClassNotFoundException e) {
 			e.printStackTrace();
@@ -69,13 +71,17 @@ public abstract class BSShape implements Shape, Trigger, BSAllListeners {
 			return theMethod;
 		}
 	}
-	
+
 	public static void runMethod(String key, AWTEvent e) {
 		try {
-			ArrayList<CallMethod> methods = (ArrayList<CallMethod>) shapeTriggers
-					.get(key);
-			for (CallMethod cm : methods) {
-				cm.theMethod.invoke(cm.theClass, e);
+			synchronized (shapeTriggers) {
+
+				ArrayList<CallMethod> methods = (ArrayList<CallMethod>) shapeTriggers
+						.get(key);
+
+				for (CallMethod cm : methods) {
+					cm.theMethod.invoke(cm.theClass, e);
+				}
 			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -89,46 +95,46 @@ public abstract class BSShape implements Shape, Trigger, BSAllListeners {
 
 	@Override
 	public void gotFocus(FocusEvent e) {
-		runMethod("focus", e);
+		runMethod("gotFocus", e);
 	}
 
 	@Override
 	public void lostFocus(FocusEvent e) {
-		runMethod("focus", e);
+		runMethod("lostFocus", e);
 	}
 
 	@Override
 	public void scored(GameEvent g) {
-		runMethod("game", g);
+		runMethod("scored", g);
 	}
 
 	@Override
 	public void death(GameEvent g) {
-		runMethod("game", g);
+		runMethod("death", g);
 	}
 
 	@Override
 	public void clicked(MouseEvent e) {
-		runMethod("mouse", e);
+		runMethod("clicked", e);
 	}
 
 	@Override
 	public void pressed(MouseEvent e) {
-		runMethod("mouse", e);
+		runMethod("pressed", e);
 	}
 
 	@Override
 	public void released(MouseEvent e) {
-		runMethod("mouse", e);
+		runMethod("released", e);
 	}
 
 	@Override
 	public void enters(MouseEvent e) {
-		runMethod("mouse", e);
+		runMethod("enters", e);
 	}
 
 	@Override
 	public void exits(MouseEvent e) {
-		runMethod("mouse", e);
+		runMethod("exits", e);
 	}
 }
