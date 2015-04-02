@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import shapes.BSRectangle;
 import custom_listeners.BSGameListener;
 import events.ShapeListenerManager.Movement.Direction;
 
@@ -61,7 +62,7 @@ public class ShapeListenerManager {
 		for (TriggerInfo ti : triggers) {
 			Trigger t = ti.trigger;
 
-			boolean entered = ti.rectangle.contains(t.getPosition());
+			boolean entered = t.getPosition().contains(ti.rectangle);
 			
 			if ((ti.movement == Movement.enter && entered) 
 			 || (ti.movement == Movement.exit && !entered))
@@ -108,7 +109,7 @@ public class ShapeListenerManager {
 	}
 
 	public interface Trigger {
-		public Rectangle getPosition();
+		public BSRectangle getPosition();
 		public Direction getDirection();
 	}
 
