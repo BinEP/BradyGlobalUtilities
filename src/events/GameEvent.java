@@ -3,9 +3,9 @@ package events;
 import java.awt.AWTEvent;
 import java.awt.Rectangle;
 
-import events.ShapeListenerManager.Action;
-import events.ShapeListenerManager.Movement;
-import events.ShapeListenerManager.Movement.Direction;
+import listener_control.ShapeListenerManager.Action;
+import listener_control.ShapeListenerManager.Movement;
+import listener_control.ShapeListenerManager.Movement.Direction;
 
 public class GameEvent extends AWTEvent {
 

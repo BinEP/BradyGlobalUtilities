@@ -1,13 +1,14 @@
-package events;
+package listener_control;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import shapes.BSRectangle;
+import shapes.interfaces.Trigger;
+import listener_control.ShapeListenerManager.Movement.Direction;
 import custom_listeners.BSGameListener;
-import events.ShapeListenerManager.Movement.Direction;
+import events.GameEvent;
 
 public class ShapeListenerManager {
 
@@ -106,11 +107,6 @@ public class ShapeListenerManager {
 	
 	public static void stopThread() {
 		t.stopThread();
-	}
-
-	public interface Trigger {
-		public BSRectangle getPosition();
-		public Direction getDirection();
 	}
 
 	private class TriggerInfo {

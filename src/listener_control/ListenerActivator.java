@@ -16,7 +16,6 @@ import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
 import events.GameEvent;
-import events.ShapeListenerManager;
 import game_actions.Control;
 import game_state.GameStateManager;
 

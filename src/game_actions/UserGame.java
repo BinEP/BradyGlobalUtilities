@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import listener_control.ShapeListenerManager;
+import listener_control.ShapeListenerManager.Action;
+import listener_control.ShapeListenerManager.Movement;
 import custom_listeners.BSGameListener;
 import events.GameEvent;
-import events.ShapeListenerManager;
-import events.ShapeListenerManager.Action;
-import events.ShapeListenerManager.Movement;
 import game_state.GameStateManager;
 import shapes.BSRectangle;
 import utility_classes.CenteredText;

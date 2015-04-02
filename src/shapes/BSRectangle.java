@@ -1,6 +1,7 @@
 package shapes;
 
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
@@ -8,12 +9,13 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
-import events.ShapeListenerManager.Movement.Direction;
+import shapes.interfaces.BSShape;
+import listener_control.ShapeListenerManager.Movement.Direction;
 
 public class BSRectangle implements BSShape {
 
-	public int deltaX = 0;
-	public int deltaY = 0;
+	private int deltaX = 0;
+	private int deltaY = 0;
 	private Direction direction = Direction.none;
 	
 	public int x;
@@ -89,6 +91,32 @@ public class BSRectangle implements BSShape {
 	@Override
 	public void setDirection(Direction d) {
 		direction = d;
+	}
+	
+	@Override
+	public void update() {
+		x += deltaX;
+		y += deltaY;
+	}
+
+	@Override
+	public int getDeltaX() {
+		return deltaX;
+	}
+
+	@Override
+	public int getDeltaY() {
+		return deltaY;
+	}
+	
+	@Override
+	public void draw(Graphics2D g) {
+		g.draw(this);
+	}
+	
+	@Override
+	public void fill(Graphics2D g) {
+		g.fill(this);
 	}
 
 	@Override

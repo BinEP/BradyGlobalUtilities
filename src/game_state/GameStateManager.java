@@ -1,6 +1,6 @@
 package game_state;
 
-import events.ShapeListenerManager;
+import listener_control.ShapeListenerManager;
 
 public class GameStateManager {
 
