@@ -3,6 +3,7 @@ package listener_control;
 import java.util.ArrayList;
 import java.util.List;
 
+import custom_listeners.BSAllListeners;
 import custom_listeners.BSActionListener;
 import custom_listeners.BSDirectionKeyListener;
 import custom_listeners.BSFocusListener;
@@ -18,6 +19,24 @@ public class ListenerManager {
 	public static List<BSMouseListener> mouseListeners = new ArrayList<BSMouseListener>();
 	public static List<BSFocusListener> focusListeners = new ArrayList<BSFocusListener>();
 	public static List<BSGameListener> gameListeners = new ArrayList<BSGameListener>();
+	
+	public static void addAllListeners(BSAllListeners al) {
+		keyListeners.add(al);
+		directionKeyListeners.add(al);
+		actionListeners.add(al);
+		mouseListeners.add(al);
+		focusListeners.add(al);
+		gameListeners.add(al);
+	}
+	
+	public static void removeAllListeners(BSAllListeners al) {
+		keyListeners.remove(al);
+		directionKeyListeners.remove(al);
+		actionListeners.remove(al);
+		mouseListeners.remove(al);
+		focusListeners.remove(al);
+		gameListeners.remove(al);
+	}
 	
 	public static void addKeyListener(BSKeyListener k) {
 		keyListeners.add(k);

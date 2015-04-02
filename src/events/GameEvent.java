@@ -1,13 +1,15 @@
 package events;
 
+import java.awt.AWTEvent;
 import java.awt.Rectangle;
 
 import events.ShapeListenerManager.Action;
 import events.ShapeListenerManager.Movement;
 import events.ShapeListenerManager.Movement.Direction;
 
-public class GameEvent {
+public class GameEvent extends AWTEvent {
 
+	private static final long serialVersionUID = -5196848646745217367L;
 	private Action action;
 	private Movement movement;
 	private Direction direction;
@@ -15,11 +17,16 @@ public class GameEvent {
 	private String message;
 	
 	public GameEvent(Action a, Movement m, Direction d, Rectangle r, String message) {
+		super(r, 1);
 		this.action = a;
 		this.movement = m;
 		this.direction = d;
 		this.rectangle = r;
 		this.message = message;
+	}
+	
+	public GameEvent getThis() {
+		return this;
 	}
 
 	public Action getAction() {
