@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import shapes.BSShape.CallMethod;
+import listener_control.ObjectListenerManager.CallMethod;
 
 public class BSHashMap extends HashMap<String, List<CallMethod>> {
 
