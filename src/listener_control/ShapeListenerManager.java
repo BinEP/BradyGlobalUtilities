@@ -38,7 +38,7 @@ public class ShapeListenerManager {
 		State s = (r.contains(t.getPosition().getBounds())) ? State.entered : State.exited;
 		
 		TriggerInfo ti = new TriggerInfo(a, m, d, s, r, message, t);
-			triggers.add(ti);
+			if (!triggers.contains(ti)) triggers.add(ti);
 	}
 
 	public static void addTrigger(Action a, Movement m, Rectangle r,
@@ -66,18 +66,17 @@ public class ShapeListenerManager {
 
 	public static void triggerTheStuff() {
 
-		System.out.println("Triggering Stuff");
 		for (TriggerInfo ti : triggers) {
 			Trigger t = ti.trigger;
 			
 			boolean alreadyInside = ti.state == State.entered;
 			boolean entered = ti.rectangle.contains(t.getPosition().getBounds());
-			System.out.println("Inside: " + alreadyInside);
-			System.out.println("Entered: " + entered);
+			
+			ti.setCurrentState();
+
 			if ((ti.movement == Movement.enter && entered && !alreadyInside) 
 			 || (ti.movement == Movement.exit && !entered && alreadyInside)) {
 				
-				ti.state = (ti.state == State.entered) ? State.exited : State.entered;
 				if (ti.direction == Direction.any
 						|| ti.direction == t.getDirection())
 					sendEvent(ti);
@@ -149,12 +148,15 @@ public class ShapeListenerManager {
 			this.rectangle = r;
 			this.message = message;
 			this.trigger = t;
-			this.state = s;
+			setCurrentState();
 			this.origState = s;
 		}
 		
 		public void resetState() {
 			state = origState;
+		}
+		public void setCurrentState() {
+			state = (rectangle.contains(trigger.getPosition().getBounds())) ? State.entered : State.exited;
 		}
 	}
 

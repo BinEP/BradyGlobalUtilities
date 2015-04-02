@@ -112,7 +112,7 @@ public class UserGame extends Game implements BSGameListener {
 		deltaY = 2;
 		playerX = 100;
 		playerY = 100;
-		goal = new BSRectangle(300, 300, 30, 100);
+		goal = new BSRectangle(300, 300, 60, 100);
 //		ListenerManager.addGameListener(this);
 		player = new BSRectangle(playerX, playerY, 20, 20);
 		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox,
@@ -140,6 +140,7 @@ public class UserGame extends Game implements BSGameListener {
 	@Override
 	public void scored(GameEvent g) {
 		score++;
+		System.out.println(score);
 	}
 
 	@Override

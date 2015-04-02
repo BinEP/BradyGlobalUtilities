@@ -12,7 +12,18 @@ import custom_listeners.BSAllListeners;
 import events.GameEvent;
 
 public abstract class ObjectListenerManager implements BSAllListeners {
-
+	
+	public static final String ACTION = "action";
+	public static final String GAIN_FOCUS = "gotFocus";
+	public static final String LOST_FOCUS = "lostFocus";
+	public static final String SCORE = "scored";
+	public static final String DEATH = "death";
+	public static final String MOUSE_CLICKED = "clicked";
+	public static final String MOUSE_PRESSED = "pressed";
+	public static final String MOUSE_RELEASED = "released";
+	public static final String MOUSE_ENTERS = "enters";
+	public static final String MOUSE_EXITS = "exits";
+	
 	private static final BSHashMap shapeTriggers = new BSHashMap();
 	
 	private ObjectListenerManager() {
@@ -20,7 +31,7 @@ public abstract class ObjectListenerManager implements BSAllListeners {
 		ListenerManager.removeDirectionKeyListener(this);
 	}
 
-	public static void addMouseAction(String listener,
+	public static void addAction(String listener,
 			Class<?> classToCallMethod, String methodName) {
 		try {
 			Class<?> params[] = { getEventParameter(listener) };
