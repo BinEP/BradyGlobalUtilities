@@ -39,50 +39,74 @@ public class ListenerManager {
 	}
 	
 	public static void addKeyListener(BSKeyListener k) {
-		keyListeners.add(k);
+		synchronized (keyListeners) {
+			keyListeners.add(k);
+		}
 	}
 	
 	public static void removeKeyListener(BSKeyListener k) {
-		keyListeners.remove(k);
+		synchronized (keyListeners) {
+			keyListeners.remove(k);
+		}
 	}
 	
 	public static void addDirectionKeyListener(BSDirectionKeyListener d) {
-		directionKeyListeners.add(d);
+		synchronized (directionKeyListeners) {
+			directionKeyListeners.add(d);
+		}
 	}
 	
 	public static void removeDirectionKeyListener(BSDirectionKeyListener d) {
-		directionKeyListeners.remove(d);
+		synchronized (directionKeyListeners) {
+			directionKeyListeners.remove(d);
+		}
 	}
 	
 	public static void addActionListener(BSActionListener a) {
-		actionListeners.add(a);
+		synchronized (actionListeners) {
+			actionListeners.add(a);
+		}
 	}
 	
 	public static void removeActionListener(BSActionListener a) {
-		actionListeners.remove(a);
+		synchronized (actionListeners) {
+			actionListeners.remove(a);
+		}
 	}
 	
 	public static void addMouseListener(BSMouseListener m) {
-		mouseListeners.add(m);
+		synchronized (mouseListeners) {
+			mouseListeners.add(m);
+		}
 	}
 	
 	public static void removeMouseListener(BSMouseListener m) {
-		mouseListeners.remove(m);
+		synchronized (mouseListeners) {
+			mouseListeners.remove(m);
+		}
 	}
 	
 	public static void addFocusListener(BSFocusListener f) {
-		focusListeners.add(f);
+		synchronized (focusListeners) {
+			focusListeners.add(f);
+		}
 	}
 	
 	public static void removeFocusListener(BSFocusListener f) {
-		focusListeners.remove(f);
+		synchronized (focusListeners) {
+			focusListeners.remove(f);
+		}
 	}
 	
 	public static void addGameListener(BSGameListener g) {
-		gameListeners.add(g);
+		synchronized (gameListeners) {
+			gameListeners.add(g);
+		}
 	}
 	
 	public static void removeGameListener(BSGameListener g) {
-		gameListeners.remove(g);
+		synchronized (gameListeners) {
+			gameListeners.remove(g);
+		}
 	}
 }
