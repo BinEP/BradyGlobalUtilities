@@ -11,7 +11,7 @@ import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
 
-public class ListenerManager {
+public abstract class ListenerManager {
 
 	public static List<BSKeyListener> keyListeners = new ArrayList<BSKeyListener>();
 	public static List<BSDirectionKeyListener> directionKeyListeners = new ArrayList<BSDirectionKeyListener>();
