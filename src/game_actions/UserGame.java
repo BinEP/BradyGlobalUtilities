@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import listener_control.ObjectListenerManager;
 import listener_control.ShapeListenerManager;
 import listener_control.ShapeListenerManager.Action;
 import listener_control.ShapeListenerManager.Movement;
@@ -113,14 +114,13 @@ public class UserGame extends Game implements BSGameListener {
 		playerX = 100;
 		playerY = 100;
 		goal = new BSRectangle(300, 300, 60, 100);
-//		ListenerManager.addGameListener(this);
 		player = new BSRectangle(playerX, playerY, 20, 20);
 		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox,
 				"Stuff", player);
 		ShapeListenerManager.addTrigger(Action.score, Movement.enter, goal.getBounds(),
 				"Stuff", player);
-		// ListenerManager.addTrigger(Action.score, Movement.exit, outerbox,
-		// "Stuff", player);
+		
+		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, this.getClass(), "mouse");
 	}
 
 	@Override
@@ -146,5 +146,9 @@ public class UserGame extends Game implements BSGameListener {
 	@Override
 	public void death(GameEvent g) {
 		GameStateManager.setDead(true);
+	}
+	
+	public void mouse() {
+		System.out.println("Mouse");
 	}
 }

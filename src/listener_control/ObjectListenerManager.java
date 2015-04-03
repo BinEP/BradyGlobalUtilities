@@ -4,15 +4,23 @@ import java.awt.AWTEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
 
 import utility_classes.BSHashMap;
-import custom_listeners.BSAllListeners;
+import custom_listeners.BSActionListener;
+import custom_listeners.BSFocusListener;
+import custom_listeners.BSGameListener;
+import custom_listeners.BSMouseListener;
 import events.GameEvent;
+import game_state.ListenerAutoAdd;
 
-public abstract class ObjectListenerManager implements BSAllListeners {
-	
+public class ObjectListenerManager implements BSActionListener,
+		BSFocusListener, BSGameListener, BSMouseListener {
+
 	public static final String ACTION = "action";
 	public static final String GAIN_FOCUS = "gotFocus";
 	public static final String LOST_FOCUS = "lostFocus";
@@ -23,37 +31,78 @@ public abstract class ObjectListenerManager implements BSAllListeners {
 	public static final String MOUSE_RELEASED = "released";
 	public static final String MOUSE_ENTERS = "enters";
 	public static final String MOUSE_EXITS = "exits";
-	
-	private static final BSHashMap shapeTriggers = new BSHashMap();
-	
-	private ObjectListenerManager() {
-		ListenerManager.addAllListeners(this);
-		ListenerManager.removeDirectionKeyListener(this);
+
+//	public static final BSHashMap shapeTriggers = new BSHashMap();
+
+	static {
+		addListeners();
 	}
 
-	public static void addAction(String listener,
-			Class<?> classToCallMethod, String methodName) {
+	public static BSHashMap shapeTriggers = new BSHashMap();
+
+	private ObjectListenerManager() {
+	}
+
+	private static void addListeners() {
+		ListenerAutoAdd.addListeners(new ObjectListenerManager());
+	}
+
+	public static void addAction(String listener, Class<?> classToCallMethod,
+			String methodName) {
 		try {
 			Class<?> params[] = { getEventParameter(listener) };
 			Method callMethod = classToCallMethod.getMethod(methodName, params);
-			synchronized (shapeTriggers) {
-				shapeTriggers.put(listener, new CallMethod(classToCallMethod,
-						callMethod));
+			addMethod(listener, classToCallMethod, callMethod);
+		} catch (NoSuchMethodException e) {
+			try {
+				Method callMethod = classToCallMethod.getMethod(methodName);
+				addMethod(listener, classToCallMethod, callMethod);
+			} catch (NoSuchMethodException | SecurityException e1) {
+				e1.printStackTrace();
 			}
-		} catch (NoSuchMethodException | SecurityException
-				| ClassNotFoundException e) {
+		} catch (SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
+		}
+
+	}
+
+	private static void addMethod(String listener, Class<?> classToCallMethod,
+			Method callMethod) {
+		synchronized (shapeTriggers) {
+			shapeTriggers.put(listener, new CallMethod(classToCallMethod,
+					callMethod));
 		}
 	}
 
 	private static Class<?> getEventParameter(String listener)
 			throws ClassNotFoundException {
+		String className = listenerName(listener) + "Event";
+		String classString = (className.equals("GameEvent")) ? "events.GameEvent"
+				: "java.awt.event." + className;
+		return Class.forName(classString);
+	}
 
-		int endIndex = listener.indexOf("Listener");
-		int beginIndex = (listener.indexOf("Direction") == -1) ? 3 : 11;
+	private static String listenerName(String listener) {
 
-		String className = listener.substring(beginIndex, endIndex) + "Event";
-		return Class.forName("custom_listeners." + className);
+		switch (listener) {
+
+		case ACTION:
+			return "Action";
+		case GAIN_FOCUS:
+		case LOST_FOCUS:
+			return "Focus";
+		case SCORE:
+		case DEATH:
+			return "Game";
+		case MOUSE_CLICKED:
+		case MOUSE_PRESSED:
+		case MOUSE_RELEASED:
+		case MOUSE_ENTERS:
+		case MOUSE_EXITS:
+			return "Mouse";
+		default:
+			return "";
+		}
 	}
 
 	public static class CallMethod {
@@ -75,44 +124,62 @@ public abstract class ObjectListenerManager implements BSAllListeners {
 		}
 	}
 
-	public static void runMethod(String key, AWTEvent e) {
-		try {
-			synchronized (shapeTriggers) {
+	@SuppressWarnings("unchecked")
+	public synchronized static void runMethod(String key, AWTEvent e) {
+		synchronized (shapeTriggers) {
 
-				ArrayList<CallMethod> methods = (ArrayList<CallMethod>) shapeTriggers.get(key);
-
-				for (CallMethod cm : methods) {
-					cm.theMethod.invoke(cm.theClass, e);
-				}
+			ArrayList<CallMethod> methods = (ArrayList<CallMethod>) shapeTriggers
+					.get(key);
+			if (methods == null)
+				return;
+			try {
+				 for (CallMethod cm : (ArrayList<CallMethod>) methods.clone()) {
+					 runAndCatchException(cm, e);
+				 }
+			} catch (ConcurrentModificationException e1) {
+				System.out.println("ConcurrentModError! BS");
+				e1.printStackTrace();
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
-		} catch (Exception e1) {
-			e1.printStackTrace();
+		}
+	}
+
+	private static void runAndCatchException(CallMethod cm, AWTEvent e)
+			throws IllegalAccessException, IllegalArgumentException,
+			InvocationTargetException, InstantiationException {
+		try {
+			Object o = cm.theClass.newInstance();
+			cm.theMethod.invoke(o, e);
+		} catch (IllegalArgumentException e1) {
+			Object o = cm.theClass.newInstance();
+			cm.theMethod.invoke(o);
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		runMethod("action", e);
+//		runMethod("action", e);
 	}
 
 	@Override
 	public void gotFocus(FocusEvent e) {
-		runMethod("gotFocus", e);
+//		runMethod("gotFocus", e);
 	}
 
 	@Override
 	public void lostFocus(FocusEvent e) {
-		runMethod("lostFocus", e);
+//		runMethod("lostFocus", e);
 	}
 
 	@Override
 	public void scored(GameEvent g) {
-		runMethod("scored", g);
+//		runMethod("scored", g);
 	}
 
 	@Override
 	public void death(GameEvent g) {
-		runMethod("death", g);
+//		runMethod("death", g);
 	}
 
 	@Override
@@ -122,21 +189,21 @@ public abstract class ObjectListenerManager implements BSAllListeners {
 
 	@Override
 	public void pressed(MouseEvent e) {
-		runMethod("pressed", e);
+//		runMethod("pressed", e);
 	}
 
 	@Override
 	public void released(MouseEvent e) {
-		runMethod("released", e);
+//		runMethod("released", e);
 	}
 
 	@Override
 	public void enters(MouseEvent e) {
-		runMethod("enters", e);
+//		runMethod("enters", e);
 	}
 
 	@Override
 	public void exits(MouseEvent e) {
-		runMethod("exits", e);
+//		runMethod("exits", e);
 	}
 }

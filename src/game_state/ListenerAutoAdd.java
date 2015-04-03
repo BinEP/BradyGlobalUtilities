@@ -8,12 +8,12 @@ import custom_listeners.BSFocusListener;
 import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
+import custom_listeners.SuperListener;
 import listener_control.ListenerManager;
-import game_actions.Control;
 
 public class ListenerAutoAdd {
 
-	public static void addListeners(Control game) {
+	public static void addListeners(SuperListener game) {
 
 		AnnotatedType[] at = game.getClass().getAnnotatedInterfaces();
 		for (AnnotatedType t : at) {

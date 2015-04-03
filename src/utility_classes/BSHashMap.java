@@ -12,11 +12,12 @@ public class BSHashMap extends HashMap<String, List<CallMethod>> {
 
 	public void put(String listener, CallMethod m) {
 		
+		if (m == null) return;
 		List<CallMethod> currentMethods = get(listener);
 		if (currentMethods == null) {
 			currentMethods = new ArrayList<CallMethod>();
 			super.put(listener, currentMethods);
 		}
-		currentMethods.add(m);
+		if (!currentMethods.contains(m)) currentMethods.add(m);
 	}
 }

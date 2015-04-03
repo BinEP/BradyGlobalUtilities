@@ -2,7 +2,7 @@ package custom_listeners;
 
 import java.awt.event.MouseEvent;
 
-public interface BSMouseListener {
+public interface BSMouseListener extends SuperListener {
 
 	public void clicked(MouseEvent e);
 	public void pressed(MouseEvent e);

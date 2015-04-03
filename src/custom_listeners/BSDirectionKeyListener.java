@@ -1,6 +1,6 @@
 package custom_listeners;
 
-public interface BSDirectionKeyListener {
+public interface BSDirectionKeyListener extends SuperListener {
 
 	/**
 	 * What to set variables to when upKey is pressed. Called by keyPressed
