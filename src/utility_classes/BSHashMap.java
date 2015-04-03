@@ -12,12 +12,16 @@ public class BSHashMap extends HashMap<String, List<CallMethod>> {
 
 	public void put(String listener, CallMethod m) {
 		
-		if (m == null) return;
-		List<CallMethod> currentMethods = get(listener);
-		if (currentMethods == null) {
-			currentMethods = new ArrayList<CallMethod>();
-			super.put(listener, currentMethods);
-		}
-		if (!currentMethods.contains(m)) currentMethods.add(m);
+		List<CallMethod> methods = get(listener);
+
+	    // if list does not exist create it
+	    if(methods == null) {
+	    	methods = new ArrayList<CallMethod>();
+	    	methods.add(m);
+	         super.put(listener, methods);
+	    } else {
+	        // add if item is not already in list
+	        if(!methods.contains(m)) methods.add(m);
+	    }
 	}
 }
