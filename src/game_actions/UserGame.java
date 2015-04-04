@@ -99,7 +99,6 @@ public class UserGame extends Game implements BSGameListener {
 		deltaY = 0;
 		player.x = playerX;
 		player.y = playerY;
-		
 	}
 
 	/**
@@ -120,7 +119,7 @@ public class UserGame extends Game implements BSGameListener {
 		ShapeListenerManager.addTrigger(Action.score, Movement.enter, goal.getBounds(),
 				"Stuff", player);
 		
-		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, this.getClass(), "mouse");
+		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, this, "mouse");
 	}
 
 	@Override

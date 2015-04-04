@@ -248,7 +248,7 @@ public class Control extends JPanel implements Screen {
 			if (GameStateManager.isStartGame()) {
 				setKeys();
 				actionTimer.resetTime();
-				setup();
+//				setup();
 				GameStateManager.toPlayingBooleans();
 
 			} else if (GameStateManager.isEndGame()) {

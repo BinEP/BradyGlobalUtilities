@@ -8,14 +8,15 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
-import java.util.Iterator;
 
+import shapes.BSRectangle;
 import utility_classes.BSHashMap;
 import custom_listeners.BSActionListener;
 import custom_listeners.BSFocusListener;
 import custom_listeners.BSGameListener;
 import custom_listeners.BSMouseListener;
 import events.GameEvent;
+import game_actions.Control;
 import game_state.ListenerAutoAdd;
 
 public class ObjectListenerManager implements BSActionListener,
@@ -32,13 +33,11 @@ public class ObjectListenerManager implements BSActionListener,
 	public static final String MOUSE_ENTERS = "enters";
 	public static final String MOUSE_EXITS = "exits";
 
-//	public static final BSHashMap shapeTriggers = new BSHashMap();
+	public static final BSHashMap shapeTriggers = new BSHashMap();
 
 	static {
 		addListeners();
 	}
-
-	public static BSHashMap shapeTriggers = new BSHashMap();
 
 	private ObjectListenerManager() {
 	}
@@ -47,30 +46,28 @@ public class ObjectListenerManager implements BSActionListener,
 		ListenerAutoAdd.addListeners(new ObjectListenerManager());
 	}
 
-	public static void addAction(String listener, Class<?> classToCallMethod,
+	public static void addAction(String listener, Object objectToCallMethod,
 			String methodName) {
 		try {
 			Class<?> params[] = { getEventParameter(listener) };
-			Method callMethod = classToCallMethod.getMethod(methodName, params);
-			addMethod(listener, classToCallMethod, callMethod);
+			Method callMethod = objectToCallMethod.getClass().getMethod(methodName, params);
+			addMethod(listener, objectToCallMethod, callMethod);
 		} catch (NoSuchMethodException e) {
 			try {
-				Method callMethod = classToCallMethod.getMethod(methodName);
-				addMethod(listener, classToCallMethod, callMethod);
+				Method callMethod = objectToCallMethod.getClass().getMethod(methodName);
+				addMethod(listener, objectToCallMethod, callMethod);
 			} catch (NoSuchMethodException | SecurityException e1) {
 				e1.printStackTrace();
 			}
 		} catch (SecurityException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
-
 	}
 
-	private static void addMethod(String listener, Class<?> classToCallMethod,
+	private static void addMethod(String listener, Object objectToCallMethod,
 			Method callMethod) {
 		synchronized (shapeTriggers) {
-			shapeTriggers.put(listener, new CallMethod(classToCallMethod,
-					callMethod));
+			shapeTriggers.put(listener, new CallMethod(objectToCallMethod, callMethod));
 		}
 	}
 
@@ -107,20 +104,32 @@ public class ObjectListenerManager implements BSActionListener,
 
 	public static class CallMethod {
 
-		private Class<?> theClass;
+		private Object theObject;
 		private Method theMethod;
+		private BSRectangle bounds;
 
-		public CallMethod(Class<?> c, Method m) {
-			this.theClass = c;
+		public CallMethod(Object o, Method m) {
+			this.theObject = o;
 			this.theMethod = m;
+			this.bounds = new BSRectangle(0, 0, Control.WIDTH, Control.HEIGHT);
+		}
+		
+		public CallMethod(Object o, Method m, BSRectangle r) {
+			this.theObject = o;
+			this.theMethod = m;
+			this.bounds = r;
 		}
 
-		public Class<?> getTheClass() {
-			return theClass;
+		public Object getTheObject() {
+			return theObject;
 		}
 
 		public Method getTheMethod() {
 			return theMethod;
+		}
+		
+		public BSRectangle getBounds() {
+			return bounds;
 		}
 	}
 
@@ -134,6 +143,7 @@ public class ObjectListenerManager implements BSActionListener,
 				return;
 			try {
 				 for (CallMethod cm : (ArrayList<CallMethod>) methods.clone()) {
+					 if (!verifyBounds(cm, e)) return;
 					 runAndCatchException(cm, e);
 				 }
 			} catch (ConcurrentModificationException e1) {
@@ -144,42 +154,46 @@ public class ObjectListenerManager implements BSActionListener,
 			}
 		}
 	}
+	
+	private static boolean verifyBounds(CallMethod cm, AWTEvent e) {
+		Object o = e.getClass().cast(e);
+		if (!(o instanceof MouseEvent)) return true;
+		return cm.getBounds().contains(((MouseEvent) o).getPoint());
+	}
 
 	private static void runAndCatchException(CallMethod cm, AWTEvent e)
 			throws IllegalAccessException, IllegalArgumentException,
 			InvocationTargetException, InstantiationException {
 		try {
-			Object o = cm.theClass.newInstance();
-			cm.theMethod.invoke(o, e);
+			cm.theMethod.invoke(cm.theObject, e);
 		} catch (IllegalArgumentException e1) {
-			Object o = cm.theClass.newInstance();
-			cm.theMethod.invoke(o);
+			cm.theMethod.invoke(cm.theObject);
 		}
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-//		runMethod("action", e);
+		runMethod("action", e);
 	}
 
 	@Override
 	public void gotFocus(FocusEvent e) {
-//		runMethod("gotFocus", e);
+		runMethod("gotFocus", e);
 	}
 
 	@Override
 	public void lostFocus(FocusEvent e) {
-//		runMethod("lostFocus", e);
+		runMethod("lostFocus", e);
 	}
 
 	@Override
 	public void scored(GameEvent g) {
-//		runMethod("scored", g);
+		runMethod("scored", g);
 	}
 
 	@Override
 	public void death(GameEvent g) {
-//		runMethod("death", g);
+		runMethod("death", g);
 	}
 
 	@Override
@@ -189,21 +203,21 @@ public class ObjectListenerManager implements BSActionListener,
 
 	@Override
 	public void pressed(MouseEvent e) {
-//		runMethod("pressed", e);
+		runMethod("pressed", e);
 	}
 
 	@Override
 	public void released(MouseEvent e) {
-//		runMethod("released", e);
+		runMethod("released", e);
 	}
 
 	@Override
 	public void enters(MouseEvent e) {
-//		runMethod("enters", e);
+		runMethod("enters", e);
 	}
 
 	@Override
 	public void exits(MouseEvent e) {
-//		runMethod("exits", e);
+		runMethod("exits", e);
 	}
 }
