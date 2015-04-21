@@ -35,7 +35,7 @@ public class ScoreCordReference {
 			this.y = y;
 		}
 
-		protected Point getCoords() {
+		public Point getCoords() {
 			return new Point(this.x, this.y);
 		}
 

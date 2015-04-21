@@ -86,10 +86,11 @@ public class Control extends JPanel implements Screen {
 	/** If you want to game to speed up as the score gets higher */
 	protected boolean speedUp = false;
 	
-	private GameTime actionTimer;
-	private ListenerActivator listenerActivator;
-	private DirectionExecution directionExecution;
-	private CustomDrawing customDrawing;
+	private final GameTime actionTimer = new GameTime();
+	private final ListenerActivator listenerActivator = new ListenerActivator(this);
+	private final DirectionExecution directionExecution = new DirectionExecution(this);
+	private final CustomDrawing customDrawing = new CustomDrawing(this);
+	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
 	
 	protected Control() {
 
@@ -97,14 +98,11 @@ public class Control extends JPanel implements Screen {
 		setBackground(Color.BLACK);
 		setFocusable(true);
 
-		listenerActivator = new ListenerActivator(this);
-		directionExecution = new DirectionExecution(this);
-		customDrawing = new CustomDrawing(this);
 		addListeners();
 
 		setup();
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
-		actionTimer = new GameTime();
+		
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
 	}
@@ -399,4 +397,7 @@ public class Control extends JPanel implements Screen {
 	public Rectangle getOuterbox() 			{return outerbox;}
 	
 	public String getPlayerName() 			{return pName;}
+	
+	public GameStateManager getGameStateManager() {return GAME_STATE_MANAGER;}
+	
 }

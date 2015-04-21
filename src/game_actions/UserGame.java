@@ -11,6 +11,7 @@ import listener_control.ShapeListenerManager.Movement;
 import custom_listeners.BSGameListener;
 import events.GameEvent;
 import game_state.GameStateManager;
+import game_state.ScoreCordReference.ScoreCoords;
 import shapes.BSRectangle;
 import utility_classes.CenteredText;
 
@@ -49,6 +50,7 @@ public class UserGame extends Game implements BSGameListener {
 		g.draw(goal);
 		
 		g.drawString(String.valueOf(getTime()), 5, 15);
+		g.drawString("" + score, ScoreCoords.bottom_middle.getCoords().x, ScoreCoords.bottom_middle.getCoords().y);
 	}
 
 	/**
@@ -112,7 +114,7 @@ public class UserGame extends Game implements BSGameListener {
 		deltaY = 2;
 		playerX = 100;
 		playerY = 100;
-		goal = new BSRectangle(300, 300, 60, 100);
+		goal = new BSRectangle(30, 190, 60, 100);
 		player = new BSRectangle(playerX, playerY, 20, 20);
 		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox,
 				"Stuff", player);
