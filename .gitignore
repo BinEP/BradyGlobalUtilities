@@ -1,1 +1,7 @@
 /bin/
+/InfoFiles/*.txt
+lib/StoffelGraphicsRunClass.jar
+
+.externalToolBuilders/MakeJar.launch
+
+projectBuilder.xml
