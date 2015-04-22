@@ -6,6 +6,7 @@ package utility_classes;
  */
 public class Windows {
 
+	private static final String resourceFolder = "InfoFiles";
 	private static final int TOP_BUFFER = 22;
 	/**
 	 * Windows width size
@@ -354,5 +355,12 @@ public class Windows {
 	 */
 	public static int getTopBuffer() {
 		return TOP_BUFFER;
+	}
+
+	/**
+	 * @return the resourcefolder
+	 */
+	public static String getResourceFolder() {
+		return resourceFolder;
 	}
 }

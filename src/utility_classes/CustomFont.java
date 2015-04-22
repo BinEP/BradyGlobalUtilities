@@ -41,7 +41,7 @@ public class CustomFont {
 	public static Font makeCustomFont(String fontFileName, int size) {
 		try {
 			Font customFont;
-			InputStream fontStream = CustomFont.class.getResourceAsStream("/InfoFiles/Fonts/" + fontFileName + ".ttf");
+			InputStream fontStream = CustomFont.class.getResourceAsStream("/" + Windows.getResourceFolder() + "/Fonts/" + fontFileName + ".ttf");
 
 			GraphicsEnvironment ge = GraphicsEnvironment
 					.getLocalGraphicsEnvironment();

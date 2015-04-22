@@ -33,7 +33,7 @@ public class DatabaseManagement {
 			SQLException {
 
 		Class.forName("org.sqlite.JDBC");
-		database = DriverManager.getConnection("jdbc:sqlite:InfoFiles/scores.db");
+		database = DriverManager.getConnection("jdbc:sqlite:" + Windows.getResourceFolder() + "/scores.db");
 		database.setAutoCommit(false);
 		System.out.println("Opened database successfully");
 	}

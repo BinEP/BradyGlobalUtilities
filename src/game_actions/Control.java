@@ -93,8 +93,7 @@ public class Control extends JPanel implements Screen {
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
 	
 	protected Control() {
-
-		FileDependencies.checkFolder("InfoFiles");
+		FileDependencies.checkFolder(Windows.getResourceFolder());
 		setBackground(Color.BLACK);
 		setFocusable(true);
 
