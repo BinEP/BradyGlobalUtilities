@@ -7,11 +7,11 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class SoundRunner {
+public class SoundRunnerTesting {
 
-	public static TestSound ts;
+	public static BSSound ts;
 	
-	public SoundRunner() {
+	public SoundRunnerTesting() {
 	}
 
 	public static void main(String[] args) {
@@ -23,7 +23,7 @@ public class SoundRunner {
 		setupPanel(panel);
 		frame.setVisible(true);
 		String file = "chu.wav";
-		ts = new TestSound(file);
+		ts = new BSSound(file);
 		
 //		while (ts.isPlaying()) {
 //			try {
