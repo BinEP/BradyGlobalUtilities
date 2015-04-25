@@ -13,7 +13,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.JButton;
 
-public abstract class BSSound implements Runnable, BSSoundInterface {
+public class BSSound implements Runnable, BSSoundInterface {
 
 	private final JButton playButton = new JButton("Play");
 	private final JButton pauseButton = new JButton("Pause");
@@ -123,6 +123,22 @@ public abstract class BSSound implements Runnable, BSSoundInterface {
 	
 	public void setLoopSegment(int start, int end) {
 		audioClip.setLoopPoints(start, end);
+	}
+	
+	public void setLoopSetting(int count) {
+		audioClip.loop(count);
+	}
+	
+	public void setLoopContinuously() {
+		setLoopSetting(Clip.LOOP_CONTINUOUSLY);
+	}
+	
+	public Clip getAudioClip() {
+		return audioClip;
+	}
+	
+	public AudioInputStream getStream() {
+		return audioStream;
 	}
 	
 	@Override

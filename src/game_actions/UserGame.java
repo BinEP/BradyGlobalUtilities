@@ -122,6 +122,7 @@ public class UserGame extends Game implements BSGameListener {
 				"Stuff", player);
 		
 		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, this, "mouse");
+		setBackgroundMusic("chu.wav");
 	}
 
 	@Override
