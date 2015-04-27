@@ -8,6 +8,7 @@ import java.util.List;
 import shapes.interfaces.Trigger;
 import listener_control.ShapeListenerManager.Movement.Direction;
 import custom_listeners.BSGameListener;
+import events.GameData;
 import events.GameEvent;
 
 public class ShapeListenerManager {
@@ -97,7 +98,7 @@ public class ShapeListenerManager {
 	public static void sendEvent(TriggerInfo ti) {
 
 		GameEvent g = new GameEvent(ti.action, ti.movement, ti.direction,
-				ti.rectangle, ti.message);
+				ti.rectangle, new GameData(null, ti.message));
 		switch (ti.action) {
 
 		case score:

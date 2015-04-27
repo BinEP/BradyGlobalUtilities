@@ -1,4 +1,4 @@
-package events;
+	package events;
 
 import java.awt.AWTEvent;
 import java.awt.Rectangle;
@@ -14,9 +14,9 @@ public class GameEvent extends AWTEvent {
 	private Movement movement;
 	private Direction direction;
 	private Rectangle rectangle;
-	private String message;
+	private DataEvent message;
 	
-	public GameEvent(Action a, Movement m, Direction d, Rectangle r, String message) {
+	public GameEvent(Action a, Movement m, Direction d, Rectangle r, DataEvent message) {
 		super(r, 1);
 		this.action = a;
 		this.movement = m;
@@ -46,6 +46,11 @@ public class GameEvent extends AWTEvent {
 	}
 
 	public String getMessage() {
+		return message.getMessage();
+	}
+	
+	public DataEvent getDataEvent() {
 		return message;
 	}
+	
 }
