@@ -28,4 +28,9 @@ public class SoundData implements DataEvent {
 		return sound;
 	}
 
+	@Override
+	public void triggerEvent() {
+		sound.play();
+	}
+
 }

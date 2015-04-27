@@ -10,11 +10,12 @@ import listener_control.ShapeListenerManager.Movement.Direction;
 import custom_listeners.BSGameListener;
 import events.GameData;
 import events.GameEvent;
+import events.SoundData;
 
 public class ShapeListenerManager {
 
 	public enum Action {
-		score, death;
+		score, death, sound;
 	}
 
 	public enum Movement {
@@ -107,6 +108,10 @@ public class ShapeListenerManager {
 		case death:
 			sendDeath(g);
 			break;
+		case sound:
+			g.setDataEvent(new SoundData(ti.message));
+			sendSound(g);
+			break;
 		}
 	}
 
@@ -119,6 +124,12 @@ public class ShapeListenerManager {
 	public static void sendDeath(GameEvent e) {
 		for (BSGameListener l : listeners) {
 			l.death(e);
+		}
+	}
+	
+	public static void sendSound(GameEvent e) {
+		for (BSGameListener l : listeners) {
+			l.playSound(e);
 		}
 	}
 	

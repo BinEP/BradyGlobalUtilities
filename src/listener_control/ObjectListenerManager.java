@@ -16,6 +16,7 @@ import custom_listeners.BSFocusListener;
 import custom_listeners.BSGameListener;
 import custom_listeners.BSMouseListener;
 import events.GameEvent;
+import events.SoundData;
 import game_actions.Control;
 import game_state.ListenerAutoAdd;
 
@@ -219,5 +220,10 @@ public class ObjectListenerManager implements BSActionListener,
 	@Override
 	public void exits(MouseEvent e) {
 		runMethod("exits", e);
+	}
+
+	@Override
+	public void playSound(GameEvent g) {
+		((SoundData) (g.getDataEvent())).triggerEvent();
 	}
 }

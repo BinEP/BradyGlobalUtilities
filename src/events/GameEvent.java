@@ -53,4 +53,7 @@ public class GameEvent extends AWTEvent {
 		return message;
 	}
 	
+	public void setDataEvent(DataEvent e) {
+		message = e;
+	}
 }

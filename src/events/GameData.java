@@ -20,4 +20,8 @@ public class GameData implements DataEvent {
 		return message;
 	}
 
+	@Override
+	public void triggerEvent() {
+		System.out.println(message);
+	}
 }
