@@ -22,11 +22,13 @@ public class BSSound implements Runnable, BSSoundInterface {
 	private String fileName;
 	private AudioInputStream audioStream;
 	private Clip audioClip;
+	private Thread audioThread;
 	
 	public BSSound(String fileName) {
 		setupSound(fileName);
 		setupButtons();
-		new Thread(this).start();
+		audioThread = new Thread(this);
+		audioThread.start();
 	}
 	
 	@Override
@@ -98,6 +100,7 @@ public class BSSound implements Runnable, BSSoundInterface {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		audioThread.interrupt();
 	}
 
 	public boolean isPlaying() {
