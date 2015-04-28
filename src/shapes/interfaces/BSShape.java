@@ -22,16 +22,11 @@ public abstract class BSShape implements Trigger, Moveable, Shape {
 	protected int x;
 	protected int y;
 	
-	private Shape shape;
+	protected Shape shape;
 	
 	public BSShape() {
 		Control.addUpdatable(this);
 		setShape();
-	}
-	
-	public BSShape(Shape shape) {
-		this();
-		this.shape = shape;
 	}
 	
 	protected abstract void setShape();
