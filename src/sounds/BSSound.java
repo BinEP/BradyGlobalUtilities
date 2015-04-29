@@ -77,7 +77,6 @@ public class BSSound implements Runnable, BSSoundInterface {
 			try {
 				Thread.sleep(100);
 			} catch (InterruptedException e) {
-				e.printStackTrace();
 			}
 		}
 	}
@@ -158,5 +157,4 @@ public class BSSound implements Runnable, BSSoundInterface {
 	public JButton getEndButton() {
 		return endButton;
 	}
-	
 }

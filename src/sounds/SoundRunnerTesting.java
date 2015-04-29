@@ -23,15 +23,7 @@ public class SoundRunnerTesting {
 		setupPanel(panel);
 		frame.setVisible(true);
 		String file = "chu.wav";
-		ts = new BSSound(file);
-		
-//		while (ts.isPlaying()) {
-//			try {
-//				Thread.sleep(100);
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		ts = new BSSound(file);		
 	}
 	
 	public static void setupPanel(JPanel panel) {
