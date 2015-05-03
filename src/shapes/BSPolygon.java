@@ -8,7 +8,7 @@ import java.awt.Polygon;
 import listener_control.ShapeListenerManager.Movement.Direction;
 import shapes.interfaces.BSShape;
 
-public class BSPolygon extends Polygon implements BSShape {
+public class BSPolygon extends BSShape {
 
 	private static final long serialVersionUID = 2375247181030188951L;
 	private int deltaX = 0;
