@@ -122,11 +122,11 @@ public class UserGame extends Game implements BSGameListener {
 				"Stuff", player);
 		
 		ShapeListenerManager.addTrigger(Action.sound, Movement.enter, goal.getBounds(),
-				"chu.wav", player);
+				"bgb.wav", player);
 		
 		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, this, "mouse");
 		
-//		setBackgroundMusic("chu.wav");
+		setBackgroundMusic("chu.wav");
 	}
 
 	@Override
@@ -162,4 +162,5 @@ public class UserGame extends Game implements BSGameListener {
 	public void playSound(GameEvent g) {
 		
 	}
+
 }

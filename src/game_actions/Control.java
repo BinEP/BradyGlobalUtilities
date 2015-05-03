@@ -17,6 +17,7 @@ import javax.swing.Timer;
 
 import listener_control.ListenerActivator;
 import listener_control.ListenerManager;
+import listener_control.ObjectListenerManager;
 import listener_control.ShapeListenerManager;
 import game_state.CustomDrawing;
 import game_state.DirectionExecution;
@@ -334,6 +335,7 @@ public class Control extends JPanel implements Screen {
 
 			if (checkIfDeadSuper()) {
 				GameStateManager.toNameEnter();
+				ObjectListenerManager.endSounds();
 				ShapeListenerManager.resetAllStates();
 				actionTimer.stopTime();
 			}

@@ -218,4 +218,5 @@ public class ListenerActivator implements KeyListener, ActionListener,
 			d.rightReleased();
 		}
 	}
+
 }
