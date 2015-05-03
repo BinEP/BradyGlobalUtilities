@@ -25,6 +25,6 @@ public class BSPolygon extends BSShape {
 
 	@Override
 	protected void setShape() {
-		setShape(shape);
+		setShape(this);
 	}
 }
