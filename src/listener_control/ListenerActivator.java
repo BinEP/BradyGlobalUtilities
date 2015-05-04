@@ -16,6 +16,7 @@ import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
 import events.GameEvent;
+import events.SoundData;
 import game_actions.Control;
 import game_state.GameStateManager;
 
@@ -44,9 +45,13 @@ public class ListenerActivator implements KeyListener, ActionListener,
 		for (BSGameListener gl : ListenerManager.gameListeners) {
 			gl.death(g);
 		}
-	}
+	}	
 
 	@Override
+	public void playSound(GameEvent g) {
+		((SoundData) (g.getDataEvent())).triggerEvent();
+	}	
+	
 	public void focusGained(FocusEvent e) {
 
 		if (GameStateManager.isResumeOnFocus() && GameStateManager.ifPlaying()) {
@@ -213,4 +218,5 @@ public class ListenerActivator implements KeyListener, ActionListener,
 			d.rightReleased();
 		}
 	}
+
 }

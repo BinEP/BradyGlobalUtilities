@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
 import shapes.BSRectangle;
+import sounds.BSSound;
 import utility_classes.BSHashMap;
 import custom_listeners.BSActionListener;
 import custom_listeners.BSFocusListener;
 import custom_listeners.BSGameListener;
 import custom_listeners.BSMouseListener;
 import events.GameEvent;
+import events.SoundData;
 import game_actions.Control;
 import game_state.ListenerAutoAdd;
 
@@ -34,6 +36,7 @@ public class ObjectListenerManager implements BSActionListener,
 	public static final String MOUSE_EXITS = "exits";
 
 	public static final BSHashMap shapeTriggers = new BSHashMap();
+	private static final ArrayList<BSSound> playingSounds = new ArrayList<BSSound>();
 
 	static {
 		addListeners();
@@ -68,6 +71,12 @@ public class ObjectListenerManager implements BSActionListener,
 			Method callMethod) {
 		synchronized (shapeTriggers) {
 			shapeTriggers.put(listener, new CallMethod(objectToCallMethod, callMethod));
+		}
+	}
+	
+	public static void addSound(BSSound sound) {
+		synchronized (playingSounds) {
+			playingSounds.add(sound);
 		}
 	}
 
@@ -219,5 +228,19 @@ public class ObjectListenerManager implements BSActionListener,
 	@Override
 	public void exits(MouseEvent e) {
 		runMethod("exits", e);
+	}
+
+	@Override
+	public void playSound(GameEvent g) {
+		ObjectListenerManager.addSound(((SoundData) (g.getDataEvent())).triggerEvent());
+	}
+	
+	public static void endSounds() {
+		synchronized (playingSounds) {
+			for (BSSound sound : playingSounds) {
+				sound.end();
+				System.out.println("Ended Sound");
+			}
+		}
 	}
 }

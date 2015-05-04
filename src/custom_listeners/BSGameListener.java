@@ -6,4 +6,5 @@ public interface BSGameListener extends SuperListener {
 	
 	public void scored(GameEvent g);
 	public void death(GameEvent g);	
+	public void playSound(GameEvent g);
 }

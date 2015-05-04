@@ -17,6 +17,7 @@ import javax.swing.Timer;
 
 import listener_control.ListenerActivator;
 import listener_control.ListenerManager;
+import listener_control.ObjectListenerManager;
 import listener_control.ShapeListenerManager;
 import game_state.CustomDrawing;
 import game_state.DirectionExecution;
@@ -24,6 +25,7 @@ import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
 import shapes.interfaces.Updatable;
+import sounds.BSSound;
 import utility_classes.*;
 
 /**
@@ -92,6 +94,8 @@ public class Control extends JPanel implements Screen {
 	private final CustomDrawing customDrawing = new CustomDrawing(this);
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
 	
+	private BSSound backgroundMusic;
+	
 	protected Control() {
 		FileDependencies.checkFolder(Windows.getResourceFolder());
 		setBackground(Color.BLACK);
@@ -116,6 +120,12 @@ public class Control extends JPanel implements Screen {
 	protected void setSpeed(int speed) {
 		this.speed = speed;
 		timer.setDelay(1000 / speed);
+	}
+	
+	public void setBackgroundMusic(String fileName) {
+		backgroundMusic = new BSSound(fileName);
+		backgroundMusic.setLoopContinuously();
+		backgroundMusic.play();
 	}
 
 	/**
@@ -325,6 +335,7 @@ public class Control extends JPanel implements Screen {
 
 			if (checkIfDeadSuper()) {
 				GameStateManager.toNameEnter();
+				ObjectListenerManager.endSounds();
 				ShapeListenerManager.resetAllStates();
 				actionTimer.stopTime();
 			}
@@ -398,5 +409,7 @@ public class Control extends JPanel implements Screen {
 	public String getPlayerName() 			{return pName;}
 	
 	public GameStateManager getGameStateManager() {return GAME_STATE_MANAGER;}
+	
+	public BSSound getBackgroundMusic() {return backgroundMusic;}
 	
 }
