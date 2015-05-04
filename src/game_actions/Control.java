@@ -94,7 +94,7 @@ public class Control extends JPanel implements Screen {
 	private final CustomDrawing customDrawing = new CustomDrawing(this);
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
 	
-	private BSSound backgroundMusic;
+	protected BSSound backgroundMusic;
 	
 	protected Control() {
 		FileDependencies.checkFolder(Windows.getResourceFolder());
