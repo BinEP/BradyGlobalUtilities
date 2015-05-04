@@ -156,7 +156,7 @@ public class UserGame extends Game implements BSGameListener {
 	
 	public void mouse() {
 		System.out.println("Mouse");
-		backgroundMusic.changeSoundLevel(-10);
+		getBackgroundMusic().changeSoundLevel(-10);
 	}
 
 	@Override

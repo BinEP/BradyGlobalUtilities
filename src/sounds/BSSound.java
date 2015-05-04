@@ -30,6 +30,7 @@ public class BSSound implements Runnable, BSSoundInterface {
 		setupButtons();
 		audioThread = new Thread(this);
 		audioThread.start();
+//		printSoundInfo();
 	}
 	
 	@Override
@@ -146,7 +147,15 @@ public class BSSound implements Runnable, BSSoundInterface {
 	
 	public void changeSoundLevel(float adjust) {
 		FloatControl volume = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
-		volume.setValue(adjust);
+		volume.setValue(volume.getValue() - 10);
+		printSoundInfo();
+	}
+
+	private void printSoundInfo() {
+		FloatControl volume = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
+		System.out.println("Maximum: " + volume.getMaximum());
+		System.out.println("Minimum: " + volume.getMinimum());
+		System.out.println("Current Value: " + volume.getValue());
 	}
 	
 	@Override

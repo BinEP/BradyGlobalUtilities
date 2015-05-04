@@ -94,7 +94,7 @@ public class Control extends JPanel implements Screen {
 	private final CustomDrawing customDrawing = new CustomDrawing(this);
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
 	
-	protected BSSound backgroundMusic;
+	private BSSound backgroundMusic;
 	
 	protected Control() {
 		FileDependencies.checkFolder(Windows.getResourceFolder());
@@ -409,5 +409,7 @@ public class Control extends JPanel implements Screen {
 	public String getPlayerName() 			{return pName;}
 	
 	public GameStateManager getGameStateManager() {return GAME_STATE_MANAGER;}
+	
+	public BSSound getBackgroundMusic() {return backgroundMusic;}
 	
 }
