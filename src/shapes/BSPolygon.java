@@ -13,6 +13,7 @@ public class BSPolygon extends BSShape {
 
 	public BSPolygon(int[] xpoints, int[] ypoints, int npoints) {
 		shape = new Polygon(xpoints, ypoints, npoints);
+		setShape();
 	}
 
 	@Override
@@ -25,6 +26,6 @@ public class BSPolygon extends BSShape {
 
 	@Override
 	protected void setShape() {
-		setShape(this);
+		setShape(shape);
 	}
 }

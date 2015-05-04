@@ -11,6 +11,8 @@ public class BSRectangle extends BSShape {
 	public int width;
 	public int height;
 	
+	private Rectangle shape;
+	
 	public BSRectangle() {
 	}
 
@@ -39,6 +41,8 @@ public class BSRectangle extends BSShape {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		shape = new Rectangle(x, y, width, height);
+		setShape();
 	}
 	
 	public BSRectangle(int x, int y, int width, int height, int dx, int dy) {
@@ -52,6 +56,6 @@ public class BSRectangle extends BSShape {
 
 	@Override
 	protected void setShape() {
-		setShape(this);
+		setShape(shape);
 	}
 }

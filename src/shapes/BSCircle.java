@@ -11,15 +11,13 @@ public class BSCircle extends BSShape{
 	public BSCircle() {
 	}
 	
-	public BSCircle(int x) {
-		
+	public BSCircle(int x, int y, int w, int h) {
+		shape = new Ellipse2D.Double(x, y, w, h);
+		setShape();
 	}
-	
-	
 
 	@Override
 	protected void setShape() {
-		setShape(this);
+		setShape(shape);
 	}
-
 }
