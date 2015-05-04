@@ -160,7 +160,11 @@ public class BSSound implements Runnable, BSSoundInterface {
 	}
 	
 	public void changeLevelOverTime(float time, int soundAdjust) {
+		try {
 		volume.shift(volume.getValue(), volume.getValue() + soundAdjust, soundAdjust * 1000000);
+		} catch (IllegalArgumentException e) {
+			System.out.println("Sound level out of bounds");
+		}
 	}
 	
 	@Override
