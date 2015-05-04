@@ -15,12 +15,12 @@ import shapes.BSRectangle;
 
 public abstract class BSShape implements Trigger, Moveable, Shape {	
 	
-	protected int deltaX = 0;
-	protected int deltaY = 0;
+	public int deltaX = 0;
+	public int deltaY = 0;
 	protected Direction direction = Direction.none;
 	
-	protected int x;
-	protected int y;
+	public int x;
+	public int y;
 	
 	protected Shape shape;
 	

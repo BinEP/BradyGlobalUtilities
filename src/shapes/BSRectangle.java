@@ -12,7 +12,7 @@ public class BSRectangle extends BSShape {
 	public int y;
 	public int width;
 	public int height;
-	
+		
 	public BSRectangle() {
 	}
 
@@ -41,6 +41,7 @@ public class BSRectangle extends BSShape {
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		setShape(new Rectangle(x, y, width, height));
 	}
 	
 	public BSRectangle(int x, int y, int width, int height, int dx, int dy) {
@@ -49,8 +50,7 @@ public class BSRectangle extends BSShape {
 	}
 	
 	public BSRectangle(Rectangle r, int dx, int dy) {
-		this(r.x, r.y, r.width, r.height);
-		setMovement(dx, dy);
+		this(r.x, r.y, r.width, r.height, dx, dy);
 	}
 	
 	protected void setShape() {

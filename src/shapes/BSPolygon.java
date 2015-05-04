@@ -27,5 +27,4 @@ public class BSPolygon extends BSShape {
 	protected void setShape() {
 		setShape(this);
 	}
-
 }

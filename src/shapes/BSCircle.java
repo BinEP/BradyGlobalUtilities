@@ -7,7 +7,7 @@ import shapes.interfaces.BSShape;
 public class BSCircle extends BSShape {
 
 	private final Ellipse2D.Double circle = new Ellipse2D.Double();
-	
+
 	public BSCircle() {
 	}
 	
