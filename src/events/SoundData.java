@@ -1,6 +1,5 @@
 package events;
 
-import listener_control.ObjectListenerManager;
 import sounds.BSSound;
 
 public class SoundData implements DataEvent {
@@ -30,9 +29,9 @@ public class SoundData implements DataEvent {
 	}
 
 	@Override
-	public void triggerEvent() {
-		ObjectListenerManager.addSound(sound);
+	public BSSound triggerEvent() {
 		sound.play();
+		return sound;
 	}
 
 }

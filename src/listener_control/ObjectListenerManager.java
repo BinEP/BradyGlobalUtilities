@@ -232,7 +232,7 @@ public class ObjectListenerManager implements BSActionListener,
 
 	@Override
 	public void playSound(GameEvent g) {
-		((SoundData) (g.getDataEvent())).triggerEvent();
+		ObjectListenerManager.addSound(((SoundData) (g.getDataEvent())).triggerEvent());
 	}
 	
 	public static void endSounds() {

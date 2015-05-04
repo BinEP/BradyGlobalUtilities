@@ -21,7 +21,8 @@ public class GameData implements DataEvent {
 	}
 
 	@Override
-	public void triggerEvent() {
+	public String triggerEvent() {
 		System.out.println(message);
+		return message;
 	}
 }

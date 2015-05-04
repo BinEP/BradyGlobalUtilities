@@ -24,6 +24,8 @@ public class BSSound implements Runnable, BSSoundInterface {
 	private AudioInputStream audioStream;
 	private Clip audioClip;
 	private Thread audioThread;
+	private FloatControl volume;
+
 	
 	public BSSound(String fileName) {
 		setupSound(fileName);
@@ -43,6 +45,7 @@ public class BSSound implements Runnable, BSSoundInterface {
 			DataLine.Info info = new DataLine.Info(Clip.class, audioStream.getFormat());
 			audioClip = (Clip) AudioSystem.getLine(info);
 			audioClip.open(audioStream);
+			volume = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
 
 		} catch (LineUnavailableException | IOException
 				| UnsupportedAudioFileException e) {
@@ -146,16 +149,18 @@ public class BSSound implements Runnable, BSSoundInterface {
 	}
 	
 	public void changeSoundLevel(float adjust) {
-		FloatControl volume = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
 		volume.setValue(volume.getValue() - 10);
 		printSoundInfo();
 	}
 
 	private void printSoundInfo() {
-		FloatControl volume = (FloatControl) audioClip.getControl(FloatControl.Type.MASTER_GAIN);
 		System.out.println("Maximum: " + volume.getMaximum());
 		System.out.println("Minimum: " + volume.getMinimum());
 		System.out.println("Current Value: " + volume.getValue());
+	}
+	
+	public void changeLevelOverTime(float time, int soundAdjust) {
+		volume.shift(volume.getValue(), volume.getValue() + soundAdjust, soundAdjust * 1000000);
 	}
 	
 	@Override
