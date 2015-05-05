@@ -22,6 +22,7 @@ public class BSSound implements Runnable, BSSoundInterface {
 
 	private String fileName;
 	private AudioInputStream audioStream;
+	private InputStream soundFile2;
 	private Clip audioClip;
 	private Thread audioThread;
 	private FloatControl volume;
@@ -39,9 +40,8 @@ public class BSSound implements Runnable, BSSoundInterface {
 	public void setupSound(String fileName) {
 		try {
 			fileName = "/sound_files/" + fileName;
-			InputStream soundFile2 = BSSound.class.getResourceAsStream(fileName);
+			soundFile2 = BSSound.class.getResourceAsStream(fileName);
 			audioStream = AudioSystem.getAudioInputStream(soundFile2);
-			soundFile2.close();
 
 			DataLine.Info info = new DataLine.Info(Clip.class, audioStream.getFormat());
 			audioClip = (Clip) AudioSystem.getLine(info);
@@ -102,6 +102,7 @@ public class BSSound implements Runnable, BSSoundInterface {
 		audioClip.close();
 		try {
 			audioStream.close();
+			soundFile2.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
