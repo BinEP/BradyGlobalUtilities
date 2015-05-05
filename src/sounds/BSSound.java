@@ -41,6 +41,7 @@ public class BSSound implements Runnable, BSSoundInterface {
 			fileName = "/sound_files/" + fileName;
 			InputStream soundFile2 = BSSound.class.getResourceAsStream(fileName);
 			audioStream = AudioSystem.getAudioInputStream(soundFile2);
+			soundFile2.close();
 
 			DataLine.Info info = new DataLine.Info(Clip.class, audioStream.getFormat());
 			audioClip = (Clip) AudioSystem.getLine(info);
