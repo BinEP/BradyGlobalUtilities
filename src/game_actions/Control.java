@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-import utilityClasses.*;
+import utility_classes.*;
 
 /**
  * @author Brady Stoffel

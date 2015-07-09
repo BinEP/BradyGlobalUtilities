@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 public interface MouseActions {
 	

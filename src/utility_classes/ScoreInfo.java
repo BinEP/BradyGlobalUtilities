@@ -1,4 +1,4 @@
-package utilityClasses;
+package utility_classes;
 
 import java.awt.Color;
 import java.awt.Font;

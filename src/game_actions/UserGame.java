@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.Timer;
 
-import utilityClasses.*;
+import utility_classes.*;
 
 public class UserGame extends Game {
 

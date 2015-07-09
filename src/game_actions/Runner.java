@@ -1,4 +1,4 @@
-package gameActions;
+package game_actions;
 
 import java.awt.BorderLayout;
 import java.awt.Window;
@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 import javax.swing.JFrame;
 
-import utilityClasses.Windows;
+import utility_classes.Windows;
 
 /**
  * Runs the game. Makes a new JFrame and adds the UserGame to the frame

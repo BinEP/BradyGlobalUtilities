@@ -1,8 +1,8 @@
-package gameActions;
+package game_actions;
 
 import java.awt.Graphics2D;
 
-import utilityClasses.Windows;
+import utility_classes.Windows;
 /**
  * Methods that UserGame needs to have, the draw methods are in control, so only need of you want a custom
  * screen
@@ -10,9 +10,9 @@ import utilityClasses.Windows;
  * @author Brady
  *
  */
-public abstract class PlayerInterface extends Control {
+public abstract class Game extends Control {
 
-	public PlayerInterface() {
+	public Game() {
 		super();
 		NAME = getGameName();
 		TXT_FILE = NAME.toLowerCase().replaceAll("\\s", "");
