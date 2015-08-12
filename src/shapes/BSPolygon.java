@@ -2,6 +2,7 @@ package shapes;
 
 import game_actions.Control;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Polygon;
 
@@ -14,6 +15,8 @@ public class BSPolygon extends Polygon implements BSShape {
 	private int deltaX = 0;
 	private int deltaY = 0;
 	private Direction direction = Direction.none;
+	private Color color = Color.WHITE;
+	private boolean fill = true;
 	
 	public BSPolygon() {
 		Control.addUpdatable(this);
@@ -77,5 +80,31 @@ public class BSPolygon extends Polygon implements BSShape {
 	@Override
 	public void fill(Graphics2D g) {
 		g.fill(this);
+	}
+
+	@Override
+	public void setColor(Color c) {
+		color = c;	
+	}
+
+	@Override
+	public Color getColor() {
+		return color;
+	}
+
+	@Override
+	public void setFilled(boolean filled) {
+		fill = filled;		
+	}
+
+	@Override
+	public boolean filledShape() {
+		return fill;
+	}
+
+	@Override
+	public void autoDraw(Graphics2D g) {
+		if (fill) fill(g); 
+		else draw(g);
 	}
 }

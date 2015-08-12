@@ -2,6 +2,7 @@ package shapes;
 
 import game_actions.Control;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -19,6 +20,8 @@ public class BSRectangle implements BSShape {
 	private int deltaX = 0;
 	private int deltaY = 0;
 	private Direction direction = Direction.none;
+	private Color color = Color.WHITE;
+	private boolean fill = true;
 	
 	public int x;
 	public int y;
@@ -195,5 +198,33 @@ public class BSRectangle implements BSShape {
 	@Override
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
 		 return new Rectangle(x, y, width, height).getPathIterator(at, flatness);
+	}
+
+	
+	@Override
+	public void setColor(Color c) {
+		color = c;
+	}
+	
+
+	@Override
+	public Color getColor() {
+		return color;
+	}
+	
+	@Override
+	public void setFilled(boolean filled) {
+		fill = filled;		
+	}
+
+	@Override
+	public boolean filledShape() {
+		return fill;
+	}
+
+	@Override
+	public void autoDraw(Graphics2D g) {
+		if (fill) fill(g); 
+		else draw(g);
 	}
 }

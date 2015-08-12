@@ -35,6 +35,12 @@ public class GameStateManager {
 	 */
 	private static boolean highScores = false;
 	
+	private static GameState currentState = GameState.start;
+	
+	public enum GameState {
+		start, playing, paused, end, name, scores
+	}
+	
 	private static boolean dead = false;
 	private static boolean resumeOnFocusGain = false;
 	
@@ -43,27 +49,35 @@ public class GameStateManager {
 	 */
 	private static boolean singleDirection = false;
 	
+	public static GameState getState() {
+		return currentState;
+	}
+	
 	public static void toPlayingBooleans() {
 		dead = false;
 		startGame = false;
 		playing = true;
+		currentState = GameState.playing;
 		ShapeListenerManager.startThread();
 	}
 
 	public static void toEndGameBooleans() {
 		highScores = false;
 		endGame = true;
+		currentState = GameState.end;
 	}
 
 	public static void toHighscoreBooleans() {
 		nameEnter = false;
 		highScores = true;
+		currentState = GameState.scores;
 	}
 	
 	public static void toNameEnter() {
 		playing = false;
 		paused = false;
 		nameEnter = true;
+		currentState = GameState.name;
 		ShapeListenerManager.stopThread();
 	}
 
@@ -77,16 +91,19 @@ public class GameStateManager {
 	public static void pause() {
 		paused = true;
 		playing = false;
+		currentState = GameState.paused;
 	}
 	
 	public static void resume() {
 		paused = false;
 		playing = true;
+		currentState = GameState.playing;
 	}
 	
 	public static void togglePlaying() {
 		paused = !paused;
 		playing = !playing;
+		currentState = (playing) ? GameState.playing : GameState.paused;
 	}
 
 	public static boolean isStartGame() {

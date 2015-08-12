@@ -24,6 +24,7 @@ import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
+import shapes.interfaces.BSShape;
 import shapes.interfaces.Updatable;
 import sounds.BSSound;
 import utility_classes.*;
@@ -36,6 +37,9 @@ public class Control extends JPanel implements Screen {
 	private static final long serialVersionUID = 6238122615986771090L;
 	public static CustomFont customFont;
 	private static final List<Updatable> updatables = new ArrayList<Updatable>();
+//	private static final Map<BSShape, GameState> shapesToDraw = new LinkedHashMap<BSShape, GameState>();
+	private static final List<BSShape> shapesToDraw = new ArrayList<BSShape>();
+
 	public static int WIDTH = 800;
 	public static int HEIGHT = 480;
 	
@@ -152,6 +156,7 @@ public class Control extends JPanel implements Screen {
 		scale(g2);
 		g.setColor(Color.WHITE);
 		draw(g2);
+		drawShapes(g2);
 
 		if (GameStateManager.isStartGame()) {
 			drawStart(g2);
@@ -228,6 +233,14 @@ public class Control extends JPanel implements Screen {
 
 	protected void drawBorder(Graphics2D g, Color c, int width) {
 		customDrawing.drawBorder(g, c, width);
+	}
+	
+	protected void drawShapes(Graphics2D g) {
+		synchronized(shapesToDraw) {
+			for (BSShape shape : shapesToDraw) {
+				shape.autoDraw(g);
+			}
+		}
 	}
 	
 	protected void setup() {}
@@ -348,6 +361,16 @@ public class Control extends JPanel implements Screen {
 			updatables.add(u);
 		}
 	}
+	
+	public static final void addShapeToBeDrawn(BSShape shape) {
+		synchronized(shapesToDraw) {
+			if (!shapesToDraw.contains(shape)) shapesToDraw.add(shape);
+		}
+	}
+	
+//	public static final void addShapeToBeDrawn(BSShape shape, GameState state) {
+//		
+//	}
 	
 	protected void executeEveryTick() {}
 	
