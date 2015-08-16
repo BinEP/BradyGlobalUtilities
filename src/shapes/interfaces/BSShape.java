@@ -14,8 +14,8 @@ import shapes.BSRectangle;
 
 public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {	
 	
-	private int deltaX = 0;
-	private int deltaY = 0;
+	public int deltaX = 0;
+	public int deltaY = 0;
 	private Direction direction = Direction.none;
 	private Color color = Color.WHITE;
 	private boolean fill = true;
@@ -23,7 +23,7 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	public int x;
 	public int y;
 	
-	private Shape shape;
+	protected Shape shape;
 	
 	public BSShape() {
 		setShape();
