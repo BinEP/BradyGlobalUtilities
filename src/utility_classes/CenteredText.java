@@ -2,6 +2,7 @@ package utility_classes;
 
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.Rectangle;
 
 /*
@@ -32,5 +33,28 @@ public class CenteredText {
 		int y = (yCenter) ? yVal + (height - textHeight) / 2 : yVal;
 		
 		g.drawString(text, x, y);
+	}
+	
+	private static Point getXCenter(Graphics2D g, String text, int width, int height, int xVal, int yVal, boolean yCenter) {
+		
+		if (width == 0) width = Windows.getWidth();
+		if (height == 0) height = Windows.getHeight();
+		
+		FontMetrics fontInfo = g.getFontMetrics();
+		int textWidth = fontInfo.stringWidth(text);
+		int textHeight = fontInfo.getHeight();
+		
+		int x = xVal + (width - textWidth) / 2;
+		int y = (yCenter) ? yVal + (height - textHeight) / 2 : yVal;
+		
+		return new Point(x, y);
+	}
+	
+	public static Point getXCenter(String text, int yVal, Graphics2D g) {
+		return getXCenter(g, text, 0, 0, 0, yVal, false);
+	}
+	
+	public static Point getXCenter(String text, Rectangle r, Graphics2D g) {		
+		return getXCenter(g, text, r.width, r.height, r.x, r.y, true);
 	}
 }
