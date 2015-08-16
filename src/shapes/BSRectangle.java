@@ -5,6 +5,7 @@ import game_actions.Control;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Shape;
 
 import shapes.interfaces.BSShape;
 
@@ -58,8 +59,7 @@ public class BSRectangle extends BSShape {
 	}
 
 	@Override
-	public void setShape() {
-		shape = new Rectangle(x, y, width, height);
+	public Shape getShape() {
+		return new Rectangle(x, y, width, height);
 	}
-
 }

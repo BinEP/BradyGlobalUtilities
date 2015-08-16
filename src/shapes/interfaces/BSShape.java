@@ -9,6 +9,7 @@ import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
 
+import game_actions.Control;
 import listener_control.ShapeListenerManager.Movement.Direction;
 import shapes.BSRectangle;
 
@@ -22,14 +23,12 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	
 	public int x;
 	public int y;
-	
-	protected Shape shape;
-	
+		
 	public BSShape() {
-		setShape();
+		Control.addUpdatable(this);
 	}
 	
-	public abstract void setShape();
+	public abstract Shape getShape();
 	
 	@Override
 	public void setColor(Color c) {
@@ -70,7 +69,7 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	
 	@Override
 	public BSRectangle getPosition() {
-		return new BSRectangle(shape.getBounds());
+		return new BSRectangle(getShape().getBounds());
 	}
 
 	@Override
@@ -109,51 +108,51 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	
 	@Override
 	public Rectangle getBounds() {
-		return shape.getBounds();
+		return getShape().getBounds();
 	}
 	
 	@Override
 	public Rectangle2D getBounds2D() {
-		return shape.getBounds2D();
+		return getShape().getBounds2D();
 	}
 	
 	@Override
 	public boolean contains(double x, double y) {
-		return shape.contains(x, y);
+		return getShape().contains(x, y);
 	}
 	
 	@Override
 	public boolean contains(Point2D p) {
-		return shape.contains(p);
+		return getShape().contains(p);
 	}
 	
 	@Override
 	public boolean intersects(double x, double y, double w, double h) {
-		return shape.intersects(x, y, w, h);
+		return getShape().intersects(x, y, w, h);
 	}
 	
 	@Override
 	public boolean intersects(Rectangle2D r) {
-		return shape.intersects(r);
+		return getShape().intersects(r);
 	}
 	
 	@Override
 	public boolean contains(double x, double y, double w, double h) {
-		return shape.contains(x, y, w, h);
+		return getShape().contains(x, y, w, h);
 	}
 	
 	@Override
 	public boolean contains(Rectangle2D r) {
-		return shape.contains(r);
+		return getShape().contains(r);
 	}
 	
 	@Override
 	public PathIterator getPathIterator(AffineTransform at) {
-		return shape.getPathIterator(at);
+		return getShape().getPathIterator(at);
 	}
 	
 	@Override
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		return shape.getPathIterator(at, flatness);
+		return getShape().getPathIterator(at, flatness);
 	}
 }

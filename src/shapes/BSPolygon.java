@@ -1,6 +1,7 @@
 package shapes;
 
 import java.awt.Polygon;
+import java.awt.Shape;
 
 import shapes.interfaces.BSShape;
 
@@ -28,7 +29,7 @@ public class BSPolygon extends BSShape {
 	}
 
 	@Override
-	public void setShape() {
-		shape = new Polygon(xpoints, ypoints, npoints);
+	public Shape getShape() {
+		return new Polygon(xpoints, ypoints, npoints);
 	}
 }
