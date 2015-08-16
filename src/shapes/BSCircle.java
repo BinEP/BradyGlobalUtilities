@@ -7,7 +7,7 @@ import shapes.interfaces.BSShape;
 
 public class BSCircle extends BSShape {
 
-	public int radius = 0;
+	public int radius;
 	
 	public BSCircle() {
 		
