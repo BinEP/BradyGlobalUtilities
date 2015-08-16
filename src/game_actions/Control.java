@@ -24,6 +24,7 @@ import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
+import game_state.SceneManager;
 import shapes.interfaces.BSShape;
 import shapes.interfaces.Updatable;
 import sounds.BSSound;
@@ -38,7 +39,6 @@ public class Control extends JPanel implements Screen {
 	public static CustomFont customFont;
 	private static final List<Updatable> updatables = new ArrayList<Updatable>();
 //	private static final Map<BSShape, GameState> shapesToDraw = new LinkedHashMap<BSShape, GameState>();
-	private static final List<BSShape> shapesToDraw = new ArrayList<BSShape>();
 
 	public static int WIDTH = 800;
 	public static int HEIGHT = 480;
@@ -97,6 +97,7 @@ public class Control extends JPanel implements Screen {
 	private final DirectionExecution directionExecution = new DirectionExecution(this);
 	private final CustomDrawing customDrawing = new CustomDrawing(this);
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
+	public final SceneManager sceneManager = new SceneManager();
 	
 	private BSSound backgroundMusic;
 	
@@ -106,7 +107,6 @@ public class Control extends JPanel implements Screen {
 		setFocusable(true);
 
 		addListeners();
-
 		setup();
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		
@@ -236,13 +236,9 @@ public class Control extends JPanel implements Screen {
 	}
 	
 	protected void drawShapes(Graphics2D g) {
-		synchronized(shapesToDraw) {
-			for (BSShape shape : shapesToDraw) {
-				shape.autoDraw(g);
-			}
-		}
+		getCurrentScene().drawShapes(g);
 	}
-	
+
 	protected void setup() {}
 
 	protected void reset() {}
@@ -362,16 +358,6 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 	
-	public static final void addShapeToBeDrawn(BSShape shape) {
-		synchronized(shapesToDraw) {
-			if (!shapesToDraw.contains(shape)) shapesToDraw.add(shape);
-		}
-	}
-	
-//	public static final void addShapeToBeDrawn(BSShape shape, GameState state) {
-//		
-//	}
-	
 	protected void executeEveryTick() {}
 	
 	@Override
@@ -435,4 +421,5 @@ public class Control extends JPanel implements Screen {
 	
 	public BSSound getBackgroundMusic() {return backgroundMusic;}
 	
+	public Scene getCurrentScene() {return scenes.get(sceneIndex);}
 }
