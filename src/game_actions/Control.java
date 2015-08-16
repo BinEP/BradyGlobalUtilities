@@ -25,7 +25,6 @@ import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
 import game_state.SceneManager;
-import shapes.interfaces.BSShape;
 import shapes.interfaces.Updatable;
 import sounds.BSSound;
 import utility_classes.*;
@@ -236,7 +235,7 @@ public class Control extends JPanel implements Screen {
 	}
 	
 	protected void drawShapes(Graphics2D g) {
-		getCurrentScene().drawShapes(g);
+		sceneManager.getCurrentScene().drawShapes(g);
 	}
 
 	protected void setup() {}
@@ -419,7 +418,5 @@ public class Control extends JPanel implements Screen {
 	
 	public GameStateManager getGameStateManager() {return GAME_STATE_MANAGER;}
 	
-	public BSSound getBackgroundMusic() {return backgroundMusic;}
-	
-	public Scene getCurrentScene() {return scenes.get(sceneIndex);}
+	public BSSound getBackgroundMusic() {return backgroundMusic;}	
 }

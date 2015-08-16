@@ -14,5 +14,29 @@ public class SceneManager {
 	public SceneManager() {
 		scenes.add(new Scene());
 	}
+	
+	public Scene getCurrentScene() {
+		return scenes.get(sceneIndex);
+	}
+	
+	public Scene getScene(String name) {
+		for (Scene scene : scenes) {
+			if (scene.getSceneName().equals(name)) return scene;
+		}
+		return null;
+	}
+	
+	public void nextScene() {
+		sceneIndex++;
+		if (scenes.size() == sceneIndex) sceneIndex = 0;
+	}
+	
+	public void setScene(int index) {
+		sceneIndex = index;
+	}
+	
+	public void addScene(Scene scene) {
+		scenes.add(scene);
+	}
 
 }
