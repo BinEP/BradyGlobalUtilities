@@ -107,55 +107,53 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 		g.fill(this);
 	}
 	
-	
 	@Override
 	public Rectangle getBounds() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getBounds();
 	}
+	
 	@Override
 	public Rectangle2D getBounds2D() {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getBounds2D();
 	}
+	
 	@Override
 	public boolean contains(double x, double y) {
-		// TODO Auto-generated method stub
-		return false;
+		return shape.contains(x, y);
 	}
+	
 	@Override
 	public boolean contains(Point2D p) {
-		// TODO Auto-generated method stub
-		return false;
+		return shape.contains(p);
 	}
+	
 	@Override
 	public boolean intersects(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
+		return shape.intersects(x, y, w, h);
 	}
+	
 	@Override
 	public boolean intersects(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
+		return shape.intersects(r);
 	}
+	
 	@Override
 	public boolean contains(double x, double y, double w, double h) {
-		// TODO Auto-generated method stub
-		return false;
+		return shape.contains(x, y, w, h);
 	}
+	
 	@Override
 	public boolean contains(Rectangle2D r) {
-		// TODO Auto-generated method stub
-		return false;
+		return shape.contains(r);
 	}
+	
 	@Override
 	public PathIterator getPathIterator(AffineTransform at) {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getPathIterator(at);
 	}
+	
 	@Override
 	public PathIterator getPathIterator(AffineTransform at, double flatness) {
-		// TODO Auto-generated method stub
-		return null;
+		return shape.getPathIterator(at, flatness);
 	}
 }
