@@ -58,6 +58,7 @@ public class GameStateManager {
 		startGame = false;
 		playing = true;
 		currentState = GameState.playing;
+		SceneManager.setScene("Playing");
 		ShapeListenerManager.startThread();
 	}
 
@@ -65,12 +66,14 @@ public class GameStateManager {
 		highScores = false;
 		endGame = true;
 		currentState = GameState.end;
+		SceneManager.setScene("End");
 	}
 
 	public static void toHighscoreBooleans() {
 		nameEnter = false;
 		highScores = true;
 		currentState = GameState.scores;
+		SceneManager.setScene("Scores");
 	}
 	
 	public static void toNameEnter() {
@@ -78,6 +81,7 @@ public class GameStateManager {
 		paused = false;
 		nameEnter = true;
 		currentState = GameState.name;
+		SceneManager.setScene("NameEnter");
 		ShapeListenerManager.stopThread();
 	}
 
@@ -92,18 +96,24 @@ public class GameStateManager {
 		paused = true;
 		playing = false;
 		currentState = GameState.paused;
+		SceneManager.setScene("Paused");
+
 	}
 	
 	public static void resume() {
 		paused = false;
 		playing = true;
 		currentState = GameState.playing;
+		SceneManager.setScene("Playing");
+
 	}
 	
 	public static void togglePlaying() {
 		paused = !paused;
 		playing = !playing;
 		currentState = (playing) ? GameState.playing : GameState.paused;
+		SceneManager.setScene((playing) ? "Playing" : "Paused");
+
 	}
 
 	public static boolean isStartGame() {

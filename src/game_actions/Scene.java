@@ -19,9 +19,11 @@ public class Scene {
 		sceneName = name;
 	}
 
-	public void drawShapes(Graphics2D g) {
+	public void drawShapes(Graphics2D g2) {
+		Graphics2D g;
 		synchronized (shapesToDraw) {
 			for (BSShape shape : shapesToDraw) {
+				g = (Graphics2D) g2.create();
 				shape.autoDraw(g);
 			}
 		}
@@ -29,12 +31,16 @@ public class Scene {
 	
 	public final void addShapeToBeDrawn(BSShape shape) {
 		synchronized(shapesToDraw) {
-			if (!shapesToDraw.contains(shape)) shapesToDraw.add(shape);
+			if (!shapesToDraw.contains(shape) && shape != null) shapesToDraw.add(shape);
 		}
 	}
 	
 	public String getSceneName() {
 		return sceneName;
+	}
+	
+	public BSShape getShape(BSShape shape) {
+		return shapesToDraw.get(shapesToDraw.indexOf(shape));
 	}
 	
 //	public static final void addShapeToBeDrawn(BSShape shape, GameState state) {
