@@ -7,6 +7,7 @@ public class CheckPort {
 	
 	public static boolean checkPort(String host, int port) {
 		try {
+			
 			@SuppressWarnings({ "unused", "resource" })
 			Socket s = new Socket(host, port);
 			System.out.println("Open");
