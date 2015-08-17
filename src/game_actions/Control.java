@@ -106,12 +106,13 @@ public class Control extends JPanel implements Screen {
 		setFocusable(true);
 
 		addListeners();
-		setup();
+		
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		setupScenes();
 
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
+		setup();
 	}
 
 	private void setupScenes() {
@@ -121,7 +122,8 @@ public class Control extends JPanel implements Screen {
 		customDrawing.setupDrawPause();
 		sceneManager.addSceneCustom(new Scene("NameEnter"));
 		sceneManager.addSceneCustom(new Scene("Scores"));
-		customDrawing.setupDrawEnd();		
+		customDrawing.setupDrawEnd();	
+		SceneManager.setScene("Start");
 	}
 
 	private void addListeners() {

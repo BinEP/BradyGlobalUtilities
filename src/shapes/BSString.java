@@ -6,6 +6,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.font.GlyphVector;
+import java.awt.geom.Point2D;
 
 import javax.swing.JPanel;
 
@@ -40,8 +41,8 @@ public class BSString extends BSShape {
 	
 	public BSString(String text, Font font, int y) {
 		this.font = font;
-		setLocation(y);
 		this.text = text;
+		setLocation(y);
 	}
 	
 	public BSString(String text, Font font, Point p) {
@@ -56,8 +57,8 @@ public class BSString extends BSShape {
 	
 	public BSString(String text, Font font, int y, int dx, int dy) {
 		this.font = font;
-		setLocation(y);
 		this.text = text;
+		setLocation(y);
 		deltaX = dx;
 		deltaY = dy;
 	}
@@ -102,6 +103,11 @@ public class BSString extends BSShape {
 	@Override
 	public Shape getShape() {
 		GlyphVector v = font.createGlyphVector(panel.getFontMetrics(font).getFontRenderContext(), text);
+		for (int i = 0; i < v.getNumGlyphs(); i++) {
+			Point2D offset = v.getGlyphPosition(i);
+			offset.setLocation(offset.getX() + x, offset.getY() + y);
+			v.setGlyphPosition(i, offset);
+		}		
 		return v.getOutline();
 	}
 }

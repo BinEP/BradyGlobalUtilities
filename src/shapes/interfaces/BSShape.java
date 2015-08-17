@@ -99,11 +99,11 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	}
 	
 	public void draw(Graphics2D g) {
-		g.draw(this);
+		g.draw(getShape());
 	}
 	
 	public void fill(Graphics2D g) {
-		g.fill(this);
+		g.fill(getShape());
 	}
 	
 	@Override
