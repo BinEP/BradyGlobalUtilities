@@ -103,9 +103,10 @@ public class DatabaseManagement {
 		connect();
 		ArrayList<String[]> results = new ArrayList<String[]>();
 		selectData = database.createStatement();
-		resultData = selectData
-				.executeQuery("SELECT * FROM " + tableName + ";");
-
+//		resultData = selectData
+//				.executeQuery("SELECT * FROM " + tableName + ";");
+		resultData = selectData.executeQuery("SELECT * FROM " + tableName + " ORDER BY SCORE DESC, NAME ASC");
+//		sortData();
 		while (resultData.next()) {
 			String name = resultData.getString("name");
 			int score = resultData.getInt("score");
@@ -119,24 +120,24 @@ public class DatabaseManagement {
 		return results;
 	}
 	
-	public void sortData() {
-		try {
-			sortDataCommand();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	private void sortDataCommand() throws SQLException {
-		
-		connect();
-		sortData = database.createStatement();
-		sortData.executeQuery("SELECT * FROM " + tableName + " ORDER BY SCORE, NAME ASC");
-		
-		sortData.close();
-		database.commit();
-		closeConnections();
-	}
+//	public void sortData() {
+//		try {
+//			sortDataCommand();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		}
+//	}
+//	
+//	private void sortDataCommand() throws SQLException {
+//		
+//		connect();
+//		sortData = database.createStatement();
+//		resultData = sortData.executeQuery("SELECT * FROM " + tableName + " ORDER BY SCORE, NAME ASC");
+//		
+//		sortData.close();
+//		database.commit();
+//		closeConnections();
+//	}
 	
 	public void closeConnections() {}
 }
