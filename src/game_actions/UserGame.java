@@ -11,6 +11,7 @@ import listener_control.ShapeListenerManager.Movement;
 import custom_listeners.BSGameListener;
 import events.GameEvent;
 import game_state.GameStateManager;
+import game_state.SceneManager;
 import game_state.ScoreCordReference.ScoreCoords;
 import shapes.BSRectangle;
 import utility_classes.CenteredText;
@@ -116,6 +117,9 @@ public class UserGame extends Game implements BSGameListener {
 		playerY = 100;
 		goal = new BSRectangle(30, 190, 60, 100);
 		player = new BSRectangle(playerX, playerY, 20, 20);
+		Scene scene = SceneManager.getScene("Playing");
+		scene.addShapeToBeDrawn(goal);
+		scene.addShapeToBeDrawn(player);
 		ShapeListenerManager.addTrigger(Action.death, Movement.exit, outerbox,
 				"Stuff", player);
 		ShapeListenerManager.addTrigger(Action.score, Movement.enter, goal.getBounds(),
@@ -156,8 +160,8 @@ public class UserGame extends Game implements BSGameListener {
 	
 	public void mouse() {
 		System.out.println("Mouse");
-		getBackgroundMusic().changeSoundLevel(-10);
-		getBackgroundMusic().changeLevelOverTime(5, -50);
+//		getBackgroundMusic().changeSoundLevel(-10);
+//		getBackgroundMusic().changeLevelOverTime(5, -50);
 	}
 
 	@Override

@@ -24,7 +24,8 @@ import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
-import shapes.interfaces.BSShape;
+import game_state.SceneManager;
+import shapes.BSString;
 import shapes.interfaces.Updatable;
 import sounds.BSSound;
 import utility_classes.*;
@@ -38,13 +39,13 @@ public class Control extends JPanel implements Screen {
 	public static CustomFont customFont;
 	private static final List<Updatable> updatables = new ArrayList<Updatable>();
 //	private static final Map<BSShape, GameState> shapesToDraw = new LinkedHashMap<BSShape, GameState>();
-	private static final List<BSShape> shapesToDraw = new ArrayList<BSShape>();
 
 	public static int WIDTH = 800;
 	public static int HEIGHT = 480;
 	
 	public boolean fullscreen = false;
 	public int score;
+	public static BSString scoreShape;
 	
 	public int upKey = KeyEvent.VK_UP;
 	public int downKey = KeyEvent.VK_DOWN;
@@ -97,6 +98,7 @@ public class Control extends JPanel implements Screen {
 	private final DirectionExecution directionExecution = new DirectionExecution(this);
 	private final CustomDrawing customDrawing = new CustomDrawing(this);
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
+	public final SceneManager sceneManager = new SceneManager();
 	
 	private BSSound backgroundMusic;
 	
@@ -106,12 +108,25 @@ public class Control extends JPanel implements Screen {
 		setFocusable(true);
 
 		addListeners();
-
-		setup();
-		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		
+		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
+		scoreShape = new BSString(String.valueOf(score), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
+		setupScenes();
+
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
+		setup();
+	}
+
+	private void setupScenes() {
+		
+		customDrawing.setupDrawStart();
+		customDrawing.setupDrawPlaying();
+		customDrawing.setupDrawPause();
+		sceneManager.addSceneCustom(new Scene("NameEnter"));
+		sceneManager.addSceneCustom(new Scene("Scores"));
+		customDrawing.setupDrawEnd();	
+		SceneManager.setScene("Start");
 	}
 
 	private void addListeners() {
@@ -159,7 +174,7 @@ public class Control extends JPanel implements Screen {
 		drawShapes(g2);
 
 		if (GameStateManager.isStartGame()) {
-			drawStart(g2);
+//			drawStart(g2);
 
 		} else if (GameStateManager.isPlaying() || GameStateManager.isPaused()) {
 
@@ -167,10 +182,10 @@ public class Control extends JPanel implements Screen {
 
 			showMouseCoords(g2);
 			if (GameStateManager.isPaused()) {
-				drawPaused(g2);
+//				drawPaused(g2);
 			}
 		} else if (GameStateManager.isEndGame()) {
-			drawEnd(g2);
+//			drawEnd(g2);
 
 		} else if (GameStateManager.isNameEnter()) {
 			ScoreInfo.enterName(g2, getScore(), getPlayerName());
@@ -195,29 +210,25 @@ public class Control extends JPanel implements Screen {
 				(double) (getHeight()) / (double) Windows.getHeight());
 	}
 
-	protected void draw(Graphics2D g) {
-		customDrawing.draw(g);
-	}
-
-	/** Draws the start screen. gets game name from Windows class */
-	protected void drawStart(Graphics2D g) {
-		customDrawing.drawStart(g);
-	}
-
+	protected void draw(Graphics2D g) {}
+//
+//	/** Draws the start screen. gets game name from Windows class */
+//	protected void drawStart(Graphics2D g) {}
+//
 	/** Draws the screen when BooleanManager.isPlaying() */
 	protected void drawPlaying(Graphics2D g) {
-		customDrawing.drawPlaying(g);
+//		customDrawing.drawPlaying(g);
 	}
-
-	/** Draws the word "Paused" in the middle of the screen */
-	protected void drawPaused(Graphics2D g) {
-		customDrawing.drawPaused(g);
-	}
-
-	/** Draws the end game screen */
-	protected void drawEnd(Graphics2D g) {
-		customDrawing.drawEnd(g);
-	}
+//
+//	/** Draws the word "Paused" in the middle of the screen */
+//	protected void drawPaused(Graphics2D g) {
+//		customDrawing.drawPaused(g);
+//	}
+//
+//	/** Draws the end game screen */
+//	protected void drawEnd(Graphics2D g) {
+//		customDrawing.drawEnd(g);
+//	}
 
 	protected void drawBorder(Graphics2D g) {
 		customDrawing.drawBorder(g, Color.WHITE, 15);
@@ -236,13 +247,9 @@ public class Control extends JPanel implements Screen {
 	}
 	
 	protected void drawShapes(Graphics2D g) {
-		synchronized(shapesToDraw) {
-			for (BSShape shape : shapesToDraw) {
-				shape.autoDraw(g);
-			}
-		}
+		SceneManager.getCurrentScene().drawShapes(g);
 	}
-	
+
 	protected void setup() {}
 
 	protected void reset() {}
@@ -268,7 +275,6 @@ public class Control extends JPanel implements Screen {
 			if (GameStateManager.isStartGame()) {
 				setKeys();
 				actionTimer.resetTime();
-//				setup();
 				GameStateManager.toPlayingBooleans();
 
 			} else if (GameStateManager.isEndGame()) {
@@ -351,6 +357,7 @@ public class Control extends JPanel implements Screen {
 				ObjectListenerManager.endSounds();
 				ShapeListenerManager.resetAllStates();
 				actionTimer.stopTime();
+				scoreShape.text = String.valueOf(score);
 			}
 		}
 		repaint();
@@ -361,16 +368,6 @@ public class Control extends JPanel implements Screen {
 			updatables.add(u);
 		}
 	}
-	
-	public static final void addShapeToBeDrawn(BSShape shape) {
-		synchronized(shapesToDraw) {
-			if (!shapesToDraw.contains(shape)) shapesToDraw.add(shape);
-		}
-	}
-	
-//	public static final void addShapeToBeDrawn(BSShape shape, GameState state) {
-//		
-//	}
 	
 	protected void executeEveryTick() {}
 	
@@ -433,6 +430,5 @@ public class Control extends JPanel implements Screen {
 	
 	public GameStateManager getGameStateManager() {return GAME_STATE_MANAGER;}
 	
-	public BSSound getBackgroundMusic() {return backgroundMusic;}
-	
+	public BSSound getBackgroundMusic() {return backgroundMusic;}	
 }
