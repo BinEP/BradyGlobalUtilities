@@ -1,7 +1,9 @@
 package shapes;
 
 import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.Shape;
 import java.awt.font.GlyphVector;
 
@@ -9,6 +11,7 @@ import javax.swing.JPanel;
 
 import game_actions.Control;
 import shapes.interfaces.BSShape;
+import utility_classes.Windows;
 
 public class BSString extends BSShape {
 
@@ -35,6 +38,12 @@ public class BSString extends BSShape {
 		this.font = font;
 	}
 	
+	public BSString(String text, Font font, int y) {
+		this.font = font;
+		setLocation(y);
+		this.text = text;
+	}
+	
 	public BSString(String text, Font font, Point p) {
 		this(text, font, p.x, p.y);
 	}
@@ -45,6 +54,14 @@ public class BSString extends BSShape {
 		deltaY = dy;
 	}
 	
+	public BSString(String text, Font font, int y, int dx, int dy) {
+		this.font = font;
+		setLocation(y);
+		this.text = text;
+		deltaX = dx;
+		deltaY = dy;
+	}
+		
 	public BSString(String text, Point p, int dx, int dy) {
 		this(text, p.x, p.y, dx, dy);
 	}
@@ -56,6 +73,32 @@ public class BSString extends BSShape {
 	
 	public BSString(String text, Font font, Point p, int dx, int dy) {
 		this(text, font, p.x, p.y, dx, dy);
+	}
+	
+	public void setLocation(int yVal) {
+		setLocation(0, 0, 0, yVal, false);
+	}
+	
+	public void setLocation(Rectangle r) {		
+		setLocation(r.width, r.height, r.x, r.y, true);
+	}
+	
+	private void setLocation(int width, int height, int xVal, int yVal, boolean yCenter) {
+		
+		if (width == 0) width = Windows.getWidth();
+		if (height == 0) height = Windows.getHeight();
+		
+		System.out.println(font == null);
+		FontMetrics fontInfo = new JPanel().getFontMetrics(font);
+		System.out.println(fontInfo == null);
+		int textWidth = fontInfo.stringWidth(text);
+		int textHeight = fontInfo.getHeight();
+		
+		int x = xVal + (width - textWidth) / 2;
+		int y = (yCenter) ? yVal + (height - textHeight) / 2 : yVal;
+		
+		this.x = x;
+		this.y = y;
 	}
 	
 	@Override

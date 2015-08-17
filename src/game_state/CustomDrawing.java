@@ -8,8 +8,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import javax.swing.JPanel;
-
 import utility_classes.CenteredText;
 import utility_classes.Windows;
 
@@ -91,13 +89,13 @@ public class CustomDrawing {
 	}
 	
 	public void setupDrawStart(Graphics2D g) {
-		BSString title = new BSString(game.getGameName(), Control.customFont.getFont(Windows.getTITLE_SIZE()), CenteredText.getXCenter(game.getGameName(), Windows.getTITLE_Y(), g));
+		BSString title = new BSString(game.getGameName(), Control.customFont.getFont(Windows.getTITLE_SIZE()),  Windows.getTITLE_Y());
 		title.setColor(Color.WHITE);
-		BSString enter = new BSString("Press Enter to", Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()), CenteredText.getXCenter("Press Enter to", Windows.getENTER_Y(), g));
+		BSString enter = new BSString("Press Enter to", Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()), Windows.getENTER_Y());
 		enter.setColor(Color.WHITE);
-		BSString start = new BSString("Start", Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()), CenteredText.getXCenter("Start", Windows.getSTART_Y(), g));
+		BSString start = new BSString("Start", Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()), Windows.getSTART_Y());
 		start.setColor(Color.WHITE);
-		BSString mapKeys = new BSString("Press keys Up, Right, Down, Left to map new keys", Control.customFont.getFont(12), CenteredText.getXCenter("Press keys Up, Right, Down, Left to map new keys", 30, g));
+		BSString mapKeys = new BSString("Press keys Up, Right, Down, Left to map new keys", Control.customFont.getFont(12), 30);
 		mapKeys.setColor(Color.WHITE);
 		
 		Scene startScene = new Scene("Start");
@@ -116,7 +114,7 @@ public class CustomDrawing {
 	}
 	
 	public void setupDrawPause(Graphics2D g) {
-		BSString pause = new BSString("Paused", Control.customFont.getFont(Windows.getPAUSE_SIZE()), CenteredText.getXCenter("Paused", Windows.getPAUSE_Y(), g));
+		BSString pause = new BSString("Paused", Control.customFont.getFont(Windows.getPAUSE_SIZE()), Windows.getPAUSE_Y());
 		pause.setColor(Color.WHITE);
 		
 		Scene pauseScene = new Scene("Pause");
@@ -126,11 +124,11 @@ public class CustomDrawing {
 	}
 	
 	public void setupDrawEnd(Graphics2D g) {
-		BSString score = new BSString(String.valueOf(game.getScore()), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), CenteredText.getXCenter(String.valueOf(game.getScore()), Windows.getEND_SCORE_Y(), g));
+		BSString score = new BSString(String.valueOf(game.getScore()), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
 		score.setColor(Color.WHITE);
-		BSString lose = new BSString("You Lose!", Control.customFont.getFont(Windows.getYOU_LOSE_SIZE()), CenteredText.getXCenter("You Lose!", Windows.getYOU_LOSE_Y(), g));
+		BSString lose = new BSString("You Lose!", Control.customFont.getFont(Windows.getYOU_LOSE_SIZE()), Windows.getYOU_LOSE_Y());
 		lose.setColor(Color.WHITE);
-		BSString enter = new BSString("Enter to Restart", Control.customFont.getFont(Windows.getRESTART_SIZE()), CenteredText.getXCenter("Enter to Restart", Windows.getRESTART_Y(), g));
+		BSString enter = new BSString("Enter to Restart", Control.customFont.getFont(Windows.getRESTART_SIZE()), Windows.getRESTART_Y());
 		enter.setColor(Color.WHITE);
 		
 		Scene endScene = new Scene("End");

@@ -105,22 +105,24 @@ public class Control extends JPanel implements Screen {
 		setBackground(Color.BLACK);
 		setFocusable(true);
 
-		setupScenes();
 		addListeners();
 		setup();
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
-		
+		setupScenes();
+
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
 	}
 
 	private void setupScenes() {
 		
-		Graphics2D g = (Graphics2D) new JPanel().getGraphics();
+		Graphics2D g = (Graphics2D) getGraphics();
+		System.out.println(g == null);
 		customDrawing.setupDrawStart(g);
 		customDrawing.setupDrawPlaying(g);
 		customDrawing.setupDrawPause(g);
-		
+		sceneManager.addSceneCustom(new Scene("NameEnter"));
+		sceneManager.addSceneCustom(new Scene("Scores"));
 		customDrawing.setupDrawEnd(g);		
 	}
 
@@ -169,18 +171,18 @@ public class Control extends JPanel implements Screen {
 		drawShapes(g2);
 
 		if (GameStateManager.isStartGame()) {
-			drawStart(g2);
+//			drawStart(g2);
 
 		} else if (GameStateManager.isPlaying() || GameStateManager.isPaused()) {
 
-			drawPlaying(g2);
+//			drawPlaying(g2);
 
 			showMouseCoords(g2);
 			if (GameStateManager.isPaused()) {
-				drawPaused(g2);
+//				drawPaused(g2);
 			}
 		} else if (GameStateManager.isEndGame()) {
-			drawEnd(g2);
+//			drawEnd(g2);
 
 		} else if (GameStateManager.isNameEnter()) {
 			ScoreInfo.enterName(g2, getScore(), getPlayerName());
