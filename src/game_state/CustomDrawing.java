@@ -129,15 +129,16 @@ public class CustomDrawing {
 	}
 	
 	public void setupDrawEnd() {
-		BSString score = new BSString(String.valueOf(game.getScore()), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
-		score.setColor(Color.WHITE);
+//		BSString score = new BSString(String.valueOf(game.getScore()), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
+//		score.setColor(Color.WHITE);
 		BSString lose = new BSString("You Lose!", Control.customFont.getFont(Windows.getYOU_LOSE_SIZE()), Windows.getYOU_LOSE_Y());
 		lose.setColor(Color.WHITE);
 		BSString enter = new BSString("Enter to Restart", Control.customFont.getFont(Windows.getRESTART_SIZE()), Windows.getRESTART_Y());
 		enter.setColor(Color.WHITE);
 		
 		Scene endScene = new Scene("End");
-		endScene.addShapeToBeDrawn(score);
+//		endScene.addShapeToBeDrawn(score);
+		endScene.addShapeToBeDrawn(Control.scoreShape);
 		endScene.addShapeToBeDrawn(lose);
 		endScene.addShapeToBeDrawn(enter);
 		

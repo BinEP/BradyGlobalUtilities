@@ -25,6 +25,7 @@ import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
 import game_state.SceneManager;
+import shapes.BSString;
 import shapes.interfaces.Updatable;
 import sounds.BSSound;
 import utility_classes.*;
@@ -44,6 +45,7 @@ public class Control extends JPanel implements Screen {
 	
 	public boolean fullscreen = false;
 	public int score;
+	public static BSString scoreShape;
 	
 	public int upKey = KeyEvent.VK_UP;
 	public int downKey = KeyEvent.VK_DOWN;
@@ -108,6 +110,7 @@ public class Control extends JPanel implements Screen {
 		addListeners();
 		
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
+		scoreShape = new BSString(String.valueOf(score), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
 		setupScenes();
 
 		timer = new Timer((int) (1000 / speed), listenerActivator);
@@ -359,6 +362,7 @@ public class Control extends JPanel implements Screen {
 				ObjectListenerManager.endSounds();
 				ShapeListenerManager.resetAllStates();
 				actionTimer.stopTime();
+				scoreShape.text = String.valueOf(score);
 			}
 		}
 		repaint();
