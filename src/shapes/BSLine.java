@@ -11,6 +11,7 @@ public class BSLine extends BSShape {
 
 	public int x2;
 	public int y2;
+	public int lineWidth = 1;
 	
 	public BSLine() {
 	}
@@ -45,5 +46,9 @@ public class BSLine extends BSShape {
 	
 	public double getSlope() {
 		return (double) (y2 - y) / (double) (x2 - x);
+	}
+	
+	public void setWidthOfLine(int width) {
+		//TODO have to do thing method
 	}
 }
