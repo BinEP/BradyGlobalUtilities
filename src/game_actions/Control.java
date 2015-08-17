@@ -96,7 +96,6 @@ public class Control extends JPanel implements Screen {
 	private final DirectionExecution directionExecution = new DirectionExecution(this);
 	private final CustomDrawing customDrawing = new CustomDrawing(this);
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
-	public final SceneManager sceneManager = new SceneManager();
 	
 	private BSSound backgroundMusic;
 	
@@ -235,7 +234,7 @@ public class Control extends JPanel implements Screen {
 	}
 	
 	protected void drawShapes(Graphics2D g) {
-		sceneManager.getCurrentScene().drawShapes(g);
+		SceneManager.getCurrentScene().drawShapes(g);
 	}
 
 	protected void setup() {}
