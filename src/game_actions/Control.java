@@ -116,14 +116,12 @@ public class Control extends JPanel implements Screen {
 
 	private void setupScenes() {
 		
-		Graphics2D g = (Graphics2D) getGraphics();
-		System.out.println(g == null);
-		customDrawing.setupDrawStart(g);
-		customDrawing.setupDrawPlaying(g);
-		customDrawing.setupDrawPause(g);
+		customDrawing.setupDrawStart();
+		customDrawing.setupDrawPlaying();
+		customDrawing.setupDrawPause();
 		sceneManager.addSceneCustom(new Scene("NameEnter"));
 		sceneManager.addSceneCustom(new Scene("Scores"));
-		customDrawing.setupDrawEnd(g);		
+		customDrawing.setupDrawEnd();		
 	}
 
 	private void addListeners() {

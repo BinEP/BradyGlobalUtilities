@@ -88,7 +88,7 @@ public class CustomDrawing {
 		game.setBackground(c);
 	}
 	
-	public void setupDrawStart(Graphics2D g) {
+	public void setupDrawStart() {
 		BSString title = new BSString(game.getGameName(), Control.customFont.getFont(Windows.getTITLE_SIZE()),  Windows.getTITLE_Y());
 		title.setColor(Color.WHITE);
 		BSString enter = new BSString("Press Enter to", Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()), Windows.getENTER_Y());
@@ -107,13 +107,13 @@ public class CustomDrawing {
 		game.sceneManager.addSceneCustom(startScene);
 	}
 	
-	public void setupDrawPlaying(Graphics2D g) {
+	public void setupDrawPlaying() {
 		Scene playing = new Scene("Playing");
 		
 		game.sceneManager.addSceneCustom(playing);
 	}
 	
-	public void setupDrawPause(Graphics2D g) {
+	public void setupDrawPause() {
 		BSString pause = new BSString("Paused", Control.customFont.getFont(Windows.getPAUSE_SIZE()), Windows.getPAUSE_Y());
 		pause.setColor(Color.WHITE);
 		
@@ -123,7 +123,7 @@ public class CustomDrawing {
 		game.sceneManager.addSceneCustom(pauseScene);
 	}
 	
-	public void setupDrawEnd(Graphics2D g) {
+	public void setupDrawEnd() {
 		BSString score = new BSString(String.valueOf(game.getScore()), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
 		score.setColor(Color.WHITE);
 		BSString lose = new BSString("You Lose!", Control.customFont.getFont(Windows.getYOU_LOSE_SIZE()), Windows.getYOU_LOSE_Y());
