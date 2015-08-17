@@ -16,7 +16,7 @@ public class ScoreInfo {
 	
 	public static void setScores(int score, String person) {
 		database.insertInfo(person, score);
-		database.sortData();
+//		database.sortData();
 	}
 
 	public static ArrayList<String[]> getScores() {
