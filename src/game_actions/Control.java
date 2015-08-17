@@ -210,29 +210,25 @@ public class Control extends JPanel implements Screen {
 				(double) (getHeight()) / (double) Windows.getHeight());
 	}
 
-	protected void draw(Graphics2D g) {
-		customDrawing.draw(g);
-	}
-
-	/** Draws the start screen. gets game name from Windows class */
-	protected void drawStart(Graphics2D g) {
-		customDrawing.drawStart(g);
-	}
-
-	/** Draws the screen when BooleanManager.isPlaying() */
-	protected void drawPlaying(Graphics2D g) {
-		customDrawing.drawPlaying(g);
-	}
-
-	/** Draws the word "Paused" in the middle of the screen */
-	protected void drawPaused(Graphics2D g) {
-		customDrawing.drawPaused(g);
-	}
-
-	/** Draws the end game screen */
-	protected void drawEnd(Graphics2D g) {
-		customDrawing.drawEnd(g);
-	}
+	protected void draw(Graphics2D g) {}
+//
+//	/** Draws the start screen. gets game name from Windows class */
+//	protected void drawStart(Graphics2D g) {}
+//
+//	/** Draws the screen when BooleanManager.isPlaying() */
+//	protected void drawPlaying(Graphics2D g) {
+//		customDrawing.drawPlaying(g);
+//	}
+//
+//	/** Draws the word "Paused" in the middle of the screen */
+//	protected void drawPaused(Graphics2D g) {
+//		customDrawing.drawPaused(g);
+//	}
+//
+//	/** Draws the end game screen */
+//	protected void drawEnd(Graphics2D g) {
+//		customDrawing.drawEnd(g);
+//	}
 
 	protected void drawBorder(Graphics2D g) {
 		customDrawing.drawBorder(g, Color.WHITE, 15);
@@ -279,7 +275,6 @@ public class Control extends JPanel implements Screen {
 			if (GameStateManager.isStartGame()) {
 				setKeys();
 				actionTimer.resetTime();
-//				setup();
 				GameStateManager.toPlayingBooleans();
 
 			} else if (GameStateManager.isEndGame()) {

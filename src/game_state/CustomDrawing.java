@@ -9,7 +9,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import utility_classes.CenteredText;
 import utility_classes.Windows;
 
 public class CustomDrawing {
@@ -20,51 +19,6 @@ public class CustomDrawing {
 		game = control;
 	}
 	
-	public void draw(Graphics2D g) {}
-
-	/** Draws the start screen. gets game name from Windows class */
-	public void drawStart(Graphics2D g) {
-
-		g.setFont(Control.customFont.getFont(Windows.getTITLE_SIZE()));
-		CenteredText.draw(game.getGameName(), Windows.getTITLE_Y(), g);
-
-		g.setFont(Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()));
-		CenteredText.draw("Press Enter to", Windows.getENTER_Y(), g);
-		CenteredText.draw("Start", Windows.getSTART_Y(), g);
-
-		g.setFont(Control.customFont.getFont(12));
-		CenteredText.draw("Press keys Up, Right, Down, Left to map new keys",
-				30, g);
-	}
-
-	/** Draws the screen when BooleanManager.isPlaying() */
-	public void drawPlaying(Graphics2D g) {
-		g.setColor(Color.CYAN);
-		g.fillRect(20, 30, game.getPlayerX(), game.getPlayerY());
-	}
-
-	/** Draws the word "Paused" in the middle of the screen */
-	public void drawPaused(Graphics2D g) {
-		g.setFont(Control.customFont.getFont(Windows.getPAUSE_SIZE()));
-		g.setColor(Color.WHITE);
-		CenteredText.draw("Paused", Windows.getPAUSE_Y(), g);
-	}
-
-	/** Draws the end game screen */
-	public void drawEnd(Graphics2D g) {
-
-		g.setColor(Color.WHITE);
-		g.setFont(Control.customFont.getFont(Windows.getEND_SCORE_SIZE()));
-		CenteredText.draw(String.valueOf(game.getScore()), Windows.getEND_SCORE_Y(),
-				g);
-
-		g.setFont(Control.customFont.getFont(Windows.getYOU_LOSE_SIZE()));
-		CenteredText.draw("You Lose!", Windows.getYOU_LOSE_Y(), g);
-
-		g.setFont(Control.customFont.getFont(Windows.getRESTART_SIZE()));
-		CenteredText.draw("Enter to Restart", Windows.getRESTART_Y(), g);
-	}
-
 	public void drawBorder(Graphics2D g) {
 		drawBorder(g, Color.WHITE, 15);
 	}

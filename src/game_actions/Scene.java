@@ -12,7 +12,6 @@ public class Scene {
 	private String sceneName = ""; 
 
 	public Scene() {
-		// TODO Auto-generated constructor stub
 	}
 	
 	public Scene(String name) {
@@ -20,12 +19,8 @@ public class Scene {
 	}
 
 	public void drawShapes(Graphics2D g2) {
-		Graphics2D g;
-		synchronized (shapesToDraw) {
-			for (BSShape shape : shapesToDraw) {
-				g = (Graphics2D) g2.create();
-				shape.autoDraw(g);
-			}
+		for (BSShape shape : shapesToDraw) {
+			shape.autoDraw((Graphics2D) g2.create());
 		}
 	}
 	
@@ -35,17 +30,7 @@ public class Scene {
 		}
 	}
 	
-	public String getSceneName() {
-		return sceneName;
-	}
+	public String getSceneName() 				{return sceneName;		}
 	
-	public BSShape getShape(BSShape shape) {
-		return shapesToDraw.get(shapesToDraw.indexOf(shape));
-	}
-	
-//	public static final void addShapeToBeDrawn(BSShape shape, GameState state) {
-//		
-//	}
-	
-
+	public BSShape getShape(BSShape shape) 		{return shapesToDraw.get(shapesToDraw.indexOf(shape));		}
 }
