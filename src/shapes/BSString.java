@@ -88,9 +88,7 @@ public class BSString extends BSShape {
 		if (width == 0) width = Windows.getWidth();
 		if (height == 0) height = Windows.getHeight();
 		
-		System.out.println(font == null);
 		FontMetrics fontInfo = new JPanel().getFontMetrics(font);
-		System.out.println(fontInfo == null);
 		int textWidth = fontInfo.stringWidth(text);
 		int textHeight = fontInfo.getHeight();
 		
