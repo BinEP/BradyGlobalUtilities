@@ -44,7 +44,7 @@ public class SceneManager {
 	}
 	
 	public static void addScene(Scene scene) {
-		scenes.add(1, scene);
+		scenes.add(2, scene);
 	}
 	
 	public static int getSceneIndex() {
