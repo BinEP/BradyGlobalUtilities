@@ -178,7 +178,7 @@ public class Control extends JPanel implements Screen {
 
 		} else if (GameStateManager.isPlaying() || GameStateManager.isPaused()) {
 
-//			drawPlaying(g2);
+			drawPlaying(g2);
 
 			showMouseCoords(g2);
 			if (GameStateManager.isPaused()) {
@@ -215,10 +215,10 @@ public class Control extends JPanel implements Screen {
 //	/** Draws the start screen. gets game name from Windows class */
 //	protected void drawStart(Graphics2D g) {}
 //
-//	/** Draws the screen when BooleanManager.isPlaying() */
-//	protected void drawPlaying(Graphics2D g) {
+	/** Draws the screen when BooleanManager.isPlaying() */
+	protected void drawPlaying(Graphics2D g) {
 //		customDrawing.drawPlaying(g);
-//	}
+	}
 //
 //	/** Draws the word "Paused" in the middle of the screen */
 //	protected void drawPaused(Graphics2D g) {
