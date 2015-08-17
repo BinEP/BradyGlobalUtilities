@@ -8,6 +8,8 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import javax.swing.JPanel;
+
 import utility_classes.CenteredText;
 import utility_classes.Windows;
 
@@ -77,6 +79,7 @@ public class CustomDrawing {
 	}
 
 	public void drawBorder(Graphics2D g, Color c, int width) {
+		//TODO Change this to BS Shapes
 		g.setColor(c);
 		g.setStroke(new BasicStroke(width));
 		g.drawRect(game.getOuterbox().x, game.getOuterbox().y, game.getOuterbox().width, game.getOuterbox().height);
@@ -103,7 +106,13 @@ public class CustomDrawing {
 		startScene.addShapeToBeDrawn(start);
 		startScene.addShapeToBeDrawn(mapKeys);
 
-		SceneManager.addScene(startScene);
+		game.sceneManager.addSceneCustom(startScene);
+	}
+	
+	public void setupDrawPlaying(Graphics2D g) {
+		Scene playing = new Scene("Playing");
+		
+		game.sceneManager.addSceneCustom(playing);
 	}
 	
 	public void setupDrawPause(Graphics2D g) {
@@ -113,7 +122,7 @@ public class CustomDrawing {
 		Scene pauseScene = new Scene("Pause");
 		pauseScene.addShapeToBeDrawn(pause);
 		
-		SceneManager.addScene(pauseScene);
+		game.sceneManager.addSceneCustom(pauseScene);
 	}
 	
 	public void setupDrawEnd(Graphics2D g) {
@@ -124,11 +133,11 @@ public class CustomDrawing {
 		BSString enter = new BSString("Enter to Restart", Control.customFont.getFont(Windows.getRESTART_SIZE()), CenteredText.getXCenter("Enter to Restart", Windows.getRESTART_Y(), g));
 		enter.setColor(Color.WHITE);
 		
-		Scene endScene = new Scene("Start");
+		Scene endScene = new Scene("End");
 		endScene.addShapeToBeDrawn(score);
 		endScene.addShapeToBeDrawn(lose);
 		endScene.addShapeToBeDrawn(enter);
 		
-		SceneManager.addScene(endScene);
+		game.sceneManager.addSceneCustom(endScene);
 	}
 }

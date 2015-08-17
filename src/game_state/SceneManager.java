@@ -26,6 +26,14 @@ public class SceneManager {
 		return null;
 	}
 	
+	public static void setScene(String name) {
+		int i = 0;
+		for (Scene scene : scenes) {
+			if (scene.getSceneName().equals(name)) sceneIndex = i;
+			i++;
+		}
+	}
+	
 	public static void nextScene() {
 		sceneIndex++;
 		if (scenes.size() == sceneIndex) sceneIndex = 0;
@@ -36,7 +44,18 @@ public class SceneManager {
 	}
 	
 	public static void addScene(Scene scene) {
+		scenes.add(1, scene);
+	}
+	
+	public static int getSceneIndex() {
+		return sceneIndex;
+	}
+	
+	public static int getNumberOfScenes() {
+		return scenes.size();
+	}
+	
+	public void addSceneCustom(Scene scene) {
 		scenes.add(scene);
 	}
-
 }

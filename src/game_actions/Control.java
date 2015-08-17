@@ -96,6 +96,7 @@ public class Control extends JPanel implements Screen {
 	private final DirectionExecution directionExecution = new DirectionExecution(this);
 	private final CustomDrawing customDrawing = new CustomDrawing(this);
 	private final GameStateManager GAME_STATE_MANAGER = new GameStateManager(); 
+	public final SceneManager sceneManager = new SceneManager();
 	
 	private BSSound backgroundMusic;
 	
@@ -104,12 +105,23 @@ public class Control extends JPanel implements Screen {
 		setBackground(Color.BLACK);
 		setFocusable(true);
 
+		setupScenes();
 		addListeners();
 		setup();
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
+	}
+
+	private void setupScenes() {
+		
+		Graphics2D g = (Graphics2D) new JPanel().getGraphics();
+		customDrawing.setupDrawStart(g);
+		customDrawing.setupDrawPlaying(g);
+		customDrawing.setupDrawPause(g);
+		
+		customDrawing.setupDrawEnd(g);		
 	}
 
 	private void addListeners() {
