@@ -1,6 +1,7 @@
 package shapes;
 
 import java.awt.Font;
+import java.awt.Point;
 import java.awt.Shape;
 import java.awt.font.GlyphVector;
 
@@ -25,9 +26,17 @@ public class BSString extends BSShape {
 		font = Control.customFont.getCustomFont();
 	}
 	
+	public BSString(String text, Point p) {
+		this(text, p.x, p.y);
+	}
+	
 	public BSString(String text, Font font, int x, int y) {
 		this(text, x, y);
 		this.font = font;
+	}
+	
+	public BSString(String text, Font font, Point p) {
+		this(text, font, p.x, p.y);
 	}
 	
 	public BSString(String text, int x, int y, int dx, int dy) {
@@ -36,9 +45,17 @@ public class BSString extends BSShape {
 		deltaY = dy;
 	}
 	
+	public BSString(String text, Point p, int dx, int dy) {
+		this(text, p.x, p.y, dx, dy);
+	}
+	
 	public BSString(String text, Font font, int x, int y, int dx, int dy) {
 		this(text, x, y, dx, dy);
 		this.font = font;
+	}
+	
+	public BSString(String text, Font font, Point p, int dx, int dy) {
+		this(text, font, p.x, p.y, dx, dy);
 	}
 	
 	@Override
