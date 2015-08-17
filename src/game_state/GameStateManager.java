@@ -96,7 +96,7 @@ public class GameStateManager {
 		paused = true;
 		playing = false;
 		currentState = GameState.paused;
-		SceneManager.setScene("Paused");
+		SceneManager.setScene("Pause");
 
 	}
 	
@@ -112,7 +112,7 @@ public class GameStateManager {
 		paused = !paused;
 		playing = !playing;
 		currentState = (playing) ? GameState.playing : GameState.paused;
-		SceneManager.setScene((playing) ? "Playing" : "Paused");
+		SceneManager.setScene((playing) ? "Playing" : "Pause");
 
 	}
 
