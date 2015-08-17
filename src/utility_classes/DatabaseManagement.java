@@ -127,15 +127,16 @@ public class DatabaseManagement {
 		}
 	}
 	
-	private void sortDataCommand() throws SQLException {
+	private ResultSet sortDataCommand() throws SQLException {
 		
 		connect();
 		sortData = database.createStatement();
-		sortData.executeQuery("SELECT * FROM " + tableName + " ORDER BY SCORE, NAME ASC");
+		resultData = sortData.executeQuery("SELECT * FROM " + tableName + " ORDER BY SCORE, NAME ASC");
 		
 		sortData.close();
 		database.commit();
 		closeConnections();
+		return resultData;
 	}
 	
 	public void closeConnections() {}
