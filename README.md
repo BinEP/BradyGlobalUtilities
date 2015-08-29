@@ -1,4 +1,4 @@
-# BradyGlobalUtilities
+# Brady Game Library
 Java simple 2D graphics framework that is simple to get started with, also includes Java Utilities that can be used anywhere
 
 
