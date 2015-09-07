@@ -1,6 +1,9 @@
 package utility_classes;
 
 import game_actions.Control;
+import game_actions.Scene;
+import game_state.SceneManager;
+import shapes.BSString;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -62,6 +65,10 @@ public class ScoreInfo {
 		int lMax = (Control.HEIGHT - yStart) / 50;
 		int r = 1;
 		g.setColor(Color.WHITE);
+		
+		Scene scoreScene = SceneManager.getScene("Scores");
+		scoreScene.clearShapes();
+		
 		for (String[] c : results) {
 
 			if (l > lMax) {
@@ -76,8 +83,11 @@ public class ScoreInfo {
 			}
 			
 			dots = dots.concat(".");
-			g.drawString(r + ". " + c[1] + dots + c[0], x, (yStart - 2)
-					+ (l * lineH));
+			BSString string = new BSString(r + ". " + c[1] + dots + c[0], 
+					new Font("Joystix", Font.BOLD, 17), x, (yStart - 2) + (l * lineH));
+			scoreScene.addShapeToBeDrawn(string);
+//			g.drawString(r + ". " + c[1] + dots + c[0], x, (yStart - 2)
+//					+ (l * lineH));
 
 			l++;
 			r++;

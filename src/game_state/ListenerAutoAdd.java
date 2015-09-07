@@ -1,7 +1,5 @@
 package game_state;
 
-import java.lang.reflect.AnnotatedType;
-
 import custom_listeners.BSActionListener;
 import custom_listeners.BSDirectionKeyListener;
 import custom_listeners.BSFocusListener;
@@ -15,10 +13,11 @@ public class ListenerAutoAdd {
 
 	public static void addListeners(SuperListener game) {
 
-		AnnotatedType[] at = game.getClass().getAnnotatedInterfaces();
-		for (AnnotatedType t : at) {
+		Class<?>[] at = game.getClass().getInterfaces();
 
-			String typeName = t.getType().getTypeName().substring(17);
+		for (Class<?> t : at) {
+
+			String typeName = t.getName();
 			switch (typeName) {
 
 			case "BSActionListener":

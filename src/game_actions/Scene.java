@@ -30,6 +30,10 @@ public class Scene {
 		}
 	}
 	
+	public final void clearShapes() {
+		shapesToDraw.clear();
+	}
+	
 	public String getSceneName() 				{return sceneName;		}
 	
 	public BSShape getShape(BSShape shape) 		{return shapesToDraw.get(shapesToDraw.indexOf(shape));		}
