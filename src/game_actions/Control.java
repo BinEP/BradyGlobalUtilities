@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import listener_control.KeyManager;
 import listener_control.ListenerActivator;
 import listener_control.ListenerManager;
 import listener_control.ObjectListenerManager;
@@ -132,6 +133,7 @@ public class Control extends JPanel implements Screen {
 	private void addListeners() {
 		ListenerManager.addActionListener(this);
 		ListenerManager.addKeyListener(this);
+		ListenerManager.addKeyListener(new KeyManager());
 		ListenerManager.addDirectionKeyListener(this);
 		ListenerAutoAdd.addListeners((Control) this);
 	}

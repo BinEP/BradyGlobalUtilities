@@ -7,4 +7,7 @@ public interface Moveable extends Updatable {
 	public void setDirection(Direction d);
 	public int getDeltaX();
 	public int getDeltaY();
+	public int getRotation();
+	public void rotate(int degrees);
+	public void rotateContinuous(int speed);
 }

@@ -40,7 +40,7 @@ public class BSLine extends BSShape {
 	}
 
 	@Override
-	public Shape getShape() {
+	public Shape getInnerShape() {
 		return new Line2D.Double(new Point2D.Double(x, y), new Point2D.Double(x2, y2));
 	}
 	

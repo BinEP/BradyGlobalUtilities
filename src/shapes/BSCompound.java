@@ -21,7 +21,7 @@ public class BSCompound extends BSShape {
 	}
 
 	@Override
-	public Shape getShape() {
+	public Shape getInnerShape() {
 		Area area = new Area();
 		for (BSShape shape : shapes)  {
 			area.add((Area) shape.getShape());

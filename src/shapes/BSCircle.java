@@ -25,7 +25,8 @@ public class BSCircle extends BSShape {
 	}
 
 	@Override
-	public Shape getShape() {
-		return new Ellipse2D.Double(x, y, radius, radius);
+	public Shape getInnerShape() {
+		Ellipse2D.Double circle = new Ellipse2D.Double(x, y, radius, radius);
+		return circle;
 	}
 }

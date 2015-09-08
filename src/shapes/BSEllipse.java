@@ -27,7 +27,7 @@ public class BSEllipse extends BSShape {
 	}
 
 	@Override
-	public Shape getShape() {
+	public Shape getInnerShape() {
 		return new Ellipse2D.Double(x, y, width, height);
 	}
 }

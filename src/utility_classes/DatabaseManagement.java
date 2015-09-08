@@ -9,7 +9,6 @@ public class DatabaseManagement {
 	private Statement newTableCommand;
 	private Statement insertDataCommand;
 	private Statement selectData;
-	private Statement sortData;
 	private ResultSet resultData;
 	private String tableName = "SCORES";
 	private static int uniqueID = 1;

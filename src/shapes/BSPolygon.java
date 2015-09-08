@@ -29,7 +29,7 @@ public class BSPolygon extends BSShape {
 	}
 
 	@Override
-	public Shape getShape() {
+	public Shape getInnerShape() {
 		return new Polygon(xpoints, ypoints, npoints);
 	}
 }

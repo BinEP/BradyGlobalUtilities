@@ -20,6 +20,9 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	private Direction direction = Direction.none;
 	private Color color = Color.WHITE;
 	private boolean fill = true;
+	private int rotateSpeed = 0;
+	private int rotateDegress = 0;
+	private boolean rotate = false;
 	
 	public int x;
 	public int y;
@@ -28,7 +31,13 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 		Control.addUpdatable(this);
 	}
 	
-	public abstract Shape getShape();
+	public Shape getShape() {
+		Shape shape = getInnerShape();
+		
+		
+		return shape;
+	};
+	protected abstract Shape getInnerShape();
 	
 	@Override
 	public void setColor(Color c) {
@@ -97,6 +106,21 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	public int getDeltaY() {
 		return deltaY;
 	}
+	
+	@Override
+	public int getRotation() {
+		return rotateSpeed;
+	};
+	
+	@Override
+	public void rotate(int degrees) {
+		
+	};
+	
+	@Override
+	public void rotateContinuous(int speed) {
+		
+	};
 	
 	public void draw(Graphics2D g) {
 		g.draw(getShape());

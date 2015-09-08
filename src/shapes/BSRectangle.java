@@ -59,7 +59,7 @@ public class BSRectangle extends BSShape {
 	}
 
 	@Override
-	public Shape getShape() {
+	public Shape getInnerShape() {
 		return new Rectangle(x, y, width, height);
 	}
 }

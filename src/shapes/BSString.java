@@ -101,7 +101,7 @@ public class BSString extends BSShape {
 	}
 	
 	@Override
-	public Shape getShape() {
+	public Shape getInnerShape() {
 		GlyphVector v = font.createGlyphVector(panel.getFontMetrics(font).getFontRenderContext(), text);
 		for (int i = 0; i < v.getNumGlyphs(); i++) {
 			Point2D offset = v.getGlyphPosition(i);
