@@ -6,14 +6,24 @@ import java.util.List;
 
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSSpecificKeyListener;
+import utility_classes.BSHashMapKeys;
 
 public class KeyManager implements BSKeyListener {
 	
 	List<BSSpecificKeyListener> keyListeners = new ArrayList<BSSpecificKeyListener>();
+	public static BSHashMapKeys keyList = new BSHashMapKeys();
 
+	public void addKey(Character c, BSSpecificKeyListener l) {
+		keyList.put(c, l);
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
+		for (BSSpecificKeyListener l: keyList.get(e.getKeyChar())) {
+			
+		}
 	}
 
 	@Override
