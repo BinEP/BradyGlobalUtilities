@@ -1,6 +1,11 @@
 package custom_listeners;
 
-public class BSSpecificKeyListener {
+import game_actions.Game;
+
+public abstract class BSSpecificKeyListener extends Game implements BSGameListener {
+	
+	private static final long serialVersionUID = 1L;
+
 	public void aPressed() {
 
 	}

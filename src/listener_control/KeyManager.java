@@ -1,15 +1,19 @@
 package listener_control;
 
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import custom_listeners.BSKeyListener;
+import custom_listeners.BSSpecificKeyListener;
 
 public class KeyManager implements BSKeyListener {
+	
+	List<BSSpecificKeyListener> keyListeners = new ArrayList<BSSpecificKeyListener>();
 
 	@Override
 	public void keyTyped(KeyEvent e) {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override
