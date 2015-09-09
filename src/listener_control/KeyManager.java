@@ -1,30 +1,70 @@
 package listener_control;
 
 import java.awt.event.KeyEvent;
+import java.lang.reflect.InvocationTargetException;
 
 import custom_listeners.BSKeyListener;
+import listener_control.ObjectListenerManager.CallMethod;
+import utility_classes.BSHashMapKeys;
 
 public class KeyManager implements BSKeyListener {
+	
+	public static BSHashMapKeys keyListTyped = new BSHashMapKeys();
+	public static BSHashMapKeys keyListPressed = new BSHashMapKeys();
+	public static BSHashMapKeys keyListReleased = new BSHashMapKeys();
 
+	public enum KEY {
+		TYPED, PRESSED, RELEASED;
+	}
+
+	public static void addKey(Character c, String methodName, Object object, KEY key) {
+		try {
+			CallMethod callMethod = new CallMethod(object, object.getClass().getMethod(methodName));
+			
+			switch (key) {
+			case TYPED:
+				keyListTyped.put(c, callMethod);
+				break;
+			case PRESSED:
+				keyListPressed.put(c, callMethod);
+				break;
+			case RELEASED:
+				keyListReleased.put(c, callMethod);
+				break;
+			}
+
+		} catch (NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	public void keyTyped(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		loop(keyListTyped, e);
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		loop(keyListPressed, e);
 	}
 
 	@Override
 	public void keyReleased(KeyEvent e) {
-		// TODO Auto-generated method stub
-
+		loop(keyListReleased, e);
 	}
 
 
+	private void loop(BSHashMapKeys list, KeyEvent e) {
+		if (list.get(e.getKeyChar()) == null) return;
+		
+		for (CallMethod m: list.get(e.getKeyChar())) {
+			try {
+				m.getTheMethod().invoke(m.getTheObject());
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e1) {
+				e1.printStackTrace();
+			}
+		}
+	}
 	
 	// public static void addAction(Character c, Object objectToCallMethod,
 	// String methodName) {

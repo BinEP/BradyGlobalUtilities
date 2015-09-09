@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 
+import listener_control.KeyManager;
+import listener_control.KeyManager.KEY;
 import listener_control.ObjectListenerManager;
 import listener_control.ShapeListenerManager;
 import listener_control.ShapeListenerManager.Action;
@@ -131,6 +133,8 @@ public class UserGame extends Game implements BSGameListener {
 		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, this, "mouse");
 		
 		setBackgroundMusic("chu.wav");
+		
+		KeyManager.addKey('a', "aTest", this, KEY.PRESSED);
 	}
 
 	@Override
@@ -166,6 +170,10 @@ public class UserGame extends Game implements BSGameListener {
 
 	@Override
 	public void playSound(GameEvent g) {
+	}
+	
+	public void aTest() {
+		System.out.println("WORKS!");
 	}
 
 }
