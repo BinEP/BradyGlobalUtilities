@@ -17,7 +17,7 @@ public class KeyManager implements BSKeyListener {
 		TYPED, PRESSED, RELEASED;
 	}
 
-	public void addKey(Character c, String methodName, Object object, KEY key) {
+	public static void addKey(Character c, String methodName, Object object, KEY key) {
 		try {
 			CallMethod callMethod = new CallMethod(object, object.getClass().getMethod(methodName));
 			
@@ -55,6 +55,8 @@ public class KeyManager implements BSKeyListener {
 
 
 	private void loop(BSHashMapKeys list, KeyEvent e) {
+		if (list.get(e.getKeyChar()) == null) return;
+		
 		for (CallMethod m: list.get(e.getKeyChar())) {
 			try {
 				m.getTheMethod().invoke(m.getTheObject());
