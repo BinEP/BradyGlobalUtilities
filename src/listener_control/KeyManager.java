@@ -24,4 +24,33 @@ public class KeyManager implements BSKeyListener {
 
 	}
 
+
+	
+	// public static void addAction(Character c, Object objectToCallMethod,
+	// String methodName) {
+	//// try {
+	//// Class<?> params[] = { getEventParameter(listener) };
+	//// Method callMethod = objectToCallMethod.getClass().getMethod(methodName,
+	// params);
+	//// addMethod(listener, objectToCallMethod, callMethod);
+	//// } catch (NoSuchMethodException e) {
+	// try {
+	// Method callMethod = objectToCallMethod.getClass().getMethod(methodName);
+	// addMethod(c, objectToCallMethod, callMethod);
+	// } catch (NoSuchMethodException | SecurityException e1) {
+	// e1.printStackTrace();
+	// }
+	//// } catch (SecurityException | ClassNotFoundException e) {
+	//// e.printStackTrace();
+	//// }
+	// }
+	//
+	// private static void addMethod(Character c, Object objectToCallMethod,
+	// Method callMethod) {
+	// synchronized (shapeTriggers) {
+	// shapeTriggers.put(listener, new CallMethod(objectToCallMethod,
+	// callMethod));
+	// }
+	// }
+
 }
