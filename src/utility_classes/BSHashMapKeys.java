@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import custom_listeners.BSSpecificKeyListener;
+import listener_control.ObjectListenerManager.CallMethod;
 
-public class BSHashMapKeys extends HashMap<Character, List<BSSpecificKeyListener>> {
+public class BSHashMapKeys extends HashMap<Character, List<CallMethod>> {
 
 	private static final long serialVersionUID = 1L;
 
-	public void put(Character c,  BSSpecificKeyListener l) {
+	public void put(Character c,  CallMethod m) {
 		
-		List<BSSpecificKeyListener> listeners = get(c);
+		List<CallMethod> listeners = get(c);
 
 	    // if list does not exist create it
 	    if(listeners == null) {
-	    	listeners = new ArrayList<BSSpecificKeyListener>();
-	    	listeners.add(l);
+	    	listeners = new ArrayList<CallMethod>();
+	    	listeners.add(m);
 	         super.put(c, listeners);
 	    } else {
 	        // add if item is not already in list
-	        if(!listeners.contains(l)) listeners.add(l);
+	        if(!listeners.contains(m)) listeners.add(m);
 	    }
 	}
 }
