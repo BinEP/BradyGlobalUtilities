@@ -1,4 +1,4 @@
-# BradyGlobalUtilities
+# Brady Graphics Engine
 Java simple 2D graphics framework that is simple to get started with, also includes Java Utilities that can be used anywhere
 
 
@@ -10,18 +10,19 @@ Classes and interfaces that can be used to make a simple starter graphics game.<
 <br>
 ###Screen:<br>
 Interface<br>
-Implements - Key, Action, Mouse listeners<br>
+Implements - Key, Action, Arrow Key listeners<br>
 ####Summary:<br>
-Direction methods for pressed and released directional keys and needed methods for games<br>
+Direction methods for pressed and released directional keys and needed methods for games. <br>
 <br>
 ###Control:<br>
 Super Class<br>
 Implements - Screen<br>
-Extends - JPanel<br>
+Extends - Game<br>
 ####Summary:<br>
 The framework that runs and has all needed methods for a game.<br>
 Method calls - tries to call subclass UserGame methods if overriden, otherwise it's own methods get called<br>
 Calls methods through UserGame object variable, if method not in UserGame, because subclass, Control method gets called<br>
+It is a big class that manages the others and sets up the game and other listeners
 <br>
 ###Directions:<br>
 Super/Middle abstract Class<br>
@@ -30,10 +31,10 @@ Extends - Control<br>
 The UserGame class can extend this or control class. Extending this class also includes extending Control class<br>
 The reason for extending this class would be to force implement the directional methods for when keys are pressed<br>
 <br>
-###PlayerInterface:<br>
-Interface<br>
+###Game:<br>
+Class<br>
 ####Summary:<br>
-UserGame implements this. Ensures that methods for game play and settings can be called<br>
+UserGame extends this. Ensures that methods for game play and settings can be called<br>
 Methods Summary:<br>
 **moves** - gets called every refresh - so add movement and everything goes here<br>
 **checkIfDead** - return true of false if game should end<br>
@@ -44,26 +45,27 @@ Methods Summary:<br>
 **drawEnd** - drawing the end screen<br>
 <br>
 These methods don't have to in UserGame because they are already in Control class as default cases<br>
-Only rewrite the drawStart and drawEnd methods if you want a custom start or end screen<br>
+drawPlaying and draw are called. draw is always called and drawPlaying is called when playing the game
 <br>
 ###UserGame:<br>
-Class - The Only class that should be modified<br>
+Class - The Only class that should be modified or replaced with your own<br>
+This class has to have this method (or the class that you have extending Game) <br>
+public static void main(String[] args) {
+		new Runner(new UserGame());
+	}
 ####Summary:<br>
-This is the class that you would modify to make your game. Check PlayerInterface for method summaries.<br>
+This is the class that you would modify to make your game. Check Game for method summaries.<br>
 There are small inline javadocs for more info<br>
 <br>
-###Runner:<br>
-Class - Runs UserGame<br>
-####Summary:<br>
-Run this method to play game.  Creates a JFrame.<br>
+###Scene: <br>
+Is the class that keeps track of what to draw. Shapes are added to the scene by using SceneManager
 <br>
 <br>
 <br>
+##Game State<br>
 <br>
-##GameFolder<br>
-<br>
-###GameInfo:<br>
-Has a couple variables that the game uses, also refers to the Window class in Utilities<br>
+###Custom Drawing:<br>
+Sets up the start, end, scores, and name enter screens. Adds the right shapes to the the right scenes<br>
 <br>
 <br>
 ##Utilities<br>
