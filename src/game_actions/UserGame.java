@@ -113,6 +113,7 @@ public class UserGame extends Game implements BSGameListener {
 	@Override
 	public void setup() {
 
+		System.out.println("setup");
 		deltaX = 2;
 		deltaY = 2;
 		playerX = 100;
@@ -150,7 +151,8 @@ public class UserGame extends Game implements BSGameListener {
 	}
 
 	public static void main(String[] args) {
-		new Runner(new UserGame());
+		Runner.networkGame(new UserGame());
+//		new Runner(new UserGame());
 	}
 
 	@Override

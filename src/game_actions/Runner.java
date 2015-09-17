@@ -8,7 +8,6 @@ import java.awt.GridLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.lang.reflect.Method;
 
 import javax.swing.BorderFactory;
@@ -24,6 +23,9 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import listener_control.SceneManager;
+import network_comms.Client;
+import network_comms.Server;
 import utility_classes.ScanNetwork;
 import utility_classes.Windows;
 
@@ -84,6 +86,8 @@ public class Runner extends JFrame {
 
 	public Runner(Control game) {
 		super(game.getGameName() + "!");
+		System.out.println("Runner Called");
+
 		boolean fullscreen = game.fullscreen;
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -100,6 +104,8 @@ public class Runner extends JFrame {
 			enterFullScreen(this);
 
 		setVisible(true);
+		System.out.println("Setup Called");
+		game.setup();
 	}
 
 	/**
@@ -117,15 +123,22 @@ public class Runner extends JFrame {
 	private static final int DEFAULT_PORT = 45017;
 	private final static int CHAT_PORT = 37829;
 
+	
 	public static void main(String[] args) {
+		networkGame(null);
+	}
+	
+	public static void networkGame(Control game) {
 
+		SceneManager.setScene("Netwait");
+		System.out.println("Net starting");
 		// First, construct a panel that will be placed into a JOptionPane
 		// confirm dialog.
 
 		JLabel message = new JLabel("Welcome to Networked Go Fish!", JLabel.CENTER);
 		message.setFont(new Font("Serif", Font.BOLD, 16));
 		// final JTextField numberOfPlayers = new JTextField("2", 2);
-		final JTextField listeningPortInput = new JTextField("" + DEFAULT_PORT, 5);
+		final JTextField numOfPlayersInput = new JTextField("" + DEFAULT_PORT, 5);
 		// final JTextField hostInput = new JTextField("localhost", 30);
 		final JComboBox hostInput = new JComboBox();
 		// final String[] choices = {"A", "B"};
@@ -148,9 +161,9 @@ public class Runner extends JFrame {
 				if (e.getSource() == selectServerMode) {
 
 					// Host settings
-					listeningPortInput.setEnabled(true);
+					numOfPlayersInput.setEnabled(true);
 					// numberOfPlayers.setEnabled(true);
-					listeningPortInput.setEditable(true);
+					numOfPlayersInput.setEditable(true);
 
 					// Client settings
 					hostInput.setEnabled(false);
@@ -160,9 +173,9 @@ public class Runner extends JFrame {
 				} else {
 
 					// Host settings
-					listeningPortInput.setEnabled(false);
+					numOfPlayersInput.setEnabled(false);
 					// numberOfPlayers.setEnabled(false);
-					listeningPortInput.setEditable(false);
+					numOfPlayersInput.setEditable(false);
 
 					// Client settings
 					hostInput.setEnabled(true);
@@ -194,7 +207,7 @@ public class Runner extends JFrame {
 		inputPanel.add(selectServerMode);
 
 		// inputPanel.add(createRow("Players: ", numberOfPlayers));
-		inputPanel.add(createRow("Listen on port: ", listeningPortInput));
+		inputPanel.add(createRow("Number of Players: ", numOfPlayersInput));
 
 		inputPanel.add(selectClientMode);
 
@@ -222,37 +235,42 @@ public class Runner extends JFrame {
 				return;
 
 			if (selectServerMode.isSelected()) {
-				int port;
+				int playerNum;
 				try {
-					port = Integer.parseInt(listeningPortInput.getText().trim());
-					if (port <= 0)
+					playerNum = Integer.parseInt(numOfPlayersInput.getText().trim());
+					if (playerNum <= 0)
 						throw new Exception();
 				} catch (Exception e) {
 					message.setText("Illegal port number!");
-					listeningPortInput.selectAll();
-					listeningPortInput.requestFocus();
+					numOfPlayersInput.selectAll();
+					numOfPlayersInput.requestFocus();
 					continue;
 				}
-				Hub hub;
-				Hub chatHub;
+//				Hub hub;
+//				Hub chatHub;
 				try {
-					hub = new GoFishGameHub(port);
-					chatHub = new Hub(CHAT_PORT);
-				} catch (Exception e) {
-					message.setText("Error: Can't listen on port " + port);
-					listeningPortInput.selectAll();
-					listeningPortInput.requestFocus();
-					continue;
-				}
-				try {
-					ChatRoomWindow.newChat("localhost");
-					new GoFishWindow("localhost", port);
+//					hub = new GoFishGameHub(port);
+//					chatHub = new Hub(CHAT_PORT);
+					System.out.println("Server Start");
+					new Server(playerNum);
 
-				} catch (IOException e) {
-					message.setText("Could not connect to server on localhost!!");
-					hub.shutDownHub();
+				} catch (Exception e) {
+					message.setText("Error: Can't listen on port " + playerNum);
+					numOfPlayersInput.selectAll();
+					numOfPlayersInput.requestFocus();
 					continue;
 				}
+//				try {
+//					ChatRoomWindow.newChat("localhost");
+//					new GoFishWindow("localhost", port);
+				System.out.println("Client made and runner being called");
+					game.client = new Client(game, "localhost");
+					new Runner(game);
+//				} catch (IOException e) {
+//					message.setText("Could not connect to server on localhost!!");
+////					hub.shutDownHub();
+//					continue;
+//				}
 				break;
 			} else {
 				String host;
@@ -280,17 +298,18 @@ public class Runner extends JFrame {
 					connectPortInput.requestFocus();
 					continue;
 				}
-				try {
-					ChatRoomWindow.newChat(host);
-					new GoFishWindow(host, port);
-
-				} catch (IOException e) {
-					message.setText("Could not connect to specified host and port.");
-					// hostInput.selectAll();
-
-					hostInput.requestFocus();
-					continue;
-				}
+//				try {
+//					ChatRoomWindow.newChat(host);
+//					new GoFishWindow(host, port);
+				System.out.println("No server, just client");
+					new Runner(game);
+//				} catch (IOException e) {
+//					message.setText("Could not connect to specified host and port.");
+//					// hostInput.selectAll();
+//
+//					hostInput.requestFocus();
+//					continue;
+//				}
 				break;
 			}
 		}

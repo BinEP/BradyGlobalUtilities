@@ -97,8 +97,10 @@ public class Control extends JPanel implements Screen {
 	protected boolean speedUp = false;
 	
 	public boolean network = false;
-	private Client client;
-	private int playerNum = 2;
+	public Client client;
+	public int playerNum = 2;
+	public String host = "127.0.0.1";
+	public boolean hosting = false;
 	
 	private final GameTime actionTimer = new GameTime();
 	private final ListenerActivator listenerActivator = new ListenerActivator(this);
@@ -116,7 +118,7 @@ public class Control extends JPanel implements Screen {
 
 		addListeners();
 		
-		String host = JOptionPane.showInputDialog(this, "Type in Host:");
+//		String host = JOptionPane.showInputDialog(this, "Type in Host:");
 //		client = new Client(this, "127.0.0.1");
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		scoreShape = new BSString(String.valueOf(score), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
@@ -124,11 +126,12 @@ public class Control extends JPanel implements Screen {
 
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
-		setup();
+//		setup();
 	}
 
 	private void setupScenes() {
 		
+		customDrawing.setupDrawNetWaiting();
 		customDrawing.setupDrawStart();
 		customDrawing.setupDrawPlaying();
 		customDrawing.setupDrawPause();
