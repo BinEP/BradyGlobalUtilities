@@ -13,6 +13,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 import game_actions.Control;
+import listener_control.SceneManager;
 
 public class Client {
 
@@ -43,6 +44,7 @@ public class Client {
 
 	public Client(Control game, String host) {
 		this.game = game;
+		if (host.equals("localhost")) host = "127.0.0.1";
 		try {
 			address = InetAddress.getByName(host);
 		} catch (UnknownHostException e) {
@@ -81,7 +83,12 @@ public class Client {
 
 		ByteArrayInputStream in = new ByteArrayInputStream(data);
 		ObjectInputStream is = new ObjectInputStream(in);
+		
 		try {
+			if (is.readObject() instanceof String) {
+				SceneManager.setScene("Start");
+				return null;
+			}
 			return (Data) is.readObject();
 		} catch (ClassNotFoundException e) {
 			System.out.println("Could not cast to Data");
@@ -121,6 +128,7 @@ public class Client {
 				try {
 					socket.receive(packet);
 					Data data = getData(packet.getData());
+					if (data != null)
 					game.gotMessage(data.property, data.data);
 				} catch (IOException e) {
 					e.printStackTrace();

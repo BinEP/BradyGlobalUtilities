@@ -6,6 +6,7 @@ import custom_listeners.BSFocusListener;
 import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
+import custom_listeners.BSNetworkListener;
 import custom_listeners.SuperListener;
 import listener_control.ListenerManager;
 
@@ -37,6 +38,9 @@ public class ListenerAutoAdd {
 				break;
 			case "BSMouseListener":
 				ListenerManager.addMouseListener((BSMouseListener) game);
+				break;
+			case "BSNetworkListener":
+				ListenerManager.addNetworkListener((BSNetworkListener) game);
 				break;
 			}
 		}

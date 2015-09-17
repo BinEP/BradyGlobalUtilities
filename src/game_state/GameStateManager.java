@@ -5,6 +5,8 @@ import listener_control.ShapeListenerManager;
 
 public class GameStateManager {
 
+	
+	private static boolean netWait = false;
 	/**
 	 * When start screen is showing Paint checks this variable for whether or
 	 * not draw the start screen
@@ -39,7 +41,7 @@ public class GameStateManager {
 	private static GameState currentState = GameState.start;
 	
 	public enum GameState {
-		start, playing, paused, end, name, scores
+		netwait, start, playing, paused, end, name, scores
 	}
 	
 	private static boolean dead = false;
@@ -53,6 +55,8 @@ public class GameStateManager {
 	public static GameState getState() {
 		return currentState;
 	}
+	
+	
 	
 	public static void toPlayingBooleans() {
 		dead = false;

@@ -43,6 +43,32 @@ public class CustomDrawing {
 		game.setBackground(c);
 	}
 	
+	public void setupDrawNetWaiting() {
+		
+		
+		BSString title = new BSString(game.getGameName(), Control.customFont.getFont(Windows.getTITLE_SIZE()),  Windows.getTITLE_Y());
+		title.setColor(Color.WHITE);
+		title.setFilled(false);
+		BSString enter = new BSString("Waiting For", Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()), Windows.getENTER_Y());
+		enter.setColor(Color.WHITE);
+		BSString start = new BSString("Others", Control.customFont.getFont(Windows.getENTER_TO_START_SIZE()), Windows.getSTART_Y());
+		start.setColor(Color.WHITE);
+		BSString mapKeys = new BSString("Press keys Up, Right, Down, Left to map new keys", Control.customFont.getFont(12), 30);
+		mapKeys.setColor(Color.WHITE);
+		BSRectangle rect = new BSRectangle(10, 10, 50, 100);
+		rect.setColor(Color.WHITE);
+		
+		Scene netScene = new Scene("Netwait");
+		netScene.addShapeToBeDrawn(title);
+		netScene.addShapeToBeDrawn(enter);
+		netScene.addShapeToBeDrawn(start);
+		netScene.addShapeToBeDrawn(mapKeys);
+		netScene.addShapeToBeDrawn(rect);
+
+		game.sceneManager.addSceneCustom(netScene);
+		
+	}
+	
 	public void setupDrawStart() {
 		BSString title = new BSString(game.getGameName(), Control.customFont.getFont(Windows.getTITLE_SIZE()),  Windows.getTITLE_Y());
 		title.setColor(Color.WHITE);
