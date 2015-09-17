@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -115,6 +116,7 @@ public class Control extends JPanel implements Screen {
 
 		addListeners();
 		
+		String host = JOptionPane.showInputDialog(this, "Type in Host:");
 //		client = new Client(this, "127.0.0.1");
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		scoreShape = new BSString(String.valueOf(score), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
