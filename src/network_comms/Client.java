@@ -66,10 +66,7 @@ public class Client {
 		try {
 			DatagramSocket socket = new DatagramSocket();
 			Data d = new Data(property, data);
-			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-			ObjectOutputStream os = new ObjectOutputStream(outputStream);
-			os.writeObject(d);
-			byte[] buf = outputStream.toByteArray();
+			byte[] buf = getBytes(d);
 			DatagramPacket packet = new DatagramPacket(buf, buf.length, address, Server.port);
 
 			socket.send(packet);
@@ -91,6 +88,13 @@ public class Client {
 			return null;
 		}
 
+	}
+	
+	private static byte[] getBytes(Data d) throws IOException {
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		ObjectOutputStream os = new ObjectOutputStream(outputStream);
+		os.writeObject(d);
+		return outputStream.toByteArray();
 	}
 
 	public class ClientThread extends Thread {
