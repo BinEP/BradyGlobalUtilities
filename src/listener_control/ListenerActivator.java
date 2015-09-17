@@ -15,13 +15,14 @@ import custom_listeners.BSFocusListener;
 import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
+import custom_listeners.BSNetworkListener;
 import events.GameEvent;
 import events.SoundData;
 import game_actions.Control;
 import game_state.GameStateManager;
 
 public class ListenerActivator implements KeyListener, ActionListener,
-		MouseListener, FocusListener, BSGameListener {
+		MouseListener, FocusListener, BSGameListener, BSNetworkListener {
 
 	private Control game;
 
@@ -216,6 +217,13 @@ public class ListenerActivator implements KeyListener, ActionListener,
 	public void rightReleased() {
 		for (BSDirectionKeyListener d : ListenerManager.directionKeyListeners) {
 			d.rightReleased();
+		}
+	}
+
+	@Override
+	public void receivedMessage(String property, Object data) {
+		for (BSNetworkListener nl : ListenerManager.networkListeners) {
+			nl.receivedMessage(property, data);
 		}
 	}
 

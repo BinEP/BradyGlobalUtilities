@@ -21,8 +21,9 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	private Color color = Color.WHITE;
 	private boolean fill = true;
 	private int rotateSpeed = 0;
-	private int rotateDegress = 0;
+//	private int rotateDegrees = 0;
 	private boolean rotate = false;
+	AffineTransform shapeTransform = new AffineTransform();
 	
 	public int x;
 	public int y;
@@ -33,9 +34,10 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	
 	public Shape getShape() {
 		Shape shape = getInnerShape();
-		
-		
-		return shape;
+		Shape newShape = shapeTransform.createTransformedShape(shape);
+
+		return newShape;
+//		return shape;
 	};
 	protected abstract Shape getInnerShape();
 	
@@ -93,8 +95,17 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	
 	@Override
 	public void update() {
+
 		x += deltaX;
 		y += deltaY;
+		
+		
+		if (rotate) shapeTransform.rotate(Math.toRadians(rotateSpeed), x, y);
+
+//		AffineTransform at = new AffineTransform();
+//		at.translate(deltaX, deltaY);
+//		at.concatenate(shapeTransform);
+//		shapeTransform = at;
 	}
 
 	@Override
@@ -114,12 +125,13 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	
 	@Override
 	public void rotate(int degrees) {
-		
+		shapeTransform.rotate(Math.toRadians(degrees));
 	};
 	
 	@Override
 	public void rotateContinuous(int speed) {
-		
+		rotateSpeed = speed;
+		rotate = !(speed == 0);
 	};
 	
 	public void draw(Graphics2D g) {

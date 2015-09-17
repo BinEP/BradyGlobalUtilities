@@ -19,13 +19,14 @@ import listener_control.KeyManager;
 import listener_control.ListenerActivator;
 import listener_control.ListenerManager;
 import listener_control.ObjectListenerManager;
+import listener_control.SceneManager;
 import listener_control.ShapeListenerManager;
+import network_comms.Client;
 import game_state.CustomDrawing;
 import game_state.DirectionExecution;
 import game_state.GameStateManager;
 import game_state.GameTime;
 import game_state.ListenerAutoAdd;
-import game_state.SceneManager;
 import shapes.BSString;
 import shapes.interfaces.Updatable;
 import sounds.BSSound;
@@ -94,6 +95,10 @@ public class Control extends JPanel implements Screen {
 	/** If you want to game to speed up as the score gets higher */
 	protected boolean speedUp = false;
 	
+	public boolean network = false;
+	private Client client;
+	private int playerNum = 2;
+	
 	private final GameTime actionTimer = new GameTime();
 	private final ListenerActivator listenerActivator = new ListenerActivator(this);
 	private final DirectionExecution directionExecution = new DirectionExecution(this);
@@ -110,6 +115,7 @@ public class Control extends JPanel implements Screen {
 
 		addListeners();
 		
+//		client = new Client(this, "127.0.0.1");
 		customFont = new CustomFont(Windows.getFONT_NAME(), Font.BOLD, 18);
 		scoreShape = new BSString(String.valueOf(score), Control.customFont.getFont(Windows.getEND_SCORE_SIZE()), Windows.getEND_SCORE_Y());
 		setupScenes();
@@ -369,6 +375,14 @@ public class Control extends JPanel implements Screen {
 		synchronized(updatables) {
 			updatables.add(u);
 		}
+	}
+	
+	public static void sendMessage(String property, Object data) {
+		
+	}
+	
+	public void gotMessage(String property, Object data) {
+		listenerActivator.receivedMessage(property, data);
 	}
 	
 	protected void executeEveryTick() {}

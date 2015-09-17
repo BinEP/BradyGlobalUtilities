@@ -10,6 +10,7 @@ import custom_listeners.BSFocusListener;
 import custom_listeners.BSGameListener;
 import custom_listeners.BSKeyListener;
 import custom_listeners.BSMouseListener;
+import custom_listeners.BSNetworkListener;
 
 public abstract class ListenerManager {
 
@@ -19,6 +20,8 @@ public abstract class ListenerManager {
 	public static List<BSMouseListener> mouseListeners = new ArrayList<BSMouseListener>();
 	public static List<BSFocusListener> focusListeners = new ArrayList<BSFocusListener>();
 	public static List<BSGameListener> gameListeners = new ArrayList<BSGameListener>();
+	public static List<BSNetworkListener> networkListeners = new ArrayList<BSNetworkListener>();
+
 	
 	public static void addAllListeners(BSAllListeners al) {
 		addKeyListener(al);
@@ -27,6 +30,7 @@ public abstract class ListenerManager {
 		addMouseListener(al);
 		addFocusListener(al);
 		addGameListener(al);
+		addNetworkListener(al);
 	}
 	
 	public static void removeAllListeners(BSAllListeners al) {
@@ -36,6 +40,7 @@ public abstract class ListenerManager {
 		removeMouseListener(al);
 		removeFocusListener(al);
 		removeGameListener(al);
+		removeNetworkListener(al);
 	}
 	
 	public static void addKeyListener(BSKeyListener k) {
@@ -107,6 +112,18 @@ public abstract class ListenerManager {
 	public static void removeGameListener(BSGameListener g) {
 		synchronized (gameListeners) {
 			gameListeners.remove(g);
+		}
+	}
+	
+	public static void addNetworkListener(BSNetworkListener g) {
+		synchronized (networkListeners) {
+			networkListeners.add(g);
+		}
+	}
+	
+	public static void removeNetworkListener(BSNetworkListener g) {
+		synchronized (networkListeners) {
+			networkListeners.remove(g);
 		}
 	}
 }

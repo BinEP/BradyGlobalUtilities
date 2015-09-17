@@ -2,7 +2,7 @@ package utility_classes;
 
 import game_actions.Control;
 import game_actions.Scene;
-import game_state.SceneManager;
+import listener_control.SceneManager;
 import shapes.BSString;
 
 import java.awt.Color;
