@@ -1,8 +1,10 @@
 package network_comms;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -64,8 +66,12 @@ public class Client {
 		try {
 			DatagramSocket socket = new DatagramSocket();
 			Data d = new Data(property, data);
-			byte[] buf = d.
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			ObjectOutputStream os = new ObjectOutputStream(outputStream);
+			os.writeObject(d);
+			byte[] buf = outputStream.toByteArray();
 			DatagramPacket packet = new DatagramPacket(buf, buf.length, address, Server.port);
+
 			socket.send(packet);
 			socket.close();
 		} catch (IOException e) {
