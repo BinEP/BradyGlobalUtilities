@@ -229,7 +229,7 @@ public class Control extends JPanel implements Screen {
 		setBackground(Color.BLACK);
 		setFocusable(true);
 		addListeners();
-		setup();
+//		setup();
 		
 		NAME = getGameName();
 		TXT_FILE = (NAME != null) ? NAME.toLowerCase().replaceAll("\\s", "") : "";
