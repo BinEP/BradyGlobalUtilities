@@ -83,3 +83,42 @@ Very useful for getting simple things done that would be annoying to insert inli
 **ScoreInfo** - Used to read and write to 2 score files for a game, one for person name and score, also creates the files if not there<br>
 **Window** - Classes use this for all variable reference, so to customize, use Window or not use it and get errors to know where to change<br>
 
+
+
+
+____________________________________________________________________________________
+
+Game Variables
+
+playerX
+playerY
+deltaX
+deltaY
+score
+
+Window variables
+
+In class Windows
+call Windows.setBlahBlah(); to change stuff. Do before making a new Runner in main
+
+scaleRatio
+fullScreen
+
+Methods to call to change stuff or to use functions
+setSpeed
+getTime
+resetTime
+alwaysExecute
+clicked
+pressed
+released
+enters
+exits
+gotFocus
+lostFocus
+customPressed
+customReleased
+setNewFont
+setWindowSize
+
+

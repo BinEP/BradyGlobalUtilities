@@ -330,6 +330,11 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
+	/**
+	 * This draw method is called all the time, so it could be 
+	 * used for drawing a permanent border around the outside
+	 * @param g
+	 */
 	protected void draw(Graphics2D g) {}
 
 	/**
@@ -410,8 +415,15 @@ public class Control extends JPanel implements Screen {
 		g2.setStroke(new BasicStroke(2));
 	}
 
+	/**
+	 * Gets called at the very beginning of everything. Setup any variables here
+	 */
 	protected void setup() {}
 
+	/**
+	 * This is called after player dies and the game restarts. 
+	 * So reset variables here. Might be similar to setup
+	 */
 	protected void reset() {}
 
 	/**
@@ -631,11 +643,19 @@ public class Control extends JPanel implements Screen {
 		}
 		repaint();
 	}
-
+	
+	/**
+	 * Return true if the player died and the game will end and 
+	 * go to the score screen and then to the end game screen and then it 
+	 * will restart by calling the reset method
+	 * @return
+	 */
 	protected boolean checkIfDead() {
 		return false;
 	}
-
+	/**
+	 * Gets called over and over and over. Player movement and stuff should be here
+	 */
 	protected void moves() {}
 
 	@Override
@@ -668,15 +688,11 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 
-	protected void clicked(MouseEvent e) {}
-
-	protected void pressed(MouseEvent e) {}
-
-	protected void released(MouseEvent e) {}
-
-	protected void enters(MouseEvent e) {}
-
-	protected void exits(MouseEvent e) {}
+	public void clicked(MouseEvent e) {}
+	public void pressed(MouseEvent e) {}
+	public void released(MouseEvent e) {}
+	public void enters(MouseEvent e) {}
+	public void exits(MouseEvent e) {}
 
 	@Override
 	public void focusGained(FocusEvent e) {
@@ -689,11 +705,10 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 
-	protected void gotFocus(FocusEvent e) {}
+	public void gotFocus(FocusEvent e) {}
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
 		if (ifPlaying()) {
 			stopTime();
 			playing = false;
@@ -703,75 +718,51 @@ public class Control extends JPanel implements Screen {
 		repaint();
 	}
 	
-	protected void lostFocus(FocusEvent e) {}
+	public void lostFocus(FocusEvent e) {}
 
-	/**
-	 * What to set variables to when upKey is pressed. Called by keyPressed
-	 */
 	@Override
 	public void up() {
 		upPressed = true;
 	}
 
-	/**
-	 * What to set variables to when upKey is pressed Called by keyPressed
-	 */
 	@Override
 	public void down() {
 		downPressed = true;
 	}
 
-	/**
-	 * What to set variables to when upKey is pressed Called by keyPressed
-	 */
 	@Override
 	public void left() {
 		leftPressed = true;
 	}
 
-	/**
-	 * What to set variables to when upKey is pressed Called by keyPressed
-	 */
 	@Override
 	public void right() {
 		rightPressed = true;
 	}
 
-	/**
-	 * What to set variables to when upKey is released Called by keyReleased
-	 */
 	@Override
 	public void upReleased() {
 		upPressed = false;
 	}
 
-	/**
-	 * What to set variables to when downKey is released Called by keyReleased
-	 */
 	@Override
 	public void downReleased() {
 		downPressed = false;
 	}
-
-	/**
-	 * What to set variables to when leftKey is released Called by keyReleased
-	 */
+	
 	@Override
 	public void leftReleased() {
 		leftPressed = false;
 	}
 
-	/**
-	 * What to set variables to when rightKey is released Called by keyReleased
-	 */
 	@Override
 	public void rightReleased() {
 		rightPressed = false;
 	}
 
-	protected void customPressed(KeyEvent e) {}
+	public void customPressed(KeyEvent e) {}
 
-	protected void customReleased(KeyEvent e) {}
+	public void customReleased(KeyEvent e) {}
 
 	/**
 	 * Sets the graphics font at the given size
@@ -782,6 +773,13 @@ public class Control extends JPanel implements Screen {
 		return customFont.getFont(size);
 	}
 	
+	/**
+	 * When you want to change the font, use this. You can 
+	 * pass in a font name or the name of a font file. No extension
+	 * on the font file. Put the font file into the Fonts folder 
+	 * inside of the InfoFiles folder
+	 * @param name
+	 */
 	protected void setNewFont(String name) {
 		customFont = new CustomFont(name, Font.BOLD, 18);
 	}
@@ -841,8 +839,15 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 
+	/**
+	 * This is always run, even when not playing
+	 */
 	protected void alwaysExecute() {}
 
+	/**
+	 * Return the name of your game
+	 * @return
+	 */
 	protected String getGameName() {
 		return null;
 	}
@@ -851,6 +856,10 @@ public class Control extends JPanel implements Screen {
 		return "InfoFiles/";
 	}
 	
+	/**
+	 * Gets the current score of the game
+	 * @return
+	 */
 	protected int getScore() {
 		return score;
 	}
