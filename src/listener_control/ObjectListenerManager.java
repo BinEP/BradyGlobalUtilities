@@ -66,11 +66,36 @@ public class ObjectListenerManager implements BSActionListener,
 			e.printStackTrace();
 		}
 	}
+	
+	public static void addAction(String listener, BSRectangle bounds, Object objectToCallMethod,
+			String methodName) {
+		try {
+			Class<?> params[] = { getEventParameter(listener) };
+			Method callMethod = objectToCallMethod.getClass().getMethod(methodName, params);
+			addMethod(listener, objectToCallMethod, callMethod, bounds);
+		} catch (NoSuchMethodException e) {
+			try {
+				Method callMethod = objectToCallMethod.getClass().getMethod(methodName);
+				addMethod(listener, objectToCallMethod, callMethod, bounds);
+			} catch (NoSuchMethodException | SecurityException e1) {
+				e1.printStackTrace();
+			}
+		} catch (SecurityException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
 
 	private static void addMethod(String listener, Object objectToCallMethod,
 			Method callMethod) {
 		synchronized (shapeTriggers) {
 			shapeTriggers.put(listener, new CallMethod(objectToCallMethod, callMethod));
+		}
+	}
+	
+	private static void addMethod(String listener, Object objectToCallMethod,
+			Method callMethod, BSRectangle bounds) {
+		synchronized (shapeTriggers) {
+			shapeTriggers.put(listener, new CallMethod(objectToCallMethod, callMethod, bounds));
 		}
 	}
 	
@@ -152,7 +177,7 @@ public class ObjectListenerManager implements BSActionListener,
 				return;
 			try {
 				 for (CallMethod cm : (ArrayList<CallMethod>) methods.clone()) {
-					 if (!verifyBounds(cm, e)) return;
+					 if (!verifyBounds(cm, e)) continue;
 					 runAndCatchException(cm, e);
 				 }
 			} catch (ConcurrentModificationException e1) {

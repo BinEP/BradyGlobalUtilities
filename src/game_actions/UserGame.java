@@ -128,9 +128,12 @@ public class UserGame extends Game implements BSGameListener {
 		ShapeListenerManager.addTrigger(Action.sound, Movement.enter, goal.getBounds(),
 				"bgb.wav", player);
 		
+		BSRectangle br = new BSRectangle(200, 200, 50, 50);
+		scene.addShapeToBeDrawn(br);
+		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, br, this, "rclicked");
 		ObjectListenerManager.addAction(ObjectListenerManager.MOUSE_CLICKED, this, "mouse");
 		
-		setBackgroundMusic("chu.wav");
+//		setBackgroundMusic("chu.wav");
 	}
 
 	@Override
@@ -162,6 +165,10 @@ public class UserGame extends Game implements BSGameListener {
 		System.out.println("Mouse");
 //		getBackgroundMusic().changeSoundLevel(-10);
 //		getBackgroundMusic().changeLevelOverTime(5, -50);
+	}
+	
+	public void rclicked() {
+		System.out.println("Rectangle Clicked");
 	}
 
 	@Override

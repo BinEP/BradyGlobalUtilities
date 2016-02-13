@@ -38,7 +38,7 @@ public class BSCompound extends BSShape {
 	}
 	
 	public void getShape(int index) {
-		shapes.remove(index);
+		shapes.get(index);
 	}
 
 }
