@@ -180,7 +180,6 @@ public class ShapeListenerManager {
 		public void startThread() {
 			
 			if (running) {
-				System.out.println("Already Running");
 				return;
 			}
 			System.out.println("Starting Thread");

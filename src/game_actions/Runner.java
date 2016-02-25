@@ -78,7 +78,7 @@ public class Runner extends JFrame {
 		
 		enableFullScreenMode(this);
 		if (fullscreen) enterFullScreen(this);
-		
+		game.setup();
 		setVisible(true);
 	}
 

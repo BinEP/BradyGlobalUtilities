@@ -8,13 +8,18 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.awt.geom.Point2D;
 import java.awt.geom.Rectangle2D;
+import java.io.Serializable;
 
 import game_actions.Control;
 import listener_control.ShapeListenerManager.Movement.Direction;
 import shapes.BSRectangle;
 
-public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {	
+public abstract class BSShape implements Shape, Trigger, Moveable, Drawable, Serializable {	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public int deltaX = 0;
 	public int deltaY = 0;
 	private Direction direction = Direction.none;
@@ -51,6 +56,7 @@ public abstract class BSShape implements Shape, Trigger, Moveable, Drawable {
 	}
 
 	public void autoDraw(Graphics2D g) {
+		g.setColor(color);
 		if (fill) fill(g); 
 		else draw(g);
 	}

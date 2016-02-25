@@ -56,42 +56,42 @@ public class Control extends JPanel implements Screen {
 		up, down, left, right, none;
 	}
 		
-	protected boolean showMouseCoords = false;
-	protected int width = Windows.getWidth();
-	protected int height = Windows.getHeight();
+	public boolean showMouseCoords = false;
+	public int width = Windows.getWidth();
+	public int height = Windows.getHeight();
 
 	/** Outside box of Windows */
-	protected Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
+	public Rectangle outerbox = new Rectangle(0, 0, width - 1, height);
 
 	/**
 	 * keyMap - modify this to change key locations Gets modified when on the
 	 * start screen and keys are pressed Assigned in order of when pressed then
 	 * the key are mapped when the game starts
 	 */
-	protected int[] keyMap = { KeyEvent.VK_UP, KeyEvent.VK_RIGHT,
+	public int[] keyMap = { KeyEvent.VK_UP, KeyEvent.VK_RIGHT,
 			KeyEvent.VK_DOWN, KeyEvent.VK_LEFT };
 
-	protected int keyIndex = 0;
+	public int keyIndex = 0;
 	
-	protected int movementVar = 10;
-	protected int deltaX = movementVar;
-	protected int deltaY = 0;
-	protected int playerX;
-	protected int playerY;
+	public int movementVar = 10;
+	public int deltaX = movementVar;
+	public int deltaY = 0;
+	public int playerX;
+	public int playerY;
 	
-	protected boolean upPressed = false;
-	protected boolean downPressed = false;
-	protected boolean leftPressed = false;
-	protected boolean rightPressed = false;
+	public boolean upPressed = false;
+	public boolean downPressed = false;
+	public boolean leftPressed = false;
+	public boolean rightPressed = false;
 
-	protected String pName = "";
-	protected Character letter;
+	public String pName = "";
+	public Character letter;
 
-	protected Timer timer;
-	protected int origSpeed = 60;
-	protected double speed = origSpeed;
+	public Timer timer;
+	public int origSpeed = 60;
+	public double speed = origSpeed;
 	/** If you want to game to speed up as the score gets higher */
-	protected boolean speedUp = false;
+	public boolean speedUp = false;
 	
 	private final GameTime actionTimer = new GameTime();
 	private final ListenerActivator listenerActivator = new ListenerActivator(this);
@@ -102,7 +102,7 @@ public class Control extends JPanel implements Screen {
 	
 	private BSSound backgroundMusic;
 	
-	protected Control() {
+	public Control() {
 		FileDependencies.checkFolder(Windows.getResourceFolder());
 		setBackground(Color.BLACK);
 		setFocusable(true);
@@ -115,7 +115,7 @@ public class Control extends JPanel implements Screen {
 
 		timer = new Timer((int) (1000 / speed), listenerActivator);
 		timer.start();
-		setup();
+		
 	}
 
 	private void setupScenes() {
@@ -136,7 +136,7 @@ public class Control extends JPanel implements Screen {
 		ListenerAutoAdd.addListeners((Control) this);
 	}
 
-	protected void setSpeed(int speed) {
+	public void setSpeed(int speed) {
 		this.speed = speed;
 		timer.setDelay(1000 / speed);
 	}
@@ -151,7 +151,7 @@ public class Control extends JPanel implements Screen {
 	 * Can be called to set the direction keys if they have been modified and
 	 * sets the keyMap when the game starts
 	 */
-	protected final void setKeys() {
+	public final void setKeys() {
 		upKey = keyMap[0];
 		rightKey = keyMap[1];
 		downKey = keyMap[2];
@@ -165,7 +165,7 @@ public class Control extends JPanel implements Screen {
 	 * methods in this class so that is the user has not defined a custom
 	 * method, a default one is drawn
 	 */
-	protected final void paintComponent(Graphics g) {
+	public final void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		Graphics2D g2 = (Graphics2D) g;
 		scale(g2);
@@ -210,51 +210,51 @@ public class Control extends JPanel implements Screen {
 				(double) (getHeight()) / (double) Windows.getHeight());
 	}
 
-	protected void draw(Graphics2D g) {}
+	public void draw(Graphics2D g) {}
 //
 //	/** Draws the start screen. gets game name from Windows class */
-//	protected void drawStart(Graphics2D g) {}
+//	public void drawStart(Graphics2D g) {}
 //
 	/** Draws the screen when BooleanManager.isPlaying() */
-	protected void drawPlaying(Graphics2D g) {
+	public void drawPlaying(Graphics2D g) {
 //		customDrawing.drawPlaying(g);
 	}
 //
 //	/** Draws the word "Paused" in the middle of the screen */
-//	protected void drawPaused(Graphics2D g) {
+//	public void drawPaused(Graphics2D g) {
 //		customDrawing.drawPaused(g);
 //	}
 //
 //	/** Draws the end game screen */
-//	protected void drawEnd(Graphics2D g) {
+//	public void drawEnd(Graphics2D g) {
 //		customDrawing.drawEnd(g);
 //	}
 
-	protected void drawBorder(Graphics2D g) {
+	public void drawBorder(Graphics2D g) {
 		customDrawing.drawBorder(g, Color.WHITE, 15);
 	}
 
-	protected void drawBorder(Graphics2D g, Color c) {
+	public void drawBorder(Graphics2D g, Color c) {
 		customDrawing.drawBorder(g, c, 15);
 	}
 
-	protected void drawBorder(Graphics2D g, int width) {
+	public void drawBorder(Graphics2D g, int width) {
 		customDrawing.drawBorder(g, Color.WHITE, width);
 	}
 
-	protected void drawBorder(Graphics2D g, Color c, int width) {
+	public void drawBorder(Graphics2D g, Color c, int width) {
 		customDrawing.drawBorder(g, c, width);
 	}
 	
-	protected void drawShapes(Graphics2D g) {
+	public void drawShapes(Graphics2D g) {
 		SceneManager.getCurrentScene().drawShapes(g);
 	}
 
-	protected void setup() {}
+	public void setup() {}
 
-	protected void reset() {}
+	public void reset() {}
 	
-	protected void moves() {}
+	public void moves() {}
 
 	@Override
 	public void keyTyped(KeyEvent e) {}
@@ -315,14 +315,14 @@ public class Control extends JPanel implements Screen {
 			keyIndex = 0;
 	}
 	
-	protected void resetDirectionPressed() {
+	public void resetDirectionPressed() {
 		upPressed = false;
 		downPressed = false;
 		leftPressed = false;
 		rightPressed = false;
 	}
 
-	protected void addLetterToName(KeyEvent e) {
+	public void addLetterToName(KeyEvent e) {
 		letter = Character.toUpperCase(e.getKeyChar());
 		pName = pName.concat(letter.toString());
 	}
@@ -369,7 +369,7 @@ public class Control extends JPanel implements Screen {
 		}
 	}
 	
-	protected void executeEveryTick() {}
+	public void executeEveryTick() {}
 	
 	@Override
 	public void up() 			{upPressed = true;}
@@ -396,7 +396,7 @@ public class Control extends JPanel implements Screen {
 	public void rightReleased() {rightPressed = false;}
 	
 	/** Sets a custom size of the Window and scaling behavior. Default 800x480 */
-	protected void setWindowSize(int w, int h) {
+	public void setWindowSize(int w, int h) {
 		WIDTH = w;
 		HEIGHT = h;
 	}
@@ -405,14 +405,14 @@ public class Control extends JPanel implements Screen {
 	
 	private final boolean checkIfDeadSuper() {return checkifDead() || GameStateManager.isDead();}
 	
-	protected int getTime() 				{return actionTimer.getTime();}
+	public int getTime() 				{return actionTimer.getTime();}
 
-	protected boolean checkifDead() 		{return false;}
+	public boolean checkifDead() 		{return false;}
 	
 	/** Sets the graphics font at the given size */
-	protected Font getFont(int size) 		{return customFont.getFont(size);}
+	public Font getFont(int size) 		{return customFont.getFont(size);}
 
-	protected void setNewFont(String name) 	{customFont = new CustomFont(name, Font.BOLD, 18);}
+	public void setNewFont(String name) 	{customFont = new CustomFont(name, Font.BOLD, 18);}
 
 	public String getGameName() 			{return "Game";}
 

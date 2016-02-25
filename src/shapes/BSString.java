@@ -45,6 +45,11 @@ public class BSString extends BSShape {
 		setLocation(y);
 	}
 	
+	public BSString(String text, int y) {
+		this.text = text;
+		setLocation(y);
+	}
+	
 	public BSString(String text, Font font, Point p) {
 		this(text, font, p.x, p.y);
 	}
