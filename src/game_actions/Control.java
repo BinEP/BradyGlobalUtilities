@@ -132,15 +132,15 @@ public class Control extends JPanel implements Screen {
 		bottom_middle			(Windows.getWidth() / 2, Windows.getHeight() - Windows.getTopBuffer()), 
 		bottom_right			(Windows.getWidth() - 10, Windows.getHeight() - Windows.getTopBuffer());
 
-		protected int x;
-		protected int y;
+		public int x;
+		public int y;
 
 		private ScoreCoords(int x, int y) {
 			this.x = x;
 			this.y = y;
 		}
 
-		protected Point getCoords() {
+		public Point getCoords() {
 			return new Point(this.x, this.y);
 		}
 
@@ -150,7 +150,7 @@ public class Control extends JPanel implements Screen {
 		 * @param text
 		 * @param g
 		 */
-		protected void draw(String text, Graphics2D g) {
+		public void draw(String text, Graphics2D g) {
 
 			g.setFont(CustomFont.makeCustomFont(FONT_FILE, Windows.getSCORE_SIZE()));
 
