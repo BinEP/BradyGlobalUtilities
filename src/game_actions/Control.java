@@ -625,7 +625,7 @@ public class Control extends JPanel implements Screen {
 	@Override
 	public final void actionPerformed(ActionEvent e) {
 
-		alwaysExecute();
+		alwaysExecute(e);
 
 		if (playing) {
 
@@ -842,7 +842,7 @@ public class Control extends JPanel implements Screen {
 	/**
 	 * This is always run, even when not playing
 	 */
-	protected void alwaysExecute() {}
+	protected void alwaysExecute(ActionEvent e) {}
 
 	/**
 	 * Return the name of your game
