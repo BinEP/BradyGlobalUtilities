@@ -3,6 +3,7 @@ package game_actions;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 
 import javax.swing.Timer;
 
@@ -38,6 +39,8 @@ public class UserGame extends Game {
 	 * leftReleased()
 	 * 
 	 */
+	SpecialTimer t = new SpecialTimer(1000, this);
+
 	
 	public UserGame() {
 
@@ -94,7 +97,7 @@ public class UserGame extends Game {
 		playerX += deltaX;
 		playerY += deltaY;
 
-		
+		System.out.println("Running: " + t.isRunning());
 
 	}
 	/**
@@ -125,7 +128,27 @@ public class UserGame extends Game {
 		deltaY = 2;
 		playerX = 100;
 		playerY = 100;
+		
+		System.out.println("Start Timer");
+		t.setActionCommand("Test");
+		t.setInitialDelay(2000);
+		t.setRepeats(false);
+		t.fireTimerWhenStart(true);
+		if (this.playing) t.start();
+		System.out.println("Started");
 
+	}
+	
+	@Override
+	public void customPressed(java.awt.event.KeyEvent e) {
+		System.out.println("Pressed");
+	};
+	
+	@Override
+	public void alwaysExecute(ActionEvent e) {
+		if (e.getActionCommand() != null && e.getActionCommand().equals("Test")) {
+			System.out.println("Test");
+		}
 	}
 
 @Override

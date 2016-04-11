@@ -42,7 +42,7 @@ public class DatabaseManagement {
 	private void connectCommand() throws ClassNotFoundException,
 			SQLException {
 
-		Class.forName("org.sqlite.JDBC");
+//		Class.forName("org.sqlite.JDBC");
 		database = DriverManager.getConnection("jdbc:sqlite:InfoFiles/scores.db");
 		database.setAutoCommit(false);
 		// System.err.println(e.getClass().getName() + ": " + e.getMessage());
