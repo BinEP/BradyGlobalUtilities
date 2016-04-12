@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.Timer;
 
+import sprites.Sprite;
 import utility_classes.*;
 
 public class UserGame extends Game {
@@ -40,12 +41,13 @@ public class UserGame extends Game {
 	 * 
 	 */
 	SpecialTimer t = new SpecialTimer(1000, this);
-
+	Sprite test;
 	
 	public UserGame() {
 
 		super();
-		
+		test = new Sprite(1, "InfoFiles/player1.png", "InfoFiles/player2.png", "InfoFiles/player3.png", "InfoFiles/player2.png");
+		test.setTiming(10, 10, 10, 10);
 	}
 
 	/**
@@ -66,10 +68,14 @@ public class UserGame extends Game {
 	public void drawPlaying(Graphics2D g) {
 		
 		g.setColor(Color.CYAN);
-		g.fillRect(20, 30, playerX, playerY);
+//		g.fillRect(20, 30, playerX, playerY);
 		
-		
+		g.setColor(Color.WHITE);
+		test.drawSprite(g);
 		g.drawString(String.valueOf(getTime()), 5, 15);
+		g.setColor(Color.CYAN);
+//		test.ifPolygon(test.sprite, g);
+		
 
 	}
 	/**
@@ -97,7 +103,8 @@ public class UserGame extends Game {
 		playerX += deltaX;
 		playerY += deltaY;
 
-		System.out.println("Running: " + t.isRunning());
+		test.updateSprite();
+//		System.out.println("Running: " + t.isRunning());
 
 	}
 	/**
@@ -129,6 +136,7 @@ public class UserGame extends Game {
 		playerX = 100;
 		playerY = 100;
 		
+		setBackgroundColor(Color.MAGENTA);
 		System.out.println("Start Timer");
 		t.setActionCommand("Test");
 		t.setInitialDelay(2000);
